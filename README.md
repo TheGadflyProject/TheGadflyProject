@@ -26,7 +26,7 @@ During this step, you may recognize that several commits can/should be collapsed
 Push your branch to remote.  
 `git push origin <branch_name>`
 
-Submit a pull request by navigate to the project Github page and submitting a pull request. ([More Instructions Here](https://help.github.com/articles/using-pull-requests/))  
+Submit a pull request by navigating to the project Github page and submitting a pull request ([More Instructions Here](https://help.github.com/articles/using-pull-requests/)). Give your project teammates a few days to review your pull requests and address any questions or feedback that they have on your code and submit additional pull requests as necessary. Once your pull request has been accepted, you may merge to master and push to origin.
 
 ## References
 Coming Soon
