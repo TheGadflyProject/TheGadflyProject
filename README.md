@@ -17,10 +17,10 @@ Focus on committing your code often to the branch. Each commit should have a use
 `git add <all_files_to_include_in_commit>`  
 `git commit -m "<useful_commit_message>`
 
-When you feel like you have completed working on your feature, review the commits on your branch with.  
+When you feel like you have completed working on your feature, review the commits on your branch.  
 `git log --oneline`
 
-During this step, you may recognize that several commits can/should be collapsed into one commit. You can/sould edit your git commit history by using the following command. Read the following link on [git rebase -i](https://github.com/vijayv/TheGadflyProject/new/master?readme=1). Combine/split your commits into an easy to follow history.  
+During this step, you may recognize that several commits can/should be collapsed into one commit. You can/should edit your git commit history by using the following command. Read the following link on [git rebase -i](https://github.com/vijayv/TheGadflyProject/new/master?readme=1). Combine/split your commits into an easy to follow history.  
 `git rebase -i`
 
 Push your branch to remote.  
