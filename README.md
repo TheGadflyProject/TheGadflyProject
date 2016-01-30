@@ -10,10 +10,10 @@ Review the section on [Feature Branch Workflow](https://www.atlassian.com/git/tu
 Clone the repo.  
 `git clone <repo url>`
 
-Create a new branch for the feature that you are working on. You should not be developing on the master branch.  
+Create a new branch for the feature that you are working on. You should not be developing on the master branch. "Feature branches should have descriptive names, like animated-menu-items or issue-#1061. The idea is to give a clear, highly-focused purpose to each branch."   
 `git checkout -b <feature_name>`
 
-Focus on committing your code often to the branch. Each commit should have a useful commit message that explains what has been commited. "Feature branches should have descriptive names, like animated-menu-items or issue-#1061. The idea is to give a clear, highly-focused purpose to each branch."  
+Focus on committing your code often to the branch. Each commit should have a useful commit message that explains what has been commited.  
 `git add <all_files_to_include_in_commit>`  
 `git commit -m "<useful_commit_message>`
 
