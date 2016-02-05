@@ -9,7 +9,7 @@ import os
 # GLOBAL VARIABLES
 # should probably refactor at some point
 PROJECT_DIR = os.path.dirname(__file__)
-NEWS_ARTICLES_DIR = os.path.join(PROJECT_DIR, "news_articles")
+NEWS_ARTICLES_DIR = os.path.join(PROJECT_DIR, "NewsArticles")
 
 
 class SourceText(object):
