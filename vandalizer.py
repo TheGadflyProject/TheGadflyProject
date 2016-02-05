@@ -106,8 +106,8 @@ class SourceText(object):
     def print_questions(self):
         for n, (question, answer) in enumerate(self.questions):
             print("\nQuestion #{}".format(n))
-            print("Q: {}".format(question))
-            print("A: {}".format(answer))
+            print("Q: {}".format(question.encode('ascii', 'ignore')))
+            print("A: {}".format(answer.encode('ascii', 'ignore')))
 
     def question_count(self):
         return len(self.questions)
