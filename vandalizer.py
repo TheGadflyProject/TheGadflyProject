@@ -2,15 +2,21 @@
 
 # Imports
 import nltk
+import glob
+import os
 
-# Body
+
+# GLOBAL VARIABLES
+# should probably refactor at some point
+PROJECT_DIR = os.path.dirname(__file__)
+NEWS_ARTICLES_DIR = os.path.join(PROJECT_DIR, "news_articles")
 
 
 class SourceText(object):
-    """Purpose: Don't let Vijay hate me.
+    """Understands source news text articles
     """
     def __init__(self, file):
-        """ This initializing the class with a .txt file, running all
+        """This is initializing the class with a .txt file, running all
         transformations, selections, and question generation functions.
         """
         self.file = file
@@ -35,12 +41,13 @@ class SourceText(object):
         print("Initializing: Creating Questions complete...")
 
     def load_text(self):
-        f = open(self.file)
+        f = open(self.file, encoding='utf-8')
         return f.readlines()
 
     def store_pos(self):
         pos_lst = []
         for line in self.raw:
+            line = line.strip()
             if len(line) == 1:
                 continue  # b/c readlines has empty lines for now
             sents = nltk.sent_tokenize(line)
@@ -109,15 +116,13 @@ class SourceText(object):
 
 
 def main():
-    one = SourceText('news1.txt')
-    print("This found {} questions from the text.".format(
-        one.question_count()))
-    one.print_questions()
-
-    one = SourceText('news2.txt')
-    print("This found {} questions from the text.".format(
-        one.question_count()))
-    one.print_questions()
+    nltk.download(['punkt', 'averaged_perceptron_tagger'])
+    news_articles = os.path.join(NEWS_ARTICLES_DIR, "*.txt")
+    for file in glob.glob(news_articles):
+        article = SourceText(file)
+        print("This found {} questions from the text.".format(
+            article.question_count()))
+        article.print_questions()
 
 ##############################################################################
 
