@@ -64,3 +64,6 @@ target/
 
 # pyenv
 .python-version
+
+#Mac Defaults
+.DS_Store
