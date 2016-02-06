@@ -24,7 +24,7 @@ def main():
         generator = GapFillGenerator(article)
         generator.run()
         generator.print_questions(outputFile)
-        print("This found {} questions from the text.".format(
+        print("This found {} questions from the text.\n".format(
             generator.question_count()))
 
 ##############################################################################

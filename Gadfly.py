@@ -40,17 +40,19 @@ class SourceText(object):
 QuestionTypes = Enum('QuestionTypes','GapFill WH')
 
 class Question:
-    def __init__(self):
+    def __init__(self,question=None,answer=None):
         self._type = QuestionTypes.GapFill
+        self.set_question(question)
+        self.set_answer(answer)
 
-    def setQuestion(text):
+    def set_question(self,text):
         self._question = text
 
-    def setAnswer(text):
+    def set_answer(self,text):
         self._answer = text
 
-    def getQuestion():
+    def get_question(self):
         return self._question
 
-    def getAnswer():
+    def get_answer(self):
         return self._answer

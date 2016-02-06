@@ -1,3 +1,5 @@
+from Gadfly import Question
+
 class GapFillGenerator:
 
     def __init__(self, source_obj):
@@ -7,7 +9,7 @@ class GapFillGenerator:
         """ Remove blank and display question"""
         possible_questions = []
         for sent in selected_sents:
-            last_n = -2
+            last_n = -2 #random initialization?
             last_answer = ""
             last_temp_sent = ""
             for n, (token, pos) in enumerate(sent):
@@ -18,12 +20,13 @@ class GapFillGenerator:
                         answer = last_answer + " " + token
                         last_temp_sent[n] = ""
                         temp_sent = last_temp_sent
+                        #removes the previous entry which had only half the phrase
                         possible_questions.pop()
                     else:
                         answer = token
                         temp_sent = [token for token, pos in sent]
                         temp_sent[n] = "__________"
-                    possible_questions.append((" ".join(temp_sent), answer))
+                    possible_questions.append(Question(" ".join(temp_sent), answer))
                     last_answer = answer
                     last_temp_sent = temp_sent
                     last_n = n
@@ -54,13 +57,13 @@ class GapFillGenerator:
         return selected_sent_lst
 
     def print_questions(self, outputFile):
-        for n, (question, answer) in enumerate(self.questions):
+        for n, question in enumerate(self.questions):
             outputFile.write("\nQuestion #{}\n".format(n+1))
             outputFile.write(
-                "Q: {}".format(question.encode('ascii', 'ignore'))
+                "Q: {}".format(question.get_question().encode('ascii', 'ignore'))
                 )
             outputFile.write(
-                "A: {}\n".format(answer.encode('ascii', 'ignore'))
+                "A: {}\n".format(question.get_answer().encode('ascii', 'ignore'))
                 )
         outputFile.write("")
 
