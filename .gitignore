@@ -67,3 +67,6 @@ target/
 
 #Mac Defaults
 .DS_Store
+
+# Project Files
+output.txt
