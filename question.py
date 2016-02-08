@@ -1,10 +1,10 @@
 from enum import Enum
 
-QuestionTypes = Enum('GapFill')
+_QUESTION_TYPES = Enum('GapFill')
 
 
 class Question:
     def __init__(self, question, answer):
-        self._type = QuestionTypes.GapFill
+        self._type = _QUESTION_TYPES.GapFill
         self.question = question
         self.answer = answer
