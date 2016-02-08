@@ -1,4 +1,4 @@
-from Gadfly import Question
+from question import Question
 
 
 class GapFillGenerator:
@@ -6,7 +6,7 @@ class GapFillGenerator:
     def __init__(self, source_obj):
         self._source_obj = source_obj
 
-    def question_generation(self, selected_sents):
+    def generate_questions(self, selected_sents):
         """ Remove blank and display question"""
         possible_questions = []
         for sent in selected_sents:
@@ -35,7 +35,7 @@ class GapFillGenerator:
                     last_n = n
         return possible_questions
 
-    def sentence_selection(self):
+    def select_sentence(self):
         """ Later: Select by some notion of a good sentence.
         Soon: Select by not having annoying anaphora, etc.
         Now: Select by not having PRP or PRP$.
