@@ -3,8 +3,10 @@ from question import Question
 
 class GapFillGenerator:
 
-    def __init__(self, source_obj):
-        self._source_obj = source_obj
+    GAP_FILL = "GAP_FILL"
+
+    def __init__(self, source_text_obj):
+        self._source_text_obj = source_text_obj
 
     def generate_questions(self, selected_sents):
         """ Remove blank and display question"""
@@ -28,21 +30,24 @@ class GapFillGenerator:
                         temp_sent = [token for token, pos in sent]
                         temp_sent[n] = "__________"
                     possible_questions.append(
-                            Question(" ".join(temp_sent), answer)
+                            Question(" ".join(temp_sent),
+                                     answer,
+                                     self.GAP_FILL
+                                     )
                             )
                     last_answer = answer
                     last_temp_sent = temp_sent
                     last_n = n
         return possible_questions
 
-    def select_sentence(self):
+    def select_sentences(self):
         """ Later: Select by some notion of a good sentence.
         Soon: Select by not having annoying anaphora, etc.
         Now: Select by not having PRP or PRP$.
         """
         selected_sent_lst = []
         count_bad = 0
-        for sent in self._source_obj.pos_tagged_sents:
+        for sent in self._source_text_obj.pos_tagged_sents:
             flag = False
             for token, pos in sent:
                 if pos in ["PRP", "PRP$"]:
@@ -54,32 +59,33 @@ class GapFillGenerator:
         # This is garbage metrics for now:
         print("Bad sentences = {}".format(count_bad))
         print("Good sentences = {}".format(
-            len(self._source_obj.pos_tagged_sents)-count_bad)
+            len(self._source_text_obj.pos_tagged_sents)-count_bad)
             )
         return selected_sent_lst
 
-    def print_questions(self, outputFile):
+    def output_questions_to_file(self, output_file):
         for n, question in enumerate(self.questions):
-            outputFile.write("\nQuestion #{}\n".format(n+1))
-            outputFile.write(
+            print(question.get_question().encode('ascii', 'ignore'))
+            output_file.write("\nQuestion #{}\n".format(n+1))
+            output_file.write(
                 "Q: {}".format(
                     question.get_question().encode('ascii', 'ignore')
                     )
                 )
-            outputFile.write(
+            output_file.write(
                 "A: {}\n".format(
                     question.get_answer().encode('ascii', 'ignore')
                     )
                 )
-        outputFile.write("")
+        output_file.write("")
 
     def run(self):
         # This step of filtering can alternatively happen
         # at the level of filterning questions
-        self.selected_sents = self.sentence_selection()
+        self.selected_sents = self.select_sentences()
         print("Initializing: Sentence Selection complete.")
 
-        self.questions = self.question_generation(self.selected_sents)
+        self.questions = self.generate_questions(self.selected_sents)
         print("Initializing: Question generation complete.")
 
     def question_count(self):
