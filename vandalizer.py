@@ -1,7 +1,7 @@
 # !/usr/bin/python3
 
 # Imports
-#import nltk
+import nltk
 import glob
 import os
 from Gadfly import SourceText
@@ -14,11 +14,12 @@ NEWS_ARTICLES_DIR = os.path.join(PROJECT_DIR, "NewsArticles")
 
 ##############################################################################
 
+
 def main():
-    #This needs to go into a setup file.
-    #nltk.download(['punkt', 'averaged_perceptron_tagger'])
+    # This needs to go into a setup file.
+    nltk.download(['punkt', 'averaged_perceptron_tagger'])
     news_articles = os.path.join(NEWS_ARTICLES_DIR, "*.txt")
-    outputFile = open("output.txt","w")
+    outputFile = open("output.txt", "w")
     for file in glob.glob(news_articles):
         article = SourceText(file)
         generator = GapFillGenerator(article)
