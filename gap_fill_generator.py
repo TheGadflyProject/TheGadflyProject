@@ -38,6 +38,7 @@ class GapFillGenerator:
                     last_answer = answer
                     last_temp_sent = temp_sent
                     last_n = n
+        print(possible_questions)
         return possible_questions
 
     def select_sentences(self):
@@ -64,17 +65,16 @@ class GapFillGenerator:
         return selected_sent_lst
 
     def output_questions_to_file(self, output_file):
-        for n, question in enumerate(self.questions):
-            print(question.get_question().encode('ascii', 'ignore'))
+        for n, q in enumerate(self.questions):
             output_file.write("\nQuestion #{}\n".format(n+1))
             output_file.write(
                 "Q: {}".format(
-                    question.get_question().encode('ascii', 'ignore')
+                    q.question.encode('ascii', 'ignore')
                     )
                 )
             output_file.write(
                 "A: {}\n".format(
-                    question.get_answer().encode('ascii', 'ignore')
+                    q.answer.encode('ascii', 'ignore')
                     )
                 )
         output_file.write("")
