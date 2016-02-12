@@ -1,4 +1,5 @@
 from question import Question
+import collections
 
 
 class GapFillGenerator:
@@ -27,10 +28,12 @@ class GapFillGenerator:
                         possible_questions.pop()
                     else:
                         answer = token
+                        temp_sent_original = [token for token, pos in sent]
                         temp_sent = [token for token, pos in sent]
                         temp_sent[n] = "__________"
                     possible_questions.append(
-                            Question(" ".join(temp_sent),
+                            Question(" ".join(temp_sent_original),
+                                     " ".join(temp_sent),
                                      answer,
                                      self.GAP_FILL
                                      )
@@ -38,7 +41,6 @@ class GapFillGenerator:
                     last_answer = answer
                     last_temp_sent = temp_sent
                     last_n = n
-        print(possible_questions)
         return possible_questions
 
     def select_sentences(self):
@@ -78,6 +80,16 @@ class GapFillGenerator:
                     )
                 )
         output_file.write("")
+
+    def test_source_sentences(self):
+        mapping = collections.defaultdict(list)
+        for q in self.questions:
+            mapping[q.source_sentence].append(q.question)
+        for key, value in mapping.items():
+            print(key, "\n")
+            for val in value:
+                print(val, "\n")
+            print("_______________________________________________\n")
 
     def run(self):
         # This step of filtering can alternatively happen
