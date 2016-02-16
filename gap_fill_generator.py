@@ -81,7 +81,7 @@ class GapFillGenerator:
                 )
         output_file.write("")
 
-    def test_source_sentences(self):
+    def _print_source_sentences(self):
         mapping = collections.defaultdict(list)
         for q in self.questions:
             mapping[q.source_sentence].append(q.question)
