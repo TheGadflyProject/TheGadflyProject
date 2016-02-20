@@ -33,9 +33,11 @@ class GapFillGenerator:
                 temp_sent = [token for token, pos in sent]
                 for chunk in chunks:
                     temp_question = " ".join(temp_sent)
-                    temp_question = temp_question.replace(chunk, "__________ ")
+                    temp_question_with_blank = temp_question.replace(
+                        chunk, "__________ ")
                     possible_questions.append(
                             Question(temp_question,
+                                     temp_question_with_blank,
                                      chunk.strip(),
                                      self.GAP_FILL
                                      ))
@@ -68,14 +70,10 @@ class GapFillGenerator:
         for n, q in enumerate(self.questions):
             output_file.write("\nQuestion #{}\n".format(n+1))
             output_file.write(
-                "Q: {}".format(
-                    q.question.encode('ascii', 'ignore')
-                    )
+                "Q: {}".format(q.question)
                 )
             output_file.write(
-                "A: {}\n".format(
-                    q.answer.encode('ascii', 'ignore')
-                    )
+                "A: {}\n".format(q.answer)
                 )
         output_file.write("")
 
