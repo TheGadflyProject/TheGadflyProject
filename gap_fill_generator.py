@@ -1,4 +1,6 @@
 from question import Question
+from grammar_utilities import Chunker
+import collections
 
 
 class GapFillGenerator:
@@ -8,37 +10,35 @@ class GapFillGenerator:
     def __init__(self, source_text_obj):
         self._source_text_obj = source_text_obj
 
+    def chunk_sentence(self, sents, chunker):
+        chunkedlist = []
+        for sent in sents:
+            chunks = chunker(sent)
+            for chunk in chunks:
+                if(type(chunk) == type(chunks)):
+                    temp = ''
+                    for leaf in chunk.leaves():
+                        temp += leaf[0]+' '
+                    chunkedlist.append(temp)
+        return chunkedlist
+
     def generate_questions(self, selected_sents):
         """ Remove blank and display question"""
+        chunker = Chunker()
         possible_questions = []
         for sent in selected_sents:
-            last_n = -2  # random initialization?
-            last_answer = ""
-            last_temp_sent = ""
-            for n, (token, pos) in enumerate(sent):
-                if pos in ["NNP", "NNPS"]:
-                    if n-1 == last_n:
-                        # deals (poorly) with NNP/NNPS phrases
-                        answer = last_answer + " " + token
-                        last_temp_sent[n] = ""
-                        temp_sent = last_temp_sent
-                        # removes the previous entry which
-                        # had only half the phrase
-                        possible_questions.pop()
-                    else:
-                        answer = token
-                        temp_sent = [token for token, pos in sent]
-                        temp_sent[n] = "__________"
+            chunks = self.chunk_sentence(
+                [sent], chunker.proper_noun_phrase_chunker)
+            if len(chunks) != 0:
+                temp_sent = [token for token, pos in sent]
+                for chunk in chunks:
+                    temp_question = " ".join(temp_sent)
+                    temp_question = temp_question.replace(chunk, "__________ ")
                     possible_questions.append(
-                            Question(" ".join(temp_sent),
-                                     answer,
+                            Question(temp_question,
+                                     chunk.strip(),
                                      self.GAP_FILL
-                                     )
-                            )
-                    last_answer = answer
-                    last_temp_sent = temp_sent
-                    last_n = n
-        print(possible_questions)
+                                     ))
         return possible_questions
 
     def select_sentences(self):
@@ -78,6 +78,16 @@ class GapFillGenerator:
                     )
                 )
         output_file.write("")
+
+    def _print_source_sentences(self):
+        mapping = collections.defaultdict(list)
+        for q in self.questions:
+            mapping[q.source_sentence].append(q.question)
+        for key, value in mapping.items():
+            print(key, "\n")
+            for val in value:
+                print(val, "\n")
+            print("_______________________________________________\n")
 
     def run(self):
         # This step of filtering can alternatively happen
