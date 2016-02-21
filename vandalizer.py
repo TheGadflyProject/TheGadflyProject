@@ -24,6 +24,7 @@ def main():
         generator.output_questions_to_file(output_file)
         print("This found {} questions from the text.\n".format(
             generator.question_count()))
+        generator._print_source_sentences()
 
 ##############################################################################
 
