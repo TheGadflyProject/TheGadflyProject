@@ -1,4 +1,5 @@
 from question import Question
+from question import QuestionSet
 from grammar_utilities import Chunker
 import collections
 
@@ -25,7 +26,7 @@ class GapFillGenerator:
     def generate_questions(self, selected_sents):
         """ Remove blank and display question"""
         chunker = Chunker()
-        possible_questions = []
+        possible_questions = QuestionSet()
         for sent in selected_sents:
             chunks = self.chunk_sentence(
                 [sent], chunker.proper_noun_phrase_chunker)
@@ -35,7 +36,7 @@ class GapFillGenerator:
                     temp_question = " ".join(temp_sent)
                     temp_question_with_blank = temp_question.replace(
                         chunk, "__________ ")
-                    possible_questions.append(
+                    possible_questions.add(
                             Question(temp_question,
                                      temp_question_with_blank,
                                      chunk.strip(),
@@ -93,7 +94,8 @@ class GapFillGenerator:
         self.selected_sents = self.select_sentences()
         print("Initializing: Sentence Selection complete.")
 
-        self.questions = self.generate_questions(self.selected_sents)
+        question_set = self.generate_questions(self.selected_sents)
+        self.questions = question_set.questions
         print("Initializing: Question generation complete.")
 
     def question_count(self):
