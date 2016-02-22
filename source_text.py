@@ -4,7 +4,7 @@ import nltk
 class SourceText(object):
     """Understands source news text articles
     """
-    def __init__(self, file):
+    def __init__(self, file="news_articles/China Is Rising.txt"):
         """This is initializing the class with a .txt file, running all
         transformations, selections, and question generation functions.
         """
