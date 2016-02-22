@@ -28,7 +28,7 @@ class GapFillGenerator:
         possible_questions = []
         for sent in selected_sents:
             chunks = self.chunk_sentence(
-                [sent], chunker.proper_noun_phrase_chunker)
+                [sent], chunker.extended_proper_noun_phrase_chunker)
             if len(chunks) != 0:
                 temp_sent = [token for token, pos in sent]
                 for chunk in chunks:
