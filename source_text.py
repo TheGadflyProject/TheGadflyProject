@@ -12,7 +12,7 @@ class SourceText(object):
         print("Reading file "+self.file)
         self.raw_text = self.load_text()
         print("Initializing: Text loaded.")
-        self.pos_tagged_sents = self.store_pos()
+        self.pos_tagged_sents = self.pos_tag_sents()
         print("Initializing: POS Tagging complete.")
         # This is currently not being used anywhere
         # self._source_obj.derived_sents = self.pos_tagged_sents
@@ -25,7 +25,7 @@ class SourceText(object):
         f = open(self.file, encoding='utf-8')
         return f.readlines()
 
-    def store_pos(self):
+    def pos_tag_sents(self):
         pos_lst = []
         for line in self.raw_text:
             line = line.strip()

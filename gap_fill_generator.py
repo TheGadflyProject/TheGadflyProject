@@ -51,14 +51,14 @@ class GapFillGenerator:
         selected_sent_lst = []
         count_bad = 0
         for sent in self._source_text_obj.pos_tagged_sents:
-            flag = False
-            for token, pos in sent:
-                if pos in ["PRP", "PRP$"]:
+            sent_pos = [pos for token, pos in sent]
+            if "PRP" in sent_pos or "PRP$" in sent_pos:
+                if "NNP" in sent_pos or "NNPS" in sent_pos:
+                    selected_sent_lst.append(sent)
+                else:
                     count_bad += 1
-                    flag = True
-                    break
-            if flag is False:
-                selected_sent_lst.append(sent)
+            else:
+               selected_sent_lst.append(sent) 
         # This is garbage metrics for now:
         print("Bad sentences = {}".format(count_bad))
         print("Good sentences = {}".format(
