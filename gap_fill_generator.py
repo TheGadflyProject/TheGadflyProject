@@ -1,7 +1,7 @@
 from question import Question
 from grammar_utilities import Chunker
 import collections
-
+import string
 
 class GapFillGenerator:
 
@@ -22,8 +22,21 @@ class GapFillGenerator:
                     chunkedlist.append(temp)
         return chunkedlist
 
+    def replaceNth(self, sent, old, new, n):
+        """Replaces the old with new at the nth index in sent
+        Cite:inspectorG4dget http://stackoverflow.com/questions/27589325/how-to-find-and-replace-nth-occurence-of-word-in-a-sentence-using-python-regular
+        """
+        inds = [i for i in range(len(sent) - len(old)+1) if sent[i:i+len(old)]==old]
+        if len(inds) < n:
+            return  # or maybe raise an error
+        sent_list = list(sent)  # can't assign to string slices. So, let's listify
+        sent_list[inds[n-1]:inds[n-1]+len(old)] = new  # do n-1 because we start from the first occurrence of the string, not the 0-th
+        return ''.join(sent_list)
+
     def generate_questions(self, selected_sents):
         """ Remove blank and display question"""
+
+        # fix leading space before punctuation  
         chunker = Chunker()
         possible_questions = []
         for sent in selected_sents:
@@ -31,22 +44,24 @@ class GapFillGenerator:
                 [sent], chunker.extended_proper_noun_phrase_chunker)
             if len(chunks) != 0:
                 temp_sent = [token for token, pos in sent]
+                punctuation = list(string.punctuation)+['“']+['”']
                 for chunk in chunks:
+                    if chunk[:-1] in punctuation: # solves punct as chunk problem. perhaps should move earlier?
+                        continue
                     temp_question = " ".join(temp_sent)
-                    temp_question_with_blank = temp_question.replace(
-                        chunk, "__________ ")
-                    possible_questions.append(
-                            Question(temp_question,
+                    for n, each in enumerate(range(chunks.count(chunk))):
+                        temp_question_with_blank = self.replaceNth(temp_question, chunk, "__________ ", n)
+                        possible_questions.append((temp_question, # this process (list then object allows for set comparison)
                                      temp_question_with_blank,
                                      chunk.strip(),
-                                     self.GAP_FILL
-                                     ))
-        return possible_questions
+                                     self.GAP_FILL)
+                                     )
+
+        return [Question(a,b,c,d) for a,b,c,d in set(possible_questions)]
 
     def select_sentences(self):
         """ Later: Select by some notion of a good sentence.
-        Soon: Select by not having annoying anaphora, etc.
-        Now: Select by not having PRP or PRP$.
+        Now: Select by all unless if having PRP/PRP$ not also having NNP/NNPS.
         """
         selected_sent_lst = []
         count_bad = 0
