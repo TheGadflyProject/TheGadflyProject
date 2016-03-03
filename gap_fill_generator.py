@@ -42,18 +42,26 @@ class GapFillGenerator:
         for sent in selected_sents:
             chunks = self.chunk_sentence(
                 [sent], chunker.extended_proper_noun_phrase_chunker)
+            chunks = [chunk.strip() for chunk in chunks]
             if len(chunks) != 0:
                 temp_sent = [token for token, pos in sent]
                 punctuation = list(string.punctuation)+['“']+['”']
                 for chunk in chunks:
-                    if chunk[:-1] in punctuation: # solves punct as chunk problem. perhaps should move earlier?
+                    if chunk in punctuation: # solves punct as chunk problem. perhaps should move earlier?
                         continue
                     temp_question = " ".join(temp_sent)
+
+                    # there HAS TO BE a better way than the below
+                    temp_question = temp_question.replace(" .",".")
+                    temp_question = temp_question.replace(" ,",",")
+                    temp_question = temp_question.replace(" ?","?")
+                    temp_question = temp_question.replace(" !","!")
+                    
                     for n, each in enumerate(range(chunks.count(chunk))):
-                        temp_question_with_blank = self.replaceNth(temp_question, chunk, "__________ ", n)
+                        temp_question_with_blank = self.replaceNth(temp_question, chunk, "__________", n)
                         possible_questions.append((temp_question, # this process (list then object allows for set comparison)
                                      temp_question_with_blank,
-                                     chunk.strip(),
+                                     chunk, # I removed the .strip() b/c of line 45 b/c of the replaces in 55-58
                                      self.GAP_FILL)
                                      )
 
