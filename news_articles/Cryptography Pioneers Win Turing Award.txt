@@ -1,0 +1,27 @@
+SAN FRANCISCO — In 1970, a Stanford artificial intelligence researcher named John McCarthy returned from a conference in Bordeaux, France, where he had presented a paper on the possibility of a “Home Information Terminal.”
+
+He predicted the terminal would be connected via the telephone network to a shared computer, which in turn would store files that would contain all books, magazines, newspapers, catalogs, airline schedules, public information and personal files.
+
+Whitfield Diffie, then a young programmer at the Stanford Artificial Intelligence Laboratory, read Mr. McCarthy’s paper and began to think about the question of what would take the place of an individual signature in a paperless world. Mr. Diffie would spend the next several years pursuing that challenge and in 1976, with Martin E. Hellman, an electrical engineer at Stanford, invented “public-key cryptography,” a technique that would two decades later make possible the commercial World Wide Web.
+
+On Tuesday, the Association for Computing Machinery announced that the two men have won this year’s Turing Award. The award is frequently described as the Nobel Prize for the computing world and since 2014, it has included a $1 million cash award, after Google quadrupled its size.
+
+This year, it was announced during the RSA Conference, a security technology symposium held here this week.
+
+Named for Alan Turing, the British mathematician and computer scientist, the award is particularly noteworthy because it comes at a time that the Federal Bureau of Investigation is locked in a bitter feud with Apple over the agency’s inability to unlock the cryptographic system that protects digital information stored in the company’s iPhones.
+
+While private information can be protected with a so-called “symmetric” key, or a single digital code, that is used to mathematically scramble the data, the problem becomes much more difficult when two parties who have not met physically wish to have a secret interaction.
+
+The privacy protection technology that is now used extensively to protect modern electronic communications is based on Mr. Diffie’s and Mr. Hellman’s original research that led to the creation of “public-key cryptography” technology.
+
+Public-key cryptography is a method for scrambling data in which each party has a pair of keys, one which can be publicly shared and the other which is known only to the intended recipient of a message. It is possible for anyone to encrypt a message using the individual’s public key. However, the message can only be unscrambled with the aid of the private key held securely by the recipient of the message.
+
+In the United States and elsewhere, cryptography was once a highly classified military and intelligence agency technology. But in the 1970s academic researchers began delving into the field, which led to clashes with law enforcement and spy agencies.
+
+In 2013, documents released by Edward J. Snowden, the former government contractor, revealed widespread government surveillance of Internet traffic, leading companies like Apple and Google to modify the security in their products and to the current fight between Apple and the F.B.I.
+
+Mr. Diffie and Mr. Hellman have long been political activists. Mr. Hellman has focused on the threat that nuclear weapons pose to humanity, and he said in an interview he would use his share of the prize money to pursue work related to the nuclear threat. He said he also planned to write a new book with his wife on peace and sustainability.
+
+Mr. Diffie, who has spent his career working on computer security at telecommunications firms and at the Silicon Valley pioneer Sun Microsystems, has been an outspoken advocate for the protection of personal privacy in the digital age.
+
+He said in an interview that he plans to do more to document the history of the field he helped to create. “This will free me to spend more of my time on cryptographic history, which is urgent because the people are quickly dying off,” Mr. Diffie said.

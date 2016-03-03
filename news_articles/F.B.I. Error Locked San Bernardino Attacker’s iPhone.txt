@@ -1,0 +1,31 @@
+WASHINGTON — The head of the F.B.I. acknowledged on Tuesday that his agency lost a chance to capture data from the iPhone used by one of the San Bernardino attackers when it ordered that his password to the online storage service iCloud be reset shortly after the rampage.
+
+“There was a mistake made in the 24 hours after the attack,” James B. Comey Jr., the director of the F.B.I., told lawmakers at a hearing on the government’s attempt to force Apple to help “unlock” the iPhone.
+
+F.B.I. personnel apparently believed that by resetting the iCloud password, they could get access to information stored on the iPhone. Instead, the change had the opposite effect — locking them out and eliminating other means of getting in.
+
+The iPhone used by Syed Rizwan Farook, one of the assailants in the Dec. 2 attack in which 14 people were killed, is at the center of a fierce legal and political fight over the balance between national security and consumer privacy. Many lawmakers at Tuesday’s hearing of the House Judiciary Committee seemed torn over where to draw the line.
+
+“The big question for our country is how much privacy are we going to give up in the name of security,” Representative Jason Chaffetz, a Utah Republican, told Mr. Comey. “And there’s no easy answer to that.”
+
+While some lawmakers voiced support for Apple’s privacy concerns, others attacked the company’s position, saying it threatened to deprive the authorities of evidence in critical cases involving newer iPhones.
+
+“We’re going to create evidence-free zones?” asked Representative Trey Gowdy, a South Carolina Republican who once served as a federal prosecutor. “Am I missing something?”
+
+“How the hell you can’t access a phone, I just find baffling,” he said.
+
+Bruce Sewell, Apple’s general counsel, told committee members that the F.B.I.’s demand for technical help to unlock Mr. Farook’s iPhone 5c “would set a dangerous precedent for government intrusion on the privacy and safety of its citizens.” Apple has said that in many cases investigators have other means to gain access to crucial information, and in some instances it has turned over data stored in iCloud.
+
+Mr. Sewell reacted angrily to the Justice Department’s suggestion that Apple’s branding and marketing strategy was driving its resistance to helping the F.B.I., an assertion that he said made his “blood boil.”
+
+“We don’t put up billboards that market our security,” he said. “We do this because we think protecting security and privacy of hundreds of millions of iPhones is the right thing to do.”
+
+F.B.I. officials say that encrypted data in Mr. Farook’s phone and its GPS system may hold vital clues about where he and his wife, Tashfeen Malik, traveled in the 18 minutes after the shootings, and about whom they might have contacted beforehand. While investigators believe that the couple was “inspired” by the Islamic State, they have not found evidence that they had contact with any extremists overseas.
+
+A judge last month ordered Apple to develop software that would disable security mechanisms on Mr. Farook’s phone so that the F.B.I. could try multiple passwords to unlock the phone through a “brute force” attack, without destroying any data. Once the systems were disabled, it would take only about 26 minutes to find the correct password, Mr. Comey said.
+
+He rejected an idea expressed by several lawmakers that the F.B.I. was trying to force Apple to build a “back door” to decrypt its own security features. He used a different analogy to explain the government’s demands.
+
+“There’s already a door on that iPhone,” Mr. Comey said. “Essentially, we’re saying to Apple ‘take the vicious guard dog away and let us pick the lock.’ ”
+
+But the F.B.I. did not help its case with lawmakers when Mr. Comey acknowledged the mistake of changing the iCloud password.

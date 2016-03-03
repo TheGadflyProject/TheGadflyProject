@@ -2,6 +2,7 @@ from question import Question
 from grammar_utilities import Chunker
 import collections
 import string
+import csv
 
 class GapFillGenerator:
 
@@ -90,15 +91,22 @@ class GapFillGenerator:
         return selected_sent_lst
 
     def output_questions_to_file(self, output_file):
-        for n, q in enumerate(self.questions):
-            output_file.write("\nQuestion #{}\n".format(n+1))
-            output_file.write(
-                "Q: {}".format(q.question)
-                )
-            output_file.write(
-                "A: {}\n".format(q.answer)
-                )
+        for q in self.questions:
+            output_file.write("{}\n".format(q.question))
         output_file.write("")
+
+    def output_sentences_to_file(self, output_file):
+        for q in self.questions:
+            output_file.write("{}\n".format(q.source_sentence))
+        output_file.write("")
+
+    def output_questions_to_csv(self, output_file):
+        with open(output_file, 'w', newline='') as csvfile:
+            writer = csv.writer(csvfile, delimiter='|',
+                                    quotechar='"', quoting=csv.QUOTE_MINIMAL)
+            writer.writerow(['Sentence','Question'])
+            for q in self.questions:
+                writer.writerow([q.source_sentence, q.question])
 
     def _print_source_sentences(self):
         mapping = collections.defaultdict(list)

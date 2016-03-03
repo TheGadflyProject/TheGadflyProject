@@ -1,0 +1,39 @@
+BRUSSELS — Facebook became the latest American technology company on Wednesday to face antitrust hurdles in Europe after the German competition authority opened an investigation into whether the company has abused its dominant position in social networking.
+
+The move puts Facebook, which is used by many of Europe’s 500 million citizens, alongside other United States technology companies, like Google and Microsoft, which have also faced antitrust investigations into their activities across the region.
+
+European officials have taken a tough stance on how American tech giants operate across the 28-member bloc, as many politicians here remain concerned that these companies often dominate many aspects of people’s digital lives, including social networking, online search and e-commerce.
+
+As part of the new investigation, German authorities said they were looking into whether Facebook misused its position to collect people’s digital information. That included complicated terms and conditions that individuals had to sign to use the social network, and whether such contracts placed unfair constraints on the company’s users.
+
+“Dominant companies are subject to special obligations,” Andreas Mundt, president of the German competition authority, said in a statement on Wednesday. “For advertising-financed Internet services such as Facebook, user data are hugely important.”
+
+In response, Facebook said it was confident that it had complied with German law.
+
+“We look forward to working with the Federal Cartel Office to answer their questions,” the company said in a statement.
+
+German authorities have long battled with Facebook and other United States digital companies over their differing interpretations of what constitutes a violation of privacy in the digital age. Five years ago, German authorities challenged Facebook over its introduction of facial-recognition software.
+
+Facebook held discussions with European antitrust officials over its acquisition of the WhatsApp messaging service in 2014, but the German investigation is the first competition inquiry the company has faced in the region.
+
+While the German investigation will look into Facebook’s digital practices, it remains unclear whether other European policy makers — including at the European Commission, the executive arm of the European Union — will also open antitrust inquiries into the social network.
+
+The announcement on Wednesday, however, represents the latest in a growing number of regulatory challenges that Facebook is facing across the European Union, one of the company’s most important areas of operation.
+
+This week, a separate German court fined Facebook $110,000 — a small amount for a company that generates billions of dollars each year — for not sufficiently informing its users how the company would use content posted on the social network.
+
+Several national privacy regulators are looking into how the social network collects data on both its users and those who are not signed up for its online services.
+
+Facebook was also at the center of a successful legal challenge in Europe’s highest court over how data was transferred between the European Union and the United States. That led to senior European judges invalidating the so-called safe harbor data-transfer agreement between the two regions, increasing uncertainty over how companies like Facebook could move data across the Atlantic.
+
+In an acknowledgment of the growing regulatory challenges now confronting Facebook in Europe, Mark Zuckerberg, the company’s 31-year-old chief executive, traveled to Germany last month to meet with policy makers, local publishers and the company’s users.
+
+For Facebook, whose business model is based on selling advertisements targeted at users based on information in their posts, the company’s use of people’s digital data is increasingly putting it at odds with Europe’s tough data protection rules, which view individuals’ privacy rights on a par with rights such as the freedom of expression.
+
+European competition authorities are also increasingly looking at how companies like Facebook may hold a dominant position over people’s digital information, which may give them an unfair advantage over rivals.
+
+This year, for example, Margrethe Vestager, the European competition commissioner, said the collection of a vast amount of users’ data by a small number of tech companies like Google and Facebook could violate of the region’s tough competition rules.
+
+“If a few companies control the data you need to cut costs, then you give them the power to drive others out of the market,” Ms. Vestager said.
+
+“It’s a business transaction, not a free giveaway,” she added, referring to companies’ use of people’s digital data. “As consumers, we need to be treated fairly.”

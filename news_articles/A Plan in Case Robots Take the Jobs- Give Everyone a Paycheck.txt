@@ -1,0 +1,55 @@
+Let’s say computers come for most of our jobs. This may not seem likely at the moment; computer scientists and economists offer wildly varying ideas for how deeply automation will affect future employment.
+
+But for the sake of argument, imagine that within two or three decades we’ll have morphed into the Robotic States of America.
+
+In Robot America, most manual laborers will have been replaced by herculean bots. Truck drivers, cabbies, delivery workers and airline pilots will have been superseded by vehicles that do it all. Doctors, lawyers, business executives and even technology columnists for The New York Times will have seen their ranks thinned by charming, attractive, all-knowing algorithms.
+
+How will society function after humanity has been made redundant? Technologists and economists have been grappling with this fear for decades, but in the last few years, one idea has gained widespread interest — including from some of the very technologists who are now building the bot-ruled future.
+
+Their plan is known as “universal basic income,” or U.B.I., and it goes like this: As the jobs dry up because of the spread of artificial intelligence, why not just give everyone a paycheck?
+
+Imagine the government sending each adult about $1,000 a month, about enough to cover housing, food, health care and other basic needs for many Americans. U.B.I. would be aimed at easing the dislocation caused by technological progress, but it would also be bigger than that.
+
+While U.B.I. has been associated with left-leaning academics, feminists and other progressive activists, it has lately been adopted by a wider range of thinkers, including some libertarians and conservatives. It has also gained support among a cadre of venture capitalists in New York and Silicon Valley, the people most familiar with the potential for technology to alter modern work.
+
+Rather than a job-killing catastrophe, tech supporters of U.B.I. consider machine intelligence to be something like a natural bounty for society: The country has struck oil, and now it can hand out checks to each of its citizens.
+
+These supporters argue machine intelligence will produce so much economic surplus that we could collectively afford to liberate much of humanity from both labor and suffering.
+
+The most idealistic thinkers see the plan as a way to foster the sort of quasi-utopian future we’ve only encountered in science fiction universes like that of “Star Trek.” As computers perform more of our work, we’d all be free to become artists, scholars, entrepreneurs or otherwise engage our passions in a society no longer centered on the drudgery of daily labor.
+
+“We’re talking about divorcing your basic needs from the need to work,” said Albert Wenger, a venture capitalist at Union Square Ventures, a proponent who is working on a book about U.B.I. “For a couple hundred years, we’ve constructed our entire world around the need to work. Now we’re talking about more than just a tweak to the economy — it’s as foundational a departure as when we went from an agrarian society to an industrial one.”
+
+Sam Altman, president of the tech incubator Y Combinator, recently proposed to fund research into U.B.I. The firm has received thousands of applications for research funding, Mr. Altman said; it plans to select winning recipients within a few weeks, and ultimately Y Combinator plans to spend “tens of millions” of dollars on research to answer some of the most basic questions about life under U.B.I.
+
+Mr. Altman said these questions range from the most practical — how much U.B.I. would cost the country, and whether we could afford it — to deeper issues concerning people’s motivation and purpose in what you might call a “postwork” age.
+
+When you give everyone free money, what do people do with their time? Do they goof off, or do they try to pursue more meaningful pursuits? Do they become more entrepreneurial? How would U.B.I. affect economic inequality? How would it alter people’s psychology and mood? Do we, as a species, need to be employed to feel fulfilled, or is that merely a legacy of postindustrial capitalism?
+
+There is an urgency to the techies’ interest in U.B.I. They argue that machine intelligence reached an inflection point in the last couple of years, and that technological progress now looks destined to change how most of the world works.
+
+“People have been predicting that jobs would go away for a long time, and usually what happens is they just change,” Mr. Altman said. But even so, “during those periods of change, things can be quite disruptive,” and at the very least, U.B.I. may be able to smooth out the transition period.
+
+We may already be seeing the disruptions. Though the macroeconomic statistics suggest the United States has recovered from the last recession — job growth in 2015 reached levels not seen since the 1990s — surveys show that many Americans feel vulnerable and anxious about their jobs and finances.
+
+Wage growth is sluggish, job security is nonexistent, inequality looks inexorable, and the ideas that once seemed like a sure path to a better future (like taking on debt for college) are in doubt. Even where technology has created more jobs, like the so-called gig economy work created by services like Uber, it has only added to our collective uncertainty about the future of work.
+
+“All of a sudden people are looking at these trends and realizing these questions about the future of work are more real and immediate than they guessed,” said Roy Bahat, the head of Bloomberg Beta, the venture capital firm funded by Bloomberg L.P.
+
+A cynic might see the interest of venture capitalists in U.B.I. as a way for them to atone for their complicity in the tech that might lead to permanent changes in the global economy. After all, here are rich people who both actively fund and benefit from creating highly profitable companies that employ very few people.
+
+It doesn’t help that you have some investors who’ve been terrifically tin-eared about the perils of globalization and the modern economy (see musings from Paul Graham on inequality, Marc Andreessen on colonialism and Thomas J. Perkins on class resentment.)
+
+But my conversations with techies interested in U.B.I. revealed a sincerity and sophistication about the idea. They aren’t ashamed or afraid of automation, and they don’t see U.B.I. merely as a defense of the current social order. Instead they see automation and U.B.I. as the most optimistic path toward wider social progress.
+
+“I think it’s a bad use of a human to spend 20 years of their life driving a truck back and forth across the United States,” Mr. Wenger said. “That’s not what we aspire to do as humans — it’s a bad use of a human brain — and automation and basic income is a development that will free us to do lots of incredible things that are more aligned with what it means to be human.”
+
+Like much of what venture capital firms work on, basic income is a pie-in-the-sky notion. Though it has enjoyed recognition among wonks and some political momentum in Europe, not a single American presidential candidate has expressed even passing interest in the idea. It has also been hampered by some very basic practical questions: How much should we give out in monthly income? Can the country afford that?
+
+Proponents say these questions will be answered by research, which in turn will prompt political change. For now, they argue the proposal is affordable if we alter tax and welfare policies to pay for it, and if we account for the ways technological progress in health care and energy will reduce the amount necessary to provide a basic cost of living.
+
+They also note that increasing economic urgency will push widespread political acceptance of the idea. “There’s a sense that growing inequality is intractable, and that we need to do something about it,” said Natalie Foster, the co-founder of Peers, an organization that supports sharing-economy workers.
+
+Andrew L. Stern, a former president of the Service Employees International Union, who is working on a book about U.B.I., compared the feeling of the current anxiety around jobs to a time of war. “I grew up during the Vietnam War, and my parents were antiwar for one reason: I could be drafted,” he said.
+
+Today, as people across all income levels become increasingly worried about how they and their children will survive in tech-infatuated America, “we are back to the Vietnam War when it comes to jobs,” Mr. Stern said. “We’re entering a universal, white-collar, middle-class anxiety, which drives political change faster than poor people tend to drive change.”

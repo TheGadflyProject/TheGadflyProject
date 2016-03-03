@@ -16,12 +16,14 @@ NEWS_ARTICLES_DIR = os.path.join(PROJECT_DIR, "news_articles")
 
 def main():
     news_articles = os.path.join(NEWS_ARTICLES_DIR, "*.txt")
-    output_file = open("output.txt", "w")
+    sentence_file = open("sentence.txt", "w")
+    question_file = open("question.txt", "w")
     for file in glob.glob(news_articles):
         article = SourceText(file)
         generator = GapFillGenerator(article)
         generator.run()
-        generator.output_questions_to_file(output_file)
+        generator.output_sentences_to_file(sentence_file)
+        generator.output_questions_to_file(question_file)
         print("This found {} questions from the text.\n".format(
             generator.question_count()))
         generator._print_source_sentences()
