@@ -19,11 +19,9 @@ def main():
         f = open(file_name, encoding='utf-8')
         article = SourceText(f.readlines())
         generator = GapFillGenerator(article)
-        generator.run()
         generator.output_questions_to_file(output_file)
-        print("This found {} questions from the text.\n".format(
-            generator.question_count()))
-        generator._print_source_sentences()
+        print("Found {} questions from the text.\n".format(
+            len(generator.questions)))
 
 if __name__ == '__main__':
     main()
