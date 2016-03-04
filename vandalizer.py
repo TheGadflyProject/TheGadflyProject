@@ -20,11 +20,9 @@ def main():
     for file in glob.glob(news_articles):
         article = SourceText(file)
         generator = GapFillGenerator(article)
-        generator.run()
         generator.output_questions_to_file(output_file)
-        print("This found {} questions from the text.\n".format(
-            generator.question_count()))
-        generator._print_source_sentences()
+        print("Found {} questions from the text.\n".format(
+            len(generator.questions)))
 
 ##############################################################################
 
