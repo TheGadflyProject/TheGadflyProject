@@ -4,12 +4,12 @@ import nltk
 class SourceText(object):
     """Understands source news text articles
     """
-    def __init__(self, file):
+    def __init__(self, file_name):
         """This is initializing the class with a .txt file, running all
         transformations, selections, and question generation functions.
         """
-        self.file = file
-        print("Reading file "+self.file)
+        self.file_name = file_name
+        print("Reading file "+self.file_name)
         self.raw_text = self.load_text()
         print("Initializing: Text loaded.")
         self.pos_tagged_sents = self.pos_tag_sents()
@@ -22,7 +22,7 @@ class SourceText(object):
         # print("Initializing: Deriving Sentences complete...")
 
     def load_text(self):
-        f = open(self.file, encoding='utf-8')
+        f = open(self.file_name, encoding='utf-8')
         return f.readlines()
 
     def pos_tag_sents(self):

@@ -3,8 +3,8 @@
 # Imports
 import glob
 import os
-from gap_fill_generator import GapFillGenerator
-from source_text import SourceText
+from gadfly.gap_fill_generator import GapFillGenerator
+from gadfly.source_text import SourceText
 
 # GLOBAL VARIABLES
 # should probably refactor at some point

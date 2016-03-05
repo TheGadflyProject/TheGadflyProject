@@ -1,5 +1,5 @@
-from question import Question
-from grammar_utilities import Chunker
+from gadfly.question import Question
+from gadfly.grammar_utilities import Chunker
 import collections
 
 
@@ -58,7 +58,7 @@ class GapFillGenerator:
                 else:
                     count_bad += 1
             else:
-               selected_sent_lst.append(sent) 
+               selected_sent_lst.append(sent)
         # This is garbage metrics for now:
         print("Bad sentences = {}".format(count_bad))
         print("Good sentences = {}".format(
