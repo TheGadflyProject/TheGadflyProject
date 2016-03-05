@@ -5,10 +5,11 @@ import string
 from nltk.tree import Tree
 import re
 
-class GapFillGenerator:
 
+class GapFillGenerator:
     GAP_FILL = "GAP_FILL"
-    GAP = "___________"
+    _GAP = "___________"
+    _PUNCTUATION = list(string.punctuation)+['“']+['”']
 
     def __init__(self, source_text_obj):
         self._source_text_obj = source_text_obj
@@ -47,8 +48,8 @@ class GapFillGenerator:
         chunker = Chunker()
         for sent in selected_sents:
             # The following is a hacky way to generate a sentence
-            # TODO This should be improved, perhaps by passing the sentence from
-            # SourceText
+            # TODO This should be improved, perhaps by passing the sentence
+            # from SourceText
             source_sentence = " ".join([token for token, pos in sent])
             # remove space before punctuation
             source_sentence = \
@@ -59,14 +60,16 @@ class GapFillGenerator:
                 [line.leaves() for line in chunk_tree if type(line) == Tree]
             for chunk in chunks:
                 gap_phrase = [token for token, tag in chunk
-                    if token not in list(string.punctuation)+['“']+['”']]
+                              if token not in self._PUNCTUATION]
                 if len(gap_phrase) > 0:
                     gap_phrase = " ".join(gap_phrase).strip()
-                    for n in range(len(re.findall(gap_phrase, source_sentence))):
+                    for n in range(len(re.findall(
+                                            gap_phrase,
+                                            source_sentence))):
                         gap_fill_question = self._replaceNth(
                                                 source_sentence,
                                                 gap_phrase,
-                                                self.GAP,
+                                                self._GAP,
                                                 n)
                         question = Question(
                             source_sentence,
@@ -79,14 +82,16 @@ class GapFillGenerator:
 
     def _replaceNth(self, sent, old, new, n):
         """Replaces the old with new at the nth index in sent
-        Cite:inspectorG4dget http://stackoverflow.com/questions/27589325/how-to-find-and-replace-nth-occurence-of-word-in-a-sentence-using-python-regular
-        """
+        Cite:inspectorG4dget http://stackoverflow.com/a/27589436"""
         inds = [i for i in range(len(sent) - len(old)+1)
-            if sent[i:i+len(old)]==old]
+                if sent[i:i+len(old)] == old]
         if len(inds) < n:
             return  # or maybe raise an error
-        sent_list = list(sent)  # can't assign to string slices. So, let's listify
-        sent_list[inds[n-1]:inds[n-1]+len(old)] = new  # do n-1 because we start from the first occurrence of the string, not the 0-th
+        # can't assign to string slices. So, let's listify
+        sent_list = list(sent)
+        # do n-1 because we start from the first occurrence of the string,
+        # not the 0-th
+        sent_list[inds[n-1]:inds[n-1]+len(old)] = new
         return ''.join(sent_list)
 
     def output_questions_to_file(self, output_file):
