@@ -98,10 +98,8 @@ class GapFillGenerator:
         for n, q in enumerate(self.questions):
             output_file.write("\nQuestion #{}\n".format(n+1))
             output_file.write(
-                "Q: {}".format(q.question)
-                )
-            output_file.write(
-                "A: {}\n".format(q.answer)
+                ", ".join(["Q: {}".format(q.question),
+                          "A: {}\n".format(q.answer)])
                 )
         output_file.write("")
 
