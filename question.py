@@ -6,3 +6,17 @@ class Question:
         self.question = question
         self.answer = answer
         self._type = question_type
+
+    def __eq__(self, other):
+        if not isinstance(other, Question):
+            return False
+
+        if self._type != other._type:
+            return False
+
+        return (self.source_sentence == other.source_sentence and
+                self.question == other.question and
+                self.answer == other.answer)
+
+    def __hash__(self):
+        return hash((self.source_sentence, self.question, self._type, self.answer))
