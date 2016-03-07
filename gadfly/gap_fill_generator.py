@@ -1,5 +1,5 @@
-from question import Question
-from grammar_utilities import Chunker
+from gadfly.question import Question
+from gadfly.grammar_utilities import Chunker
 import collections
 import string
 from nltk.tree import Tree
