@@ -1,5 +1,4 @@
 from gadfly.question import Question
-from spacy.en import English
 import string
 import re
 
@@ -9,17 +8,23 @@ class GapFillGenerator:
     _GAP = "___________"
     _PUNCTUATION = list(string.punctuation)
 
-    def __init__(self, source_text):
+    def __init__(self, parser, source_text):
         self._source_text = source_text
-        self._parser = English(serializer=False, matcher=False)
-        self._parsed_text = self._parser(self._source_text, parse=False)
+        self._parsed_text = parser(self._source_text)
+        self._exclude_named_ent_types = ["DATE",
+                                         "TIME",
+                                         "PERCENT",
+                                         "CARDINAL",
+                                         "MONEY",
+                                         "ORDINAL",
+                                         "QUANTITY"]
         self.questions = self.generate_questions()
 
     def find_named_entities(self):
         entities = set()
         for ent in self._parsed_text.ents:
-            if (ent.label_ != "") and \
-                (ent.label_ not in ["DATE", "TIME", "PERCENT", "CARDINAL"]):
+            if (ent.label_ != "" and
+               ent.label_ not in self._exclude_named_ent_types):
                 entities.add(ent.text_with_ws)
         return entities
 
@@ -32,19 +37,20 @@ class GapFillGenerator:
                 sent_ents = re.findall(entity, sent.text)
                 if sent_ents:
                     for n in range(len(sent_ents)):
-                        gap_fill_question = self._replaceNth(sent.text,
+                        gap_fill_question = self._replaceNth(sent.orth_,
                                                              entity,
-                                                             self._GAP,
+                                                             "_____",
                                                              n
                                                              )
-                        print(entity, ": ", gap_fill_question)
-            #             question = Question(sent.text,
-            #                                 gap_fill_question,
-            #                                 entity,
-            #                                 self.GAP_FILL,
-            #                                 )
-            #             question_set.add(question)
-            # return question_set
+
+                        question = Question(sent.text,
+                                            gap_fill_question,
+                                            entity,
+                                            self.GAP_FILL,
+                                            )
+                        question_set.add(question)
+
+            return question_set
 
     def _replaceNth(self, sent, old, new, n):
         """Replaces the old with new at the nth index in sent
@@ -65,6 +71,6 @@ class GapFillGenerator:
             output_file.write("\nQuestion #{}\n".format(n+1))
             output_file.write(
                 ", ".join(["Q: {}".format(q.question),
-                "A: {}\n".format(q.answer)])
+                           "A: {}\n".format(q.answer)])
             )
         output_file.write("")
