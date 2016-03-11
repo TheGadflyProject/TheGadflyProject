@@ -48,6 +48,31 @@ class GapFillGenerator:
         most_important_sents = self.summarize_sentences()
         for sent in most_important_sents:
             for entity in entities:
+                sent_ents = re.findall(entity, sent)
+                if sent_ents:
+                    for n in range(len(sent_ents)):
+                        gap_fill_question = self._replaceNth(sent,
+                                                             entity,
+                                                             "_____",
+                                                             n
+                                                             )
+
+                        question = Question(sent,
+                                            gap_fill_question,
+                                            entity,
+                                            self.GAP_FILL,
+                                            )
+                        question_set.add(question)
+
+            return question_set
+
+    def generate_questions2(self):
+        """ Remove blank and display question"""
+        question_set = set()
+        entities = self.find_named_entities()
+        most_important_sents = self.summarize_sentences()
+        for sent in most_important_sents:
+            for entity in entities:
                 sent_ents = re.findall(entity, sent.text)
                 if sent_ents:
                     for n in range(len(sent_ents)):
