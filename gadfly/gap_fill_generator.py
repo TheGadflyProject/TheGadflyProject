@@ -1,4 +1,5 @@
 from gadfly.question import Question
+from gadfly.sentence_summarizer import FrequencySummarizer
 import string
 import re
 
@@ -28,11 +29,24 @@ class GapFillGenerator:
                 entities.add(ent.text_with_ws)
         return entities
 
+    def summarize_sentences(self):
+        fs = FrequencySummarizer()
+        sents = []
+        for span in self._parsed_text.sents:
+            sent = [self._parsed_text[i] for i in range(span.start, span.end)]
+            tokens = []
+            for token in sent:
+                tokens.append(token.text)
+            sents.append(tokens)
+        sentences = fs.summarize(sents, 5)
+        return sentences
+
     def generate_questions(self):
         """ Remove blank and display question"""
         question_set = set()
         entities = self.find_named_entities()
-        for sent in self._parsed_text.sents:
+        most_important_sents = self.summarize_sentences()
+        for sent in most_important_sents:
             for entity in entities:
                 sent_ents = re.findall(entity, sent.text)
                 if sent_ents:
