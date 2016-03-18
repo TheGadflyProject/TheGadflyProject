@@ -66,31 +66,6 @@ class GapFillGenerator:
 
             return question_set
 
-    def generate_questions2(self):
-        """ Remove blank and display question"""
-        question_set = set()
-        entities = self.find_named_entities()
-        most_important_sents = self.summarize_sentences()
-        for sent in most_important_sents:
-            for entity in entities:
-                sent_ents = re.findall(entity, sent.text)
-                if sent_ents:
-                    for n in range(len(sent_ents)):
-                        gap_fill_question = self._replaceNth(sent.orth_,
-                                                             entity,
-                                                             "_____",
-                                                             n
-                                                             )
-
-                        question = Question(sent.text,
-                                            gap_fill_question,
-                                            entity,
-                                            self.GAP_FILL,
-                                            )
-                        question_set.add(question)
-
-            return question_set
-
     def _replaceNth(self, sent, old, new, n):
         """Replaces the old with new at the nth index in sent
         Cite:inspectorG4dget http://stackoverflow.com/a/27589436"""
