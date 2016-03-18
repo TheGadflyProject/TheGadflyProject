@@ -1,8 +1,21 @@
+# After changing this file, check it on:
+#   http://lint.travis-ci.org/
+
 language: python
 python:
   - "3.5"
 # command to install dependencies
-install: "pip install -r requirements.txt"
-install: "python setup.py"
+before_install:
+  - sudo add-apt-repository -y "deb http://archive.ubuntu.com/ubuntu/ trusty main universe"
+  - sudo apt-get update
+  - sudo apt-get install -qq python-numpy python-six
+  - sudo add-apt-repository -y "deb http://archive.ubuntu.com/ubuntu/ vivid main universe"
+  - sudo apt-get update
+  - sudo apt-get --ignore-missing install build-essential python-dev python3-dev libquantlib0-dev libncursesw5-dev libssl-dev libgdbm-dev libc6-dev libsqlite3-dev tk-dev libbz2-dev
+  - pip install -r requirements.txt --use-mirrors
+install:
+  - python -m nltk.downloader all-corpora
+  - python -m spacy.en.download
 # command to run tests
-script: python -m unittest discover -s test -p 'test*.py'
+script:
+  - python -m unittest discover -s test -p 'test*.py'
