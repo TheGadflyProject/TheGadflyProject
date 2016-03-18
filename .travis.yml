@@ -14,7 +14,7 @@ before_install:
   - sudo apt-get --ignore-missing install build-essential python-dev python3-dev libquantlib0-dev libncursesw5-dev libssl-dev libgdbm-dev libc6-dev libsqlite3-dev tk-dev libbz2-dev
   - pip install -r requirements.txt --use-mirrors
 install:
-  - python -m nltk.downloader all
+  - python -m nltk.downloader all-corpora
   - python -m spacy.en.download
 # command to run tests
 script:
