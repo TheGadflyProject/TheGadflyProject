@@ -4,6 +4,12 @@ by the Vandals
 ## Description
 To create a robust, automatic, extensible question generation service.
 
+## How to use
+1. Clone the repo
+2. (optionally) Create Virtual Env
+3. Install Python requirements `pip install -r requirements.txt`
+4. Install Spacy Modules `python -m spacy.en.download`
+
 ## How to Contribute
 Review the section on [Feature Branch Workflow](https://www.atlassian.com/git/tutorials/comparing-workflows/feature-branch-workflow) to get an overview of how to contribute to this project.  
 
