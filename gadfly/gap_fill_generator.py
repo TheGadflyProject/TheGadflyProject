@@ -1,84 +1,70 @@
 from gadfly.question import Question
-from gadfly.grammar_utilities import Chunker
-import collections
+from gadfly.sentence_summarizer import FrequencySummarizer
 import string
-from nltk.tree import Tree
 import re
 
 
 class GapFillGenerator:
     GAP_FILL = "GAP_FILL"
     _GAP = "___________"
-    _PUNCTUATION = list(string.punctuation)+['“']+['”']
+    _PUNCTUATION = list(string.punctuation)
 
-    def __init__(self, source_text_obj):
-        self._source_text_obj = source_text_obj
+    def __init__(self, parser, source_text):
+        self._source_text = source_text
+        self._parsed_text = parser(self._source_text)
+        self._exclude_named_ent_types = ["DATE",
+                                         "TIME",
+                                         "PERCENT",
+                                         "CARDINAL",
+                                         "MONEY",
+                                         "ORDINAL",
+                                         "QUANTITY"]
+        self.questions = self.generate_questions()
 
-        self.selected_sents = self.select_sentences()
-        print("Initializing: Sentence Selection complete.")
+    def find_named_entities(self):
+        entities = set()
+        for ent in self._parsed_text.ents:
+            if (ent.label_ != "" and
+               ent.label_ not in self._exclude_named_ent_types):
+                entities.add(ent.text_with_ws)
+        return entities
 
-        self.questions = self.generate_questions(self.selected_sents)
-        print("Initializing: Question generation complete.")
+    def summarize_sentences(self):
+        fs = FrequencySummarizer()
+        sents = []
+        for span in self._parsed_text.sents:
+            sent = [self._parsed_text[i] for i in range(span.start, span.end)]
+            tokens = []
+            for token in sent:
+                tokens.append(token.text)
+            sents.append(tokens)
+        sentences = fs.summarize(sents, 5)
+        return sentences
 
-    def select_sentences(self):
-        """ Later: Select by some notion of a good sentence.
-        Now: Select by all unless if having PRP/PRP$ not also having NNP/NNPS.
-        """
-        selected_sent_lst = []
-        count_bad = 0
-        for sent in self._source_text_obj.pos_tagged_sents:
-            sent_pos = [pos for token, pos in sent]
-            if "PRP" in sent_pos or "PRP$" in sent_pos:
-                if "NNP" in sent_pos or "NNPS" in sent_pos:
-                    selected_sent_lst.append(sent)
-                else:
-                    count_bad += 1
-            else:
-                selected_sent_lst.append(sent)
-        # This is garbage metrics for now:
-        print("Bad sentences = {}".format(count_bad))
-        print("Good sentences = {}".format(
-            len(self._source_text_obj.pos_tagged_sents)-count_bad)
-            )
-        return selected_sent_lst
-
-    def generate_questions(self, selected_sents):
+    def generate_questions(self):
         """ Remove blank and display question"""
         question_set = set()
-        chunker = Chunker()
-        for sent in selected_sents:
-            # The following is a hacky way to generate a sentence
-            # TODO This should be improved, perhaps by passing the sentence
-            # from SourceText
-            source_sentence = " ".join([token for token, pos in sent])
-            # remove space before punctuation
-            source_sentence = \
-                re.sub(r'\s([?.!,"](?:\s|$))', r'\1', source_sentence)
+        entities = self.find_named_entities()
+        most_important_sents = self.summarize_sentences()
+        for sent in most_important_sents:
+            for entity in entities:
+                sent_ents = re.findall(entity, sent)
+                if sent_ents:
+                    for n in range(len(sent_ents)):
+                        gap_fill_question = self._replaceNth(sent,
+                                                             entity,
+                                                             "_____",
+                                                             n
+                                                             )
 
-            chunk_tree = chunker.extended_proper_noun_phrase_chunker(sent)
-            chunks = \
-                [line.leaves() for line in chunk_tree if type(line) == Tree]
-            for chunk in chunks:
-                gap_phrase = [token for token, tag in chunk
-                              if token not in self._PUNCTUATION]
-                if len(gap_phrase) > 0:
-                    gap_phrase = " ".join(gap_phrase).strip()
-                    for n in range(len(re.findall(
-                                            gap_phrase,
-                                            source_sentence))):
-                        gap_fill_question = self._replaceNth(
-                                                source_sentence,
-                                                gap_phrase,
-                                                self._GAP,
-                                                n)
-                        question = Question(
-                            source_sentence,
-                            gap_fill_question,
-                            gap_phrase,
-                            self.GAP_FILL,
-                        )
+                        question = Question(sent,
+                                            gap_fill_question,
+                                            entity,
+                                            self.GAP_FILL,
+                                            )
                         question_set.add(question)
-        return question_set
+
+            return question_set
 
     def _replaceNth(self, sent, old, new, n):
         """Replaces the old with new at the nth index in sent
@@ -99,16 +85,6 @@ class GapFillGenerator:
             output_file.write("\nQuestion #{}\n".format(n+1))
             output_file.write(
                 ", ".join(["Q: {}".format(q.question),
-                          "A: {}\n".format(q.answer)])
-                )
+                           "A: {}\n".format(q.answer)])
+            )
         output_file.write("")
-
-    def _print_source_sentences(self):
-        mapping = collections.defaultdict(list)
-        for q in self.questions:
-            mapping[q.source_sentence].append(q.question)
-        for key, value in mapping.items():
-            print(key, "\n")
-            for val in value:
-                print(val, "\n")
-            print("_______________________________________________\n")
