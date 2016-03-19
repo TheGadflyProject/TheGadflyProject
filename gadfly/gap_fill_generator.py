@@ -1,17 +1,27 @@
 from gadfly.question import Question
 from gadfly.sentence_summarizer import FrequencySummarizer
+from enum import Enum
 import string
 import re
 
 
+class QuestionType(Enum):
+    gap_fill = "GAP_FILL"
+
+
+class GapFillBlankType(Enum):
+    named_entities = "named_entities"
+
+
 class GapFillGenerator:
-    GAP_FILL = "GAP_FILL"
     _GAP = "___________"
     _PUNCTUATION = list(string.punctuation)
 
-    def __init__(self, parser, source_text):
+    def __init__(self, parser, source_text, gap_types):
         self._source_text = source_text
         self._parsed_text = parser(self._source_text)
+        self._most_important_sents = self.summarize_sentences()
+        self._gap_types = gap_types
         self._exclude_named_ent_types = ["DATE",
                                          "TIME",
                                          "PERCENT",
@@ -20,14 +30,6 @@ class GapFillGenerator:
                                          "ORDINAL",
                                          "QUANTITY"]
         self.questions = self.generate_questions()
-
-    def find_named_entities(self):
-        entities = set()
-        for ent in self._parsed_text.ents:
-            if (ent.label_ != "" and
-               ent.label_ not in self._exclude_named_ent_types):
-                entities.add(ent.text_with_ws)
-        return entities
 
     def summarize_sentences(self):
         fs = FrequencySummarizer()
@@ -41,30 +43,36 @@ class GapFillGenerator:
         sentences = fs.summarize(sents, 5)
         return sentences
 
-    def generate_questions(self):
-        """ Remove blank and display question"""
-        question_set = set()
+    def find_named_entities(self):
+        entities = set()
+        for ent in self._parsed_text.ents:
+            if (ent.label_ != "" and
+               ent.label_ not in self._exclude_named_ent_types):
+                entities.add(ent.text_with_ws)
+        return entities
+
+    def gen_named_entity_blanks(self):
+        named_entity_questions = set()
         entities = self.find_named_entities()
-        most_important_sents = self.summarize_sentences()
-        for sent in most_important_sents:
+        for sent in self._most_important_sents:
             for entity in entities:
+                # number of times entity found in sentence
                 sent_ents = re.findall(entity, sent)
                 if sent_ents:
                     for n in range(len(sent_ents)):
-                        gap_fill_question = self._replaceNth(sent,
-                                                             entity,
-                                                             "_____",
-                                                             n
-                                                             )
+                        gap_fill_question = self._replaceNth(sent, entity, "_____", n)
+                        question = Question(sent, gap_fill_question, entity, QuestionType.gap_fill)
+                        named_entity_questions.add(question)
 
-                        question = Question(sent,
-                                            gap_fill_question,
-                                            entity,
-                                            self.GAP_FILL,
-                                            )
-                        question_set.add(question)
+            return named_entity_questions
 
-            return question_set
+    def generate_questions(self):
+        question_set = []
+        for gap_type in self._gap_types:
+            if gap_type == GapFillBlankType.named_entities:
+                named_entity_questions = self.gen_named_entity_blanks()
+                question_set += list(named_entity_questions)
+            return set(question_set)
 
     def _replaceNth(self, sent, old, new, n):
         """Replaces the old with new at the nth index in sent
