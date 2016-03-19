@@ -1,6 +1,7 @@
 from gadfly.question import Question
 from gadfly.sentence_summarizer import FrequencySummarizer
 from enum import Enum
+from itertools import product
 import string
 import re
 
@@ -22,13 +23,8 @@ class GapFillGenerator:
         self._parsed_text = parser(self._source_text)
         self._most_important_sents = self.summarize_sentences()
         self._gap_types = gap_types
-        self._exclude_named_ent_types = ["DATE",
-                                         "TIME",
-                                         "PERCENT",
-                                         "CARDINAL",
-                                         "MONEY",
-                                         "ORDINAL",
-                                         "QUANTITY"]
+        self._exclude_named_ent_types = ["DATE", "TIME", "PERCENT", "CARDINAL",
+                                         "MONEY", "ORDINAL", "QUANTITY"]
         self.questions = self.generate_questions()
 
     def summarize_sentences(self):
@@ -54,17 +50,18 @@ class GapFillGenerator:
     def gen_named_entity_blanks(self):
         named_entity_questions = set()
         entities = self.find_named_entities()
-        for sent in self._most_important_sents:
-            for entity in entities:
-                # number of times entity found in sentence
-                sent_ents = re.findall(entity, sent)
-                if sent_ents:
-                    for n in range(len(sent_ents)):
-                        gap_fill_question = self._replaceNth(sent, entity, "_____", n)
-                        question = Question(sent, gap_fill_question, entity, QuestionType.gap_fill)
-                        named_entity_questions.add(question)
+        for sent, entity in product(self._most_important_sents, entities):
+            # number of times entity found in sentence
+            sent_ents = re.findall(entity, sent)
+            if sent_ents:
+                for n in range(len(sent_ents)):
+                    gap_fill_question = self._replaceNth(sent, entity,
+                                                         "_____", n)
+                    question = Question(sent, gap_fill_question, entity,
+                                        QuestionType.gap_fill)
+                    named_entity_questions.add(question)
 
-            return named_entity_questions
+        return named_entity_questions
 
     def generate_questions(self):
         question_set = []
