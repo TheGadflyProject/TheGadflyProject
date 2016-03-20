@@ -109,7 +109,8 @@ class TF_IDFSummarizer:
             top_sentences.append(sents[index])
 
         for i in range(n):
-            if top_sentences[i][0] in ['\n\n', '”']: del top_sentences[i][0] # DEAL W/ THIS ELEWHERE (BUT IT REALLY ANNOYED ME) - DSG
+            print(top_sentences[i])
+            if top_sentences[i][0] in ['\n\n', '”','\n\n\n']: del top_sentences[i][0] # DEAL W/ THIS ELEWHERE (BUT IT REALLY ANNOYED ME) - DSG
             if top_sentences[i][0] == '\n\n': del top_sentences[i][0] # DEAL W/ THIS ELEWHERE (BUT IT REALLY ANNOYED ME) - DSG
-            top_sentences[i] = " ".join(top_sentences[i])
+            top_sentences[i] = " ".join(top_sentences[i]) # THIS IS NOT SATISFACTORY BUT FINE FOR NOW, SAME AS ABOVE
         return top_sentences
