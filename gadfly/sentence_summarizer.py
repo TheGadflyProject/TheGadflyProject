@@ -66,7 +66,7 @@ class TF_IDFSummarizer:
 
     def get_tokens_and_freqs(self, sents):
         """Get a list of all tokens in sents and a Counter of them"""
-        all_tokens = [token for sent in sents for token in sent]
+        all_tokens = [token.lower() for sent in sents for token in sent]
         document_freq_dict = Counter(all_tokens)
         return document_freq_dict, all_tokens
 
