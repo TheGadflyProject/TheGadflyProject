@@ -1,5 +1,5 @@
 from gadfly.question import Question
-from gadfly.sentence_summarizer import FrequencySummarizer
+from gadfly.sentence_summarizer import FrequencySummarizer, TF_IDFSummarizer
 import string
 import re
 
@@ -30,15 +30,25 @@ class GapFillGenerator:
         return entities
 
     def summarize_sentences(self):
-        fs = FrequencySummarizer()
+        option = 1
+        if option == 0:
+            selector = FrequencySummarizer()
+        else: 
+            selector = TF_IDFSummarizer()
         sents = []
         for span in self._parsed_text.sents:
             sent = [self._parsed_text[i] for i in range(span.start, span.end)]
             tokens = []
             for token in sent:
                 tokens.append(token.text)
-            sents.append(tokens)
-        sentences = fs.summarize(sents, 5)
+            sents.append(tokens)        
+        sentences = selector.summarize(sents, round(len(sents)*.2))
+        # print("There are {} sentences sent *TO* TF_IDFSummarizer.".format(len(sents)))
+        # print("There are {} sentences returned *FROM* TF_IDFSummarizer.".format(len(sentences)))
+        # for n, x in enumerate(sentences):
+        #     print("This is sentence #{} of {}".format(n+1, len(sentences)))
+        #     print(x)
+        #     print()
         return sentences
 
     def generate_questions(self):

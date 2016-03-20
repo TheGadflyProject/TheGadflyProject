@@ -1,7 +1,8 @@
 from spacy.en import STOPWORDS
-from collections import defaultdict
+from collections import defaultdict, Counter
 from string import punctuation
 from heapq import nlargest
+import math
 # http://glowingpython.blogspot.com/2014/09/text-summarization-with-nltk.html
 
 
@@ -58,3 +59,57 @@ class FrequencySummarizer:
     def _rank(self, ranking, n):
         """ return the first n sentences with highest ranking """
         return nlargest(n, ranking, key=ranking.get)
+
+class TF_IDFSummarizer:
+    def __init__(self):
+        pass
+
+    def get_tokens_and_freqs(self, sents):
+        """Get a list of all tokens in sents and a Counter of them"""
+        all_tokens = [token for sent in sents for token in sent]
+        document_freq_dict = Counter(all_tokens)
+        return document_freq_dict, all_tokens
+
+    def get_dict_tf_idf(self, sents, document_freq_dict, all_tokens):
+        """Get a dict of _____"""
+        dict_tf_idf = {}
+        for word in set(all_tokens):
+            for n, sent in enumerate(sents):
+                sum = 0
+                if word in sent:
+                    sum += 1
+                dict_tf_idf[(n, word)] = sum * math.log(len(sents)/document_freq_dict[word])
+        return dict_tf_idf
+
+    def get_sent_dict(self, sents):
+        dict_sents = dict()
+        for n, sentence in enumerate(sents):
+            dict_sents[n] = sentence
+        return dict_sents
+
+    def get_ranked_sents(self, lensen, dict_tf_idf):
+        n_scores = [0] * lensen
+        for (n, word), value in dict_tf_idf.items():
+            n_scores[n] = n_scores[n] + value
+        ranked_sents = (sorted([(x, n) for n, x in enumerate(n_scores)]))
+        return ranked_sents
+
+    def summarize(self, sents, n):
+        assert n <= len(sents)
+        document_freq_dict, all_tokens = self.get_tokens_and_freqs(sents)
+        dict_tf_idf = self.get_dict_tf_idf(sents, 
+                                           document_freq_dict, 
+                                           all_tokens)
+        dict_sents = self.get_sent_dict(sents)        
+        ranked_sents = self.get_ranked_sents(len(sents), 
+                                             dict_tf_idf)
+
+        top_sentences = []
+        for score, index in ranked_sents[-1:-(n+1):-1]:
+            top_sentences.append(sents[index])
+
+        for i in range(n):
+            if top_sentences[i][0] in ['\n\n', '”']: del top_sentences[i][0] # DEAL W/ THIS ELEWHERE (BUT IT REALLY ANNOYED ME) - DSG
+            if top_sentences[i][0] == '\n\n': del top_sentences[i][0] # DEAL W/ THIS ELEWHERE (BUT IT REALLY ANNOYED ME) - DSG
+            top_sentences[i] = " ".join(top_sentences[i])
+        return top_sentences
