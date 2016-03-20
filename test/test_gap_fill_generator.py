@@ -42,7 +42,8 @@ class GapFillGeneratorTest(unittest.TestCase):
         self.PARSER = English(serializer=False, matcher=False)
 
     def test_instanstiated_object_of_correct_type(self):
-        gfg = GapFillGenerator(self.PARSER, self.SOURCE_TEXT)
+        gfg = GapFillGenerator(self.PARSER, self.SOURCE_TEXT,
+                               [GapFillBlankType.named_entities])
         self.assertIsInstance(gfg, GapFillGenerator)
 
 if __name__ == '__main__':
