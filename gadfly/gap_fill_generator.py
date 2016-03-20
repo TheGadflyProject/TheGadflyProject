@@ -33,15 +33,18 @@ class GapFillGenerator:
         option = 1
         if option == 0:
             selector = FrequencySummarizer()
-        else: 
+            sents = []
+            for span in self._parsed_text.sents:
+                sent = [self._parsed_text[i] for i in range(span.start, span.end)]
+                tokens = []
+                for token in sent:
+                    tokens.append(token.text)
+                sents.append(tokens)        
+        else: # I messed w/ the below to get access to the lemma in my summarizer - DSG
             selector = TF_IDFSummarizer()
-        sents = []
-        for span in self._parsed_text.sents:
-            sent = [self._parsed_text[i] for i in range(span.start, span.end)]
-            tokens = []
-            for token in sent:
-                tokens.append(token.text)
-            sents.append(tokens)        
+            sents = []
+            for span in self._parsed_text.sents:
+                sents.append([self._parsed_text[i] for i in range(span.start, span.end)])
         sentences = selector.summarize(sents, round(len(sents)*.2))
         # print("There are {} sentences sent *TO* TF_IDFSummarizer.".format(len(sents)))
         # print("There are {} sentences returned *FROM* TF_IDFSummarizer.".format(len(sentences)))
