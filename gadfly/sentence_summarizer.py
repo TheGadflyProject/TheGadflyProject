@@ -68,7 +68,7 @@ class TF_IDFSummarizer:
     def get_tokens_and_freqs(self, sents, style):
         """Get a list of all tokens in sents and a Counter of them"""
         if style == 'standard':
-            all_tokens = [token for sent in sents for token in sent]
+            all_tokens = [token.text for sent in sents for token in sent]
         elif style == 'lower':
             all_tokens = [token.lower_ for sent in sents for token in sent]
         elif style == 'lemma':
@@ -91,7 +91,7 @@ class TF_IDFSummarizer:
                     if word in [token.lemma_ for token in sent]:
                         sum += 1
                 else:
-                    if word in sent:
+                    if word in [token.text for token in sent]:
                         sum += 1
                 dict_tf_idf[(n, word)] = sum * math.log(len(sents)/document_freq_dict[word])
         return dict_tf_idf
@@ -112,9 +112,20 @@ class TF_IDFSummarizer:
             sents_text.append(tokens)
         return sents_text
 
+    def EDA(self, sents_text, dict_tf_idf):
+        eda_data = defaultdict(list)
+        for (index, token), value in dict_tf_idf.items():
+            if value > 0:
+                eda_data[index].append((round(value,2), token))
+        EDA_sents_text = []
+        for n, text in enumerate(sents_text):
+            EDA_sents_text.append(text)
+            EDA_sents_text[n] = EDA_sents_text[n] + ['\nEDA:\n'] + [str(sorted(eda_data[n], key=lambda x: x[0], reverse=True))]
+        return EDA_sents_text
+
     def summarize(self, sents, n):
         assert n <= len(sents)
-        style = 'standard'
+        style = 'lemma'
         document_freq_dict, all_tokens = self.get_tokens_and_freqs(sents, 
                                                                    style)
         dict_tf_idf = self.get_dict_tf_idf(sents, 
@@ -124,7 +135,10 @@ class TF_IDFSummarizer:
         ranked_sents = self.get_ranked_sents(len(sents), 
                                              dict_tf_idf)
         sents_text = self.get_text(sents)
-        
+        EDA = 1
+        if EDA:
+            sents_text = self.EDA(sents_text, dict_tf_idf)
+
         top_sentences = []
         for score, index in ranked_sents[-1:-(n+1):-1]:
             top_sentences.append(sents_text[index])

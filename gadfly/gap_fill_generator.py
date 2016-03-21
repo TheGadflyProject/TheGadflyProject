@@ -46,12 +46,12 @@ class GapFillGenerator:
             for span in self._parsed_text.sents:
                 sents.append([self._parsed_text[i] for i in range(span.start, span.end)])
         sentences = selector.summarize(sents, round(len(sents)*.2))
-        # print("There are {} sentences sent *TO* TF_IDFSummarizer.".format(len(sents)))
-        # print("There are {} sentences returned *FROM* TF_IDFSummarizer.".format(len(sentences)))
-        # for n, x in enumerate(sentences):
-        #     print("This is sentence #{} of {}".format(n+1, len(sentences)))
-        #     print(x)
-        #     print()
+        print("There are {} sentences sent *TO* TF_IDFSummarizer.".format(len(sents)))
+        print("There are {} sentences returned *FROM* TF_IDFSummarizer.".format(len(sentences)))
+        for n, x in enumerate(sentences):
+            print("This is sentence #{} of {}".format(n+1, len(sentences)))
+            print(x)
+            print()
         return sentences
 
     def generate_questions(self):
