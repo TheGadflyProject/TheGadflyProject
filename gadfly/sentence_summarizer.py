@@ -135,7 +135,7 @@ class TF_IDFSummarizer:
         ranked_sents = self.get_ranked_sents(len(sents), 
                                              dict_tf_idf)
         sents_text = self.get_text(sents)
-        EDA = 1
+        EDA = 0
         if EDA:
             sents_text = self.EDA(sents_text, dict_tf_idf)
 
