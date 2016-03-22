@@ -1,6 +1,8 @@
+from gadfly import spacy_singleton
 from gadfly.question import Question
 from gadfly.sentence_summarizer import FrequencySummarizer
 from gadfly.utilities import replaceNth
+from gadfly.transducer import Transducer
 from enum import Enum
 from itertools import product
 import string
@@ -20,10 +22,11 @@ class GapFillGenerator:
     _GAP = "___________"
     _PUNCTUATION = list(string.punctuation)
 
-    def __init__(self, parser, source_text, gap_types):
+    def __init__(self, source_text, gap_types):
         self._source_text = source_text
-        self._parsed_text = parser(self._source_text)
+        self._parsed_text = spacy_singleton.spacy_en()(self._source_text)
         self._most_important_sents = self.summarize_sentences()
+        # self._transduced_sents = Transducer.transduce(self._most_important_sents)
         self._gap_types = gap_types
         self._exclude_named_ent_types = ["DATE", "TIME", "PERCENT", "CARDINAL",
                                          "MONEY", "ORDINAL", "QUANTITY"]
