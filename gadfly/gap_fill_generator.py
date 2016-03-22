@@ -34,14 +34,7 @@ class GapFillGenerator:
 
     def summarize_sentences(self):
         fs = FrequencySummarizer()
-        sents = []
-        for span in self._parsed_text.sents:
-            sent = [self._parsed_text[i] for i in range(span.start, span.end)]
-            tokens = []
-            for token in sent:
-                tokens.append(token.text)
-            sents.append(tokens)
-        sentences = fs.summarize(sents, 5)
+        sentences = fs.summarize(self._parsed_text, 5)
         return sentences
 
     def find_named_entities(self):
@@ -57,11 +50,13 @@ class GapFillGenerator:
         entities = self.find_named_entities()
         for sent, entity in product(self._most_important_sents, entities):
             # number of times entity found in sentence
-            sent_ents = re.findall(entity, sent)
+            sent_text = "".join([token.text_with_ws for token in sent])
+            sent_ents = re.findall(entity, sent_text)
             if sent_ents:
                 for n in range(len(sent_ents)):
-                    gap_fill_question = replaceNth(sent, entity, "_____", n)
-                    question = Question(sent, gap_fill_question, entity,
+                    gap_fill_question = replaceNth(sent_text, entity,
+                                                   "_____", n)
+                    question = Question(sent_text, gap_fill_question, entity,
                                         QuestionType.gap_fill,
                                         GapFillBlankType.named_entities)
                     named_entity_questions.add(question)
@@ -72,11 +67,12 @@ class GapFillGenerator:
         noun_phrase_questions = set()
         noun_phrases = [np.text for np in self._parsed_text.noun_chunks]
         for sent, np in product(self._most_important_sents, noun_phrases):
-            sent_nps = re.findall(np, sent)
+            sent_text = "".join([token.text_with_ws for token in sent])
+            sent_nps = re.findall(np, sent_text)
             if sent_nps:
                 for n in range(len(sent_nps)):
-                    gap_fill_question = replaceNth(sent, np, "_____", n)
-                    question = Question(sent, gap_fill_question, np,
+                    gap_fill_question = replaceNth(sent_text, np, "_____", n)
+                    question = Question(sent_text, gap_fill_question, np,
                                         QuestionType.gap_fill,
                                         GapFillBlankType.noun_phrases)
                     noun_phrase_questions.add(question)

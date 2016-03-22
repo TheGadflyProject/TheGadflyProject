@@ -1,4 +1,5 @@
 from spacy.en import STOPWORDS
+from spacy import attrs
 from collections import defaultdict
 from string import punctuation
 from heapq import nlargest
@@ -19,12 +20,7 @@ class FrequencySummarizer:
           Output:
            freq, a dictionary where freq[w] is the frequency of w.
         """
-        freq = {}
-        for s in word_sent:
-            for word in s:
-                if word not in self._stopwords:
-                    freq.setdefault(word, 0)
-                    freq[word] += 1
+        freq = word_sent.count_by(attrs.ORTH)
         # frequencies normalization and fitering
         m = float(max(freq.values()))
         to_be_killed = []
@@ -36,23 +32,25 @@ class FrequencySummarizer:
             del freq[k]
         return freq
 
-    def summarize(self, sents, n):
+    def summarize(self, parsed, n):
         """
           Return a list of n sentences
           which represent the summary of text.
         """
+        sents = [sent for sent in parsed.sents]
         assert n <= len(sents)
-        self._freq = self._compute_frequencies(sents)
-        # print("freq: ", self._freq)
+
+        self._freq = self._compute_frequencies(parsed)
+
+        # Score Sentences based on token freq
         ranking = defaultdict(int)
-        for i, sent in enumerate(sents):
+        for i, sent in enumerate(parsed.sents):
             for w in sent:
-                if w in self._freq:
-                    ranking[i] += self._freq[w]
+                ranking[i] += self._freq.get(w.orth, 0)
+
+        # Rank Sentences
         sents_idx = self._rank(ranking, n)
         top_sentences = [sents[j] for j in sents_idx]
-        for i in range(len(top_sentences)):
-            top_sentences[i] = " ".join(top_sentences[i])
         return top_sentences
 
     def _rank(self, ranking, n):
