@@ -1,6 +1,11 @@
 import unittest
-from gadfly.gap_fill_generator import GapFillGenerator
-from spacy.en import English
+from gadfly.gap_fill_generator import GapFillGenerator, GapFillBlankType
+
+
+class GapFillBlankTypeTest(unittest.TestCase):
+    def test_instanstiated_object_of_correct_type(self):
+        q_type_named_entity = GapFillBlankType.named_entities
+        self.assertIsInstance(q_type_named_entity, GapFillBlankType)
 
 
 class GapFillGeneratorTest(unittest.TestCase):
@@ -33,10 +38,9 @@ class GapFillGeneratorTest(unittest.TestCase):
         undercut in recent years by lower-cost competition from China and
         South Korea."""
 
-        self.PARSER = English(serializer=False, matcher=False)
-
     def test_instanstiated_object_of_correct_type(self):
-        gfg = GapFillGenerator(self.PARSER, self.SOURCE_TEXT)
+        gfg = GapFillGenerator(self.SOURCE_TEXT,
+                               [GapFillBlankType.named_entities])
         self.assertIsInstance(gfg, GapFillGenerator)
 
 if __name__ == '__main__':

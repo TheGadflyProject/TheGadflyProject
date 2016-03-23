@@ -1,25 +1,46 @@
+from gadfly import spacy_singleton
 from gadfly.question import Question
 from gadfly.sentence_summarizer import FrequencySummarizer
+from gadfly.utilities import replaceNth
+from gadfly.transducer import Transducer
+from spacy.tokens.token import Token
+from enum import Enum
+from itertools import product
 import string
 import re
 
 
+class QuestionType(Enum):
+    gap_fill = "gap_fill"
+
+
+class GapFillBlankType(Enum):
+    named_entities = "named_entities"
+    noun_phrases = "noun_phrases"
+
+
 class GapFillGenerator:
-    GAP_FILL = "GAP_FILL"
-    _GAP = "___________"
+    _GAP = "___________ "
     _PUNCTUATION = list(string.punctuation)
 
-    def __init__(self, parser, source_text):
+    def __init__(self, source_text, gap_types):
         self._source_text = source_text
-        self._parsed_text = parser(self._source_text)
-        self._exclude_named_ent_types = ["DATE",
-                                         "TIME",
-                                         "PERCENT",
-                                         "CARDINAL",
-                                         "MONEY",
-                                         "ORDINAL",
-                                         "QUANTITY"]
+        self._parsed_text = spacy_singleton.spacy_en()(self._source_text)
+        self._top_sents = self.summarize_sentences()
+        self._top_sents = self.transduce(self._top_sents)
+        self._gap_types = gap_types
+        self._exclude_named_ent_types = ["DATE", "TIME", "PERCENT", "CARDINAL",
+                                         "MONEY", "ORDINAL", "QUANTITY"]
         self.questions = self.generate_questions()
+
+    def transduce(self, sents):
+        transduced_sents = [Transducer.transduce(sent) for sent in sents]
+        return transduced_sents
+
+    def summarize_sentences(self):
+        fs = FrequencySummarizer()
+        sentences = fs.summarize(self._parsed_text, 5)
+        return sentences
 
     def find_named_entities(self):
         entities = set()
@@ -29,56 +50,53 @@ class GapFillGenerator:
                 entities.add(ent.text_with_ws)
         return entities
 
-    def summarize_sentences(self):
-        fs = FrequencySummarizer()
-        sents = []
-        for span in self._parsed_text.sents:
-            sent = [self._parsed_text[i] for i in range(span.start, span.end)]
-            tokens = []
-            for token in sent:
-                tokens.append(token.text)
-            sents.append(tokens)
-        sentences = fs.summarize(sents, 5)
-        return sentences
+    def gen_named_entity_blanks(self):
+        named_entity_questions = set()
+        entities = self.find_named_entities()
+        for sent, entity in product(self._top_sents, entities):
+            # number of times entity found in sentence
+            sent_text = "".join(
+                [t.text_with_ws if type(t) == Token else t for t in sent])
+            sent_ents = re.findall(entity, sent_text)
+            if sent_ents:
+                for n in range(len(sent_ents)):
+                    gap_fill_question = replaceNth(sent_text, entity,
+                                                   self._GAP, n)
+                    question = Question(sent_text, gap_fill_question, entity,
+                                        QuestionType.gap_fill,
+                                        GapFillBlankType.named_entities)
+                    named_entity_questions.add(question)
+
+        return named_entity_questions
+
+    def gen_noun_phrase_blanks(self):
+        noun_phrase_questions = set()
+        noun_phrases = [np.text for np in self._parsed_text.noun_chunks]
+        for sent, np in product(self._top_sents, noun_phrases):
+            sent_text = "".join(
+                [t.text_with_ws if type(t) == Token else t for t in sent])
+            sent_nps = re.findall(np, sent_text)
+            if sent_nps:
+                for n in range(len(sent_nps)):
+                    gap_fill_question = replaceNth(sent_text, np, self._GAP, n)
+                    question = Question(sent_text, gap_fill_question, np,
+                                        QuestionType.gap_fill,
+                                        GapFillBlankType.noun_phrases)
+                    noun_phrase_questions.add(question)
+
+        return noun_phrase_questions
 
     def generate_questions(self):
-        """ Remove blank and display question"""
-        question_set = set()
-        entities = self.find_named_entities()
-        most_important_sents = self.summarize_sentences()
-        for sent in most_important_sents:
-            for entity in entities:
-                sent_ents = re.findall(entity, sent)
-                if sent_ents:
-                    for n in range(len(sent_ents)):
-                        gap_fill_question = self._replaceNth(sent,
-                                                             entity,
-                                                             "_____",
-                                                             n
-                                                             )
+        question_set = []
+        for gap_type in self._gap_types:
 
-                        question = Question(sent,
-                                            gap_fill_question,
-                                            entity,
-                                            self.GAP_FILL,
-                                            )
-                        question_set.add(question)
+            if gap_type == GapFillBlankType.named_entities:
+                question_set += list(self.gen_named_entity_blanks())
 
-            return question_set
+            if gap_type == GapFillBlankType.noun_phrases:
+                question_set += list(self.gen_noun_phrase_blanks())
 
-    def _replaceNth(self, sent, old, new, n):
-        """Replaces the old with new at the nth index in sent
-        Cite:inspectorG4dget http://stackoverflow.com/a/27589436"""
-        inds = [i for i in range(len(sent) - len(old)+1)
-                if sent[i:i+len(old)] == old]
-        if len(inds) < n:
-            return  # or maybe raise an error
-        # can't assign to string slices. So, let's listify
-        sent_list = list(sent)
-        # do n-1 because we start from the first occurrence of the string,
-        # not the 0-th
-        sent_list[inds[n-1]:inds[n-1]+len(old)] = new
-        return ''.join(sent_list)
+            return set(question_set)
 
     def output_questions_to_file(self, output_file):
         for n, q in enumerate(self.questions):
