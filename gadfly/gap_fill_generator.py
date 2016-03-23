@@ -1,8 +1,8 @@
-from gadfly import spacy_singleton
-from gadfly.question import Question
-from gadfly.sentence_summarizer import FrequencySummarizer
-from gadfly.utilities import replaceNth
-from gadfly.transducer import Transducer
+from . import spacy_singleton
+from .question import Question
+from .sentence_summarizer import FrequencySummarizer
+from .utilities import replaceNth
+from .transducer import Transducer
 from spacy.tokens.token import Token
 from enum import Enum
 from itertools import product
@@ -97,6 +97,12 @@ class GapFillGenerator:
                 question_set += list(self.gen_noun_phrase_blanks())
 
             return set(question_set)
+
+    def output_questions_to_list(self):
+        questions = []
+        for n, q in enumerate(self.questions):
+            questions.append(vars(q))
+        return questions
 
     def output_questions_to_file(self, output_file):
         for n, q in enumerate(self.questions):
