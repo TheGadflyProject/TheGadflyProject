@@ -21,9 +21,13 @@ class Transducer:
             x.insert(0, root)
         return x
 
-    def transduce(parsed):
+    def get_root_token(parsed):
         for token in parsed:
             if token.head == token:
                 root_token = token
                 break
+        return root_token
+
+    def transduce(parsed):
+        root_token = Transducer.get_root_token(parsed)
         return Transducer._traverse(root_token)

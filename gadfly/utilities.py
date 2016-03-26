@@ -13,5 +13,11 @@ def replaceNth(sent, old, new, n):
     return ''.join(sent_list)
 
 
+def is_left_child(sent, root, entity):
+    if sent.index(entity.text_with_ws) <= sent.index(root.text_with_ws):
+        return True
+    else:
+        return False
+
 if __name__ == "__main__":
     print("I'm just a utility module. Import me to use my code.")

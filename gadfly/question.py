@@ -21,4 +21,5 @@ class Question:
                 self.answer == other.answer)
 
     def __hash__(self):
-        return hash((self.source_sentence, self.question, self._type, self.answer))
+        return hash(
+                (self.source_sentence, self.question, self._type, self.answer))
