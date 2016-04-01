@@ -1,6 +1,6 @@
 from . import spacy_singleton
 from .question import Question
-from .sentence_summarizer import FrequencySummarizer
+from .sentence_summarizer import TF_IDFSummarizer
 from .utilities import replaceNth
 from .transducer import Transducer
 from spacy.tokens.token import Token
