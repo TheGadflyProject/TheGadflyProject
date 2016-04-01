@@ -5,6 +5,7 @@ import glob
 import os
 from gadfly.gap_fill_generator import GapFillGenerator, tfidf, frequency
 from spacy.en import English
+import re
 
 # GLOBAL VARIABLES
 # should probably refactor at some point
@@ -13,6 +14,9 @@ _NEWS_ARTICLES_DIR = os.path.join(_PROJECT_DIR, "news_articles")
 _PARSER = English(serializer=False, matcher=False)
 
 
+def remove_spacing(article):
+    return (re.sub(("[\A\n*]"),"",article))
+
 def main():
     news_articles = os.path.join(_NEWS_ARTICLES_DIR, "*.txt")
     output_file = open("output.txt", "w")
@@ -20,7 +24,7 @@ def main():
     print("Processing {} file(s)".format(len(files)))
     for file_name in files:
         f = open(file_name, encoding='utf-8')
-        article = f.read()
+        article = remove_spacing(f.read())
         generator = GapFillGenerator(_PARSER, article, summarizer=tfidf)
         generator.output_questions_to_file(output_file)
 
