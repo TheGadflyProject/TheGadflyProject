@@ -65,9 +65,9 @@ class TF_IDFSummarizer:
         dict_tf_idf = self.get_dict_tf_idf(sents)
         ranked_sents = self.get_ranked_sents(len(sents), dict_tf_idf)
 
-        sents_text = self.get_text(sents)
 
         if self.EDA:
+            sents_text = self.get_text(sents)
             EDA_sents_text = self.create_EDA(sents_text, dict_tf_idf)
             f = open("EDA.txt", "a", encoding='utf-8')
             for n_, each in enumerate(EDA_sents_text):
@@ -78,5 +78,5 @@ class TF_IDFSummarizer:
 
         top_sentences = []
         for score, index in ranked_sents[:n]:
-            top_sentences.append(" ".join(sents_text[index]))
+            top_sentences.append(sents[index])
         return top_sentences
