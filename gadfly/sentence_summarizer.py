@@ -6,7 +6,6 @@ import math
 import re
 # http://glowingpython.blogspot.com/2014/09/text-summarization-with-nltk.html
 
-
 class FrequencySummarizer:
     def __init__(self, min_cut=0.1, max_cut=0.9):
         self._min_cut = min_cut

@@ -2,14 +2,34 @@ from gadfly.question import Question
 from gadfly.sentence_summarizer import FrequencySummarizer, TF_IDFSummarizer
 import string
 import re
+import types
 
+def frequency(self):
+    selector = FrequencySummarizer()
+    sents = []
+    for span in self._parsed_text.sents:
+        sent = [self._parsed_text[i] for i in range(span.start, span.end)]
+        tokens = []
+        for token in sent:
+            tokens.append(token.text)
+        sents.append(tokens)
+    sentences = selector.summarize(sents, round(len(sents)*.2))
+    return sentences
+
+def tfidf(self):
+    selector = TF_IDFSummarizer(EDA=True)
+    sents = []
+    for span in self._parsed_text.sents:
+        sents.append([self._parsed_text[i] for i in range(span.start, span.end)])
+    sentences = selector.summarize(sents, round(len(sents)*.2))
+    return sentences
 
 class GapFillGenerator:
     GAP_FILL = "GAP_FILL"
     _GAP = "___________"
     _PUNCTUATION = list(string.punctuation)
 
-    def __init__(self, parser, source_text):
+    def __init__(self, parser, source_text, func=None):
         self._source_text = source_text
         self._parsed_text = parser(self._source_text)
         self._exclude_named_ent_types = ["DATE",
@@ -19,6 +39,7 @@ class GapFillGenerator:
                                          "MONEY",
                                          "ORDINAL",
                                          "QUANTITY"]
+        self.execute = types.MethodType(func, self)
         self.questions = self.generate_questions()
 
     def find_named_entities(self):
@@ -29,36 +50,11 @@ class GapFillGenerator:
                 entities.add(ent.text_with_ws)
         return entities
 
-    def summarize_sentences(self):
-        option = 1
-        if option == 0:
-            selector = FrequencySummarizer()
-            sents = []
-            for span in self._parsed_text.sents:
-                sent = [self._parsed_text[i] for i in range(span.start, span.end)]
-                tokens = []
-                for token in sent:
-                    tokens.append(token.text)
-                sents.append(tokens)        
-        else: # I messed w/ the below to get access to the lemma in my summarizer - DSG
-            selector = TF_IDFSummarizer(EDA = True)
-            sents = []
-            for span in self._parsed_text.sents:
-                sents.append([self._parsed_text[i] for i in range(span.start, span.end)])
-        sentences = selector.summarize(sents, round(len(sents)*.2))
-        # print("There are {} sentences sent *TO* TF_IDFSummarizer.".format(len(sents)))
-        # print("There are {} sentences returned *FROM* TF_IDFSummarizer.".format(len(sentences)))
-        # for n, x in enumerate(sentences):
-        #     print("This is sentence #{} of {}".format(n+1, len(sentences)))
-        #     print(x)
-        #     print()
-        return sentences
-
     def generate_questions(self):
         """ Remove blank and display question"""
         question_set = set()
         entities = self.find_named_entities()
-        most_important_sents = self.summarize_sentences()
+        most_important_sents = self.execute()
         for sent in most_important_sents:
             for entity in entities:
                 sent_ents = re.findall(entity, sent)

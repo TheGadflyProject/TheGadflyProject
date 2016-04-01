@@ -3,7 +3,7 @@
 # Imports
 import glob
 import os
-from gadfly.gap_fill_generator import GapFillGenerator
+from gadfly.gap_fill_generator import GapFillGenerator, tfidf, frequency
 from spacy.en import English
 
 # GLOBAL VARIABLES
@@ -21,7 +21,7 @@ def main():
     for file_name in files:
         f = open(file_name, encoding='utf-8')
         article = f.read()
-        generator = GapFillGenerator(_PARSER, article)
+        generator = GapFillGenerator(_PARSER, article, func=frequency)
         generator.output_questions_to_file(output_file)
 
 if __name__ == '__main__':
