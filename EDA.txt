@@ -41,3 +41,261 @@ The news underlined the decline of Japan ’s once - famed consumer electronics 
 EDA: 
  30.966141685300265 [(1.95, 'news'), (1.95, 'low'), (1.95, 'year'), (1.95, 'south'), (1.95, 'competition'), (1.95, 'underline'), (1.95, 'famed'), (1.95, 'undercut'), (1.95, 'cost'), (1.95, 'korea'), (1.25, 'from'), (1.25, 'decline'), (1.25, 'consumer'), (1.25, 'recent'), (1.25, 'once'), (0.85, 'japan'), (0.85, '’'), (0.85, 'electronics'), (0.85, 'by'), (0.85, 'which'), (0.85, 'company'), (0.56, 'have'), (0.56, '-'), (0.56, 'china')]
 
+Sentence 1 of 7
+In the constant scorekeeping of where tech ’s power centers are , two trends stand out in Asia : the continued rise of China as a tech titan and the slow decline of Japan ’s once - mighty tech industry . 
+EDA: 
+ 37.46065166885527 [(1.95, 'where'), (1.95, 'continued'), (1.95, 'scorekeeping'), (1.95, ':'), (1.95, 'power'), (1.95, 'mighty'), (1.95, 'as'), (1.95, 'slow'), (1.95, 'constant'), (1.95, 'titan'), (1.95, 'trend'), (1.95, 'rise'), (1.95, 'stand'), (1.95, 'asia'), (1.95, 'out'), (1.25, 'industry'), (1.25, 'center'), (1.25, 'two'), (1.25, 'once'), (1.25, 'decline'), (0.85, 'japan'), (0.85, '’'), (0.56, '-'), (0.56, 'china'), (0.56, 'tech'), (0.15, 'a')]
+
+Sentence 2 of 7
+
+
+ Those currents were evident in two recent developments . 
+EDA: 
+ 10.49210737720868 [(1.95, 'development'), (1.95, 'evident'), (1.95, 'those'), (1.95, 'current'), (1.25, 'two'), (1.25, 'recent'), (0.56, '\n\n')]
+
+Sentence 3 of 7
+
+
+ On Thursday , Paul Mozur and Jane Perlez reported that American officials had blocked a proposed purchase of a controlling stake in a unit of the Dutch electronics company Philips by Chinese investors because the United States was fearful the deal would be used to further China ’s push into microchips . 
+EDA: 
+ 58.63496816738556 [(1.95, 'push'), (1.95, 'thursday'), (1.95, 'would'), (1.95, 'on'), (1.95, 'perlez'), (1.95, 'jane'), (1.95, 'stake'), (1.95, 'control'), (1.95, 'chinese'), (1.95, 'investor'), (1.95, 'microchip'), (1.95, 'block'), (1.95, 'because'), (1.95, 'united'), (1.95, 'further'), (1.95, 'fearful'), (1.95, 'purchase'), (1.95, 'dutch'), (1.95, 'state'), (1.95, 'propose'), (1.95, 'into'), (1.95, 'deal'), (1.25, 'official'), (1.25, 'mozur'), (1.25, 'paul'), (1.25, 'american'), (1.25, 'to'), (1.25, 'philip'), (1.25, 'unit'), (1.25, 'that'), (1.25, 'use'), (0.85, 'electronics'), (0.85, 'report'), (0.85, '’s'), (0.85, 'company'), (0.85, 'by'), (0.56, '\n\n'), (0.56, 'have'), (0.56, 'china'), (0.15, 'a')]
+
+Sentence 4 of 7
+
+
+ At the center of the concerns was a material called gallium nitride , which was being used by the Philips unit in light - emitting diodes , but which has applications for military and space and can be helpful in semiconductors . 
+EDA: 
+ 39.40656181791059 [(1.95, 'military'), (1.95, 'helpful'), (1.95, 'application'), (1.95, 'emit'), (1.95, 'can'), (1.95, 'diode'), (1.95, 'material'), (1.95, 'semiconductor'), (1.95, 'call'), (1.95, 'concern'), (1.95, 'but'), (1.95, 'gallium'), (1.95, 'for'), (1.95, 'space'), (1.95, 'nitride'), (1.95, 'light'), (1.25, 'unit'), (1.25, 'center'), (1.25, 'philip'), (1.25, 'use'), (1.25, 'at'), (0.85, 'by'), (0.85, 'which'), (0.56, '-'), (0.56, 'have'), (0.56, '\n\n'), (0.15, 'a')]
+
+Sentence 5 of 7
+The report illustrated how American officials have come to view China ’s large and growing tech industry with misgivings . 
+EDA: 
+ 22.36295752577329 [(1.95, 'how'), (1.95, 'grow'), (1.95, 'view'), (1.95, 'come'), (1.95, 'with'), (1.95, 'illustrate'), (1.95, 'misgiving'), (1.25, 'american'), (1.25, 'industry'), (1.25, 'official'), (1.25, 'large'), (1.25, 'to'), (0.85, 'report'), (0.85, '’s'), (0.56, 'china'), (0.56, 'tech'), (0.56, 'have')]
+
+Sentence 6 of 7
+
+
+ At the same time , Jonathan Soble and Paul Mozur reported that Sharp , one of Japan ’s large consumer electronics companies and the biggest LCD producer , was leaning toward a takeover offer from the Taiwanese contract manufacturer Foxconn . 
+EDA: 
+ 45.28065990924741 [(1.95, 'producer'), (1.95, 'manufacturer'), (1.95, 'taiwanese'), (1.95, 'same'), (1.95, 'takeover'), (1.95, 'lcd'), (1.95, 'big'), (1.95, 'offer'), (1.95, 'toward'), (1.95, 'sharp'), (1.95, 'contract'), (1.95, 'lean'), (1.95, 'jonathan'), (1.95, 'one'), (1.95, 'foxconn'), (1.95, 'time'), (1.95, 'soble'), (1.25, 'from'), (1.25, 'at'), (1.25, 'large'), (1.25, 'consumer'), (1.25, 'that'), (1.25, 'paul'), (1.25, 'mozur'), (0.85, 'electronics'), (0.85, 'report'), (0.85, 'company'), (0.85, '’s'), (0.85, 'japan'), (0.56, '\n\n'), (0.15, 'a')]
+
+Sentence 7 of 7
+The news underlined the decline of Japan ’s once - famed consumer electronics companies , which have been undercut in recent years by lower - cost competition from China and South Korea . 
+EDA: 
+ 30.96614168530027 [(1.95, 'news'), (1.95, 'south'), (1.95, 'cost'), (1.95, 'low'), (1.95, 'famed'), (1.95, 'undercut'), (1.95, 'korea'), (1.95, 'competition'), (1.95, 'underline'), (1.95, 'year'), (1.25, 'recent'), (1.25, 'decline'), (1.25, 'consumer'), (1.25, 'from'), (1.25, 'once'), (0.85, 'by'), (0.85, 'company'), (0.85, '’'), (0.85, 'which'), (0.85, 'japan'), (0.85, 'electronics'), (0.56, 'china'), (0.56, '-'), (0.56, 'have')]
+
+Sentence 1 of 7
+In the constant scorekeeping of where tech ’s power centers are , two trends stand out in Asia : the continued rise of China as a tech titan and the slow decline of Japan ’s once - mighty tech industry . 
+EDA: 
+ 37.46065166885528 [(1.95, 'out'), (1.95, 'trend'), (1.95, 'continued'), (1.95, 'asia'), (1.95, 'mighty'), (1.95, 'stand'), (1.95, 'slow'), (1.95, ':'), (1.95, 'constant'), (1.95, 'rise'), (1.95, 'where'), (1.95, 'power'), (1.95, 'titan'), (1.95, 'as'), (1.95, 'scorekeeping'), (1.25, 'industry'), (1.25, 'decline'), (1.25, 'once'), (1.25, 'center'), (1.25, 'two'), (0.85, 'japan'), (0.85, '’'), (0.56, '-'), (0.56, 'tech'), (0.56, 'china'), (0.15, 'a')]
+
+Sentence 2 of 7
+
+
+ Those currents were evident in two recent developments . 
+EDA: 
+ 10.49210737720868 [(1.95, 'development'), (1.95, 'evident'), (1.95, 'current'), (1.95, 'those'), (1.25, 'recent'), (1.25, 'two'), (0.56, '\n\n')]
+
+Sentence 3 of 7
+
+
+ On Thursday , Paul Mozur and Jane Perlez reported that American officials had blocked a proposed purchase of a controlling stake in a unit of the Dutch electronics company Philips by Chinese investors because the United States was fearful the deal would be used to further China ’s push into microchips . 
+EDA: 
+ 58.634968167385566 [(1.95, 'purchase'), (1.95, 'jane'), (1.95, 'block'), (1.95, 'into'), (1.95, 'would'), (1.95, 'control'), (1.95, 'further'), (1.95, 'fearful'), (1.95, 'thursday'), (1.95, 'push'), (1.95, 'dutch'), (1.95, 'stake'), (1.95, 'state'), (1.95, 'united'), (1.95, 'on'), (1.95, 'because'), (1.95, 'perlez'), (1.95, 'propose'), (1.95, 'microchip'), (1.95, 'investor'), (1.95, 'chinese'), (1.95, 'deal'), (1.25, 'official'), (1.25, 'use'), (1.25, 'american'), (1.25, 'paul'), (1.25, 'that'), (1.25, 'unit'), (1.25, 'mozur'), (1.25, 'to'), (1.25, 'philip'), (0.85, 'report'), (0.85, 'by'), (0.85, 'electronics'), (0.85, '’s'), (0.85, 'company'), (0.56, 'have'), (0.56, '\n\n'), (0.56, 'china'), (0.15, 'a')]
+
+Sentence 4 of 7
+
+
+ At the center of the concerns was a material called gallium nitride , which was being used by the Philips unit in light - emitting diodes , but which has applications for military and space and can be helpful in semiconductors . 
+EDA: 
+ 39.40656181791058 [(1.95, 'light'), (1.95, 'for'), (1.95, 'concern'), (1.95, 'call'), (1.95, 'application'), (1.95, 'gallium'), (1.95, 'can'), (1.95, 'space'), (1.95, 'nitride'), (1.95, 'emit'), (1.95, 'helpful'), (1.95, 'military'), (1.95, 'semiconductor'), (1.95, 'but'), (1.95, 'diode'), (1.95, 'material'), (1.25, 'center'), (1.25, 'use'), (1.25, 'at'), (1.25, 'unit'), (1.25, 'philip'), (0.85, 'by'), (0.85, 'which'), (0.56, '-'), (0.56, '\n\n'), (0.56, 'have'), (0.15, 'a')]
+
+Sentence 5 of 7
+The report illustrated how American officials have come to view China ’s large and growing tech industry with misgivings . 
+EDA: 
+ 22.362957525773286 [(1.95, 'with'), (1.95, 'how'), (1.95, 'grow'), (1.95, 'view'), (1.95, 'illustrate'), (1.95, 'misgiving'), (1.95, 'come'), (1.25, 'official'), (1.25, 'large'), (1.25, 'industry'), (1.25, 'american'), (1.25, 'to'), (0.85, 'report'), (0.85, '’s'), (0.56, 'have'), (0.56, 'tech'), (0.56, 'china')]
+
+Sentence 6 of 7
+
+
+ At the same time , Jonathan Soble and Paul Mozur reported that Sharp , one of Japan ’s large consumer electronics companies and the biggest LCD producer , was leaning toward a takeover offer from the Taiwanese contract manufacturer Foxconn . 
+EDA: 
+ 45.280659909247404 [(1.95, 'soble'), (1.95, 'one'), (1.95, 'time'), (1.95, 'taiwanese'), (1.95, 'lean'), (1.95, 'same'), (1.95, 'takeover'), (1.95, 'foxconn'), (1.95, 'big'), (1.95, 'manufacturer'), (1.95, 'producer'), (1.95, 'jonathan'), (1.95, 'contract'), (1.95, 'toward'), (1.95, 'sharp'), (1.95, 'lcd'), (1.95, 'offer'), (1.25, 'consumer'), (1.25, 'paul'), (1.25, 'mozur'), (1.25, 'at'), (1.25, 'from'), (1.25, 'that'), (1.25, 'large'), (0.85, 'japan'), (0.85, 'report'), (0.85, 'electronics'), (0.85, 'company'), (0.85, '’s'), (0.56, '\n\n'), (0.15, 'a')]
+
+Sentence 7 of 7
+The news underlined the decline of Japan ’s once - famed consumer electronics companies , which have been undercut in recent years by lower - cost competition from China and South Korea . 
+EDA: 
+ 30.96614168530026 [(1.95, 'year'), (1.95, 'competition'), (1.95, 'news'), (1.95, 'south'), (1.95, 'low'), (1.95, 'undercut'), (1.95, 'cost'), (1.95, 'korea'), (1.95, 'underline'), (1.95, 'famed'), (1.25, 'recent'), (1.25, 'from'), (1.25, 'once'), (1.25, 'consumer'), (1.25, 'decline'), (0.85, 'which'), (0.85, 'company'), (0.85, 'electronics'), (0.85, '’'), (0.85, 'by'), (0.85, 'japan'), (0.56, '-'), (0.56, 'china'), (0.56, 'have')]
+
+Sentence 1 of 7
+In the constant scorekeeping of where tech ’s power centers are , two trends stand out in Asia : the continued rise of China as a tech titan and the slow decline of Japan ’s once - mighty tech industry . 
+EDA: 
+ 37.46065166885527 [(1.95, 'stand'), (1.95, 'where'), (1.95, 'power'), (1.95, ':'), (1.95, 'constant'), (1.95, 'continued'), (1.95, 'titan'), (1.95, 'asia'), (1.95, 'as'), (1.95, 'mighty'), (1.95, 'scorekeeping'), (1.95, 'slow'), (1.95, 'rise'), (1.95, 'out'), (1.95, 'trend'), (1.25, 'industry'), (1.25, 'two'), (1.25, 'once'), (1.25, 'decline'), (1.25, 'center'), (0.85, '’'), (0.85, 'japan'), (0.56, 'china'), (0.56, 'tech'), (0.56, '-'), (0.15, 'a')]
+
+Sentence 2 of 7
+
+
+ Those currents were evident in two recent developments . 
+EDA: 
+ 10.49210737720868 [(1.95, 'those'), (1.95, 'development'), (1.95, 'current'), (1.95, 'evident'), (1.25, 'two'), (1.25, 'recent'), (0.56, '\n\n')]
+
+Sentence 3 of 7
+
+
+ On Thursday , Paul Mozur and Jane Perlez reported that American officials had blocked a proposed purchase of a controlling stake in a unit of the Dutch electronics company Philips by Chinese investors because the United States was fearful the deal would be used to further China ’s push into microchips . 
+EDA: 
+ 58.634968167385566 [(1.95, 'because'), (1.95, 'chinese'), (1.95, 'investor'), (1.95, 'into'), (1.95, 'dutch'), (1.95, 'microchip'), (1.95, 'push'), (1.95, 'control'), (1.95, 'state'), (1.95, 'block'), (1.95, 'purchase'), (1.95, 'united'), (1.95, 'would'), (1.95, 'fearful'), (1.95, 'further'), (1.95, 'propose'), (1.95, 'thursday'), (1.95, 'stake'), (1.95, 'deal'), (1.95, 'perlez'), (1.95, 'on'), (1.95, 'jane'), (1.25, 'use'), (1.25, 'philip'), (1.25, 'to'), (1.25, 'mozur'), (1.25, 'official'), (1.25, 'unit'), (1.25, 'that'), (1.25, 'paul'), (1.25, 'american'), (0.85, 'company'), (0.85, '’s'), (0.85, 'report'), (0.85, 'by'), (0.85, 'electronics'), (0.56, 'have'), (0.56, '\n\n'), (0.56, 'china'), (0.15, 'a')]
+
+Sentence 4 of 7
+
+
+ At the center of the concerns was a material called gallium nitride , which was being used by the Philips unit in light - emitting diodes , but which has applications for military and space and can be helpful in semiconductors . 
+EDA: 
+ 39.406561817910585 [(1.95, 'but'), (1.95, 'application'), (1.95, 'light'), (1.95, 'helpful'), (1.95, 'diode'), (1.95, 'nitride'), (1.95, 'semiconductor'), (1.95, 'call'), (1.95, 'concern'), (1.95, 'for'), (1.95, 'emit'), (1.95, 'military'), (1.95, 'space'), (1.95, 'can'), (1.95, 'gallium'), (1.95, 'material'), (1.25, 'center'), (1.25, 'use'), (1.25, 'philip'), (1.25, 'unit'), (1.25, 'at'), (0.85, 'which'), (0.85, 'by'), (0.56, '\n\n'), (0.56, '-'), (0.56, 'have'), (0.15, 'a')]
+
+Sentence 5 of 7
+The report illustrated how American officials have come to view China ’s large and growing tech industry with misgivings . 
+EDA: 
+ 22.362957525773286 [(1.95, 'view'), (1.95, 'how'), (1.95, 'come'), (1.95, 'grow'), (1.95, 'illustrate'), (1.95, 'misgiving'), (1.95, 'with'), (1.25, 'to'), (1.25, 'large'), (1.25, 'american'), (1.25, 'official'), (1.25, 'industry'), (0.85, '’s'), (0.85, 'report'), (0.56, 'china'), (0.56, 'have'), (0.56, 'tech')]
+
+Sentence 6 of 7
+
+
+ At the same time , Jonathan Soble and Paul Mozur reported that Sharp , one of Japan ’s large consumer electronics companies and the biggest LCD producer , was leaning toward a takeover offer from the Taiwanese contract manufacturer Foxconn . 
+EDA: 
+ 45.28065990924741 [(1.95, 'foxconn'), (1.95, 'lcd'), (1.95, 'offer'), (1.95, 'same'), (1.95, 'big'), (1.95, 'takeover'), (1.95, 'contract'), (1.95, 'soble'), (1.95, 'lean'), (1.95, 'taiwanese'), (1.95, 'manufacturer'), (1.95, 'producer'), (1.95, 'jonathan'), (1.95, 'sharp'), (1.95, 'one'), (1.95, 'time'), (1.95, 'toward'), (1.25, 'large'), (1.25, 'mozur'), (1.25, 'consumer'), (1.25, 'that'), (1.25, 'at'), (1.25, 'paul'), (1.25, 'from'), (0.85, 'japan'), (0.85, 'electronics'), (0.85, 'company'), (0.85, '’s'), (0.85, 'report'), (0.56, '\n\n'), (0.15, 'a')]
+
+Sentence 7 of 7
+The news underlined the decline of Japan ’s once - famed consumer electronics companies , which have been undercut in recent years by lower - cost competition from China and South Korea . 
+EDA: 
+ 30.96614168530026 [(1.95, 'south'), (1.95, 'low'), (1.95, 'news'), (1.95, 'underline'), (1.95, 'undercut'), (1.95, 'year'), (1.95, 'korea'), (1.95, 'competition'), (1.95, 'famed'), (1.95, 'cost'), (1.25, 'consumer'), (1.25, 'decline'), (1.25, 'once'), (1.25, 'recent'), (1.25, 'from'), (0.85, '’'), (0.85, 'by'), (0.85, 'electronics'), (0.85, 'which'), (0.85, 'japan'), (0.85, 'company'), (0.56, 'china'), (0.56, '-'), (0.56, 'have')]
+
+Sentence 1 of 7
+In the constant scorekeeping of where tech ’s power centers are , two trends stand out in Asia : the continued rise of China as a tech titan and the slow decline of Japan ’s once - mighty tech industry . 
+EDA: 
+ 37.460651668855284 [(1.95, 'as'), (1.95, 'scorekeeping'), (1.95, 'titan'), (1.95, 'where'), (1.95, 'power'), (1.95, 'asia'), (1.95, 'mighty'), (1.95, 'trend'), (1.95, 'out'), (1.95, 'constant'), (1.95, 'continued'), (1.95, 'rise'), (1.95, 'slow'), (1.95, 'stand'), (1.95, ':'), (1.25, 'decline'), (1.25, 'center'), (1.25, 'once'), (1.25, 'industry'), (1.25, 'two'), (0.85, 'japan'), (0.85, '’'), (0.56, 'tech'), (0.56, '-'), (0.56, 'china'), (0.15, 'a')]
+
+Sentence 2 of 7
+
+
+ Those currents were evident in two recent developments . 
+EDA: 
+ 10.492107377208681 [(1.95, 'evident'), (1.95, 'those'), (1.95, 'development'), (1.95, 'current'), (1.25, 'recent'), (1.25, 'two'), (0.56, '\n\n')]
+
+Sentence 3 of 7
+
+
+ On Thursday , Paul Mozur and Jane Perlez reported that American officials had blocked a proposed purchase of a controlling stake in a unit of the Dutch electronics company Philips by Chinese investors because the United States was fearful the deal would be used to further China ’s push into microchips . 
+EDA: 
+ 58.634968167385566 [(1.95, 'purchase'), (1.95, 'chinese'), (1.95, 'block'), (1.95, 'investor'), (1.95, 'stake'), (1.95, 'control'), (1.95, 'would'), (1.95, 'dutch'), (1.95, 'microchip'), (1.95, 'deal'), (1.95, 'further'), (1.95, 'thursday'), (1.95, 'propose'), (1.95, 'because'), (1.95, 'perlez'), (1.95, 'united'), (1.95, 'fearful'), (1.95, 'push'), (1.95, 'on'), (1.95, 'into'), (1.95, 'jane'), (1.95, 'state'), (1.25, 'unit'), (1.25, 'mozur'), (1.25, 'to'), (1.25, 'official'), (1.25, 'philip'), (1.25, 'american'), (1.25, 'use'), (1.25, 'paul'), (1.25, 'that'), (0.85, 'by'), (0.85, 'report'), (0.85, '’s'), (0.85, 'electronics'), (0.85, 'company'), (0.56, '\n\n'), (0.56, 'china'), (0.56, 'have'), (0.15, 'a')]
+
+Sentence 4 of 7
+
+
+ At the center of the concerns was a material called gallium nitride , which was being used by the Philips unit in light - emitting diodes , but which has applications for military and space and can be helpful in semiconductors . 
+EDA: 
+ 39.40656181791058 [(1.95, 'diode'), (1.95, 'concern'), (1.95, 'gallium'), (1.95, 'material'), (1.95, 'call'), (1.95, 'space'), (1.95, 'emit'), (1.95, 'military'), (1.95, 'nitride'), (1.95, 'helpful'), (1.95, 'for'), (1.95, 'application'), (1.95, 'can'), (1.95, 'light'), (1.95, 'but'), (1.95, 'semiconductor'), (1.25, 'at'), (1.25, 'use'), (1.25, 'philip'), (1.25, 'unit'), (1.25, 'center'), (0.85, 'by'), (0.85, 'which'), (0.56, '\n\n'), (0.56, '-'), (0.56, 'have'), (0.15, 'a')]
+
+Sentence 5 of 7
+The report illustrated how American officials have come to view China ’s large and growing tech industry with misgivings . 
+EDA: 
+ 22.362957525773286 [(1.95, 'come'), (1.95, 'how'), (1.95, 'with'), (1.95, 'misgiving'), (1.95, 'view'), (1.95, 'grow'), (1.95, 'illustrate'), (1.25, 'to'), (1.25, 'large'), (1.25, 'industry'), (1.25, 'american'), (1.25, 'official'), (0.85, 'report'), (0.85, '’s'), (0.56, 'tech'), (0.56, 'have'), (0.56, 'china')]
+
+Sentence 6 of 7
+
+
+ At the same time , Jonathan Soble and Paul Mozur reported that Sharp , one of Japan ’s large consumer electronics companies and the biggest LCD producer , was leaning toward a takeover offer from the Taiwanese contract manufacturer Foxconn . 
+EDA: 
+ 45.280659909247404 [(1.95, 'same'), (1.95, 'producer'), (1.95, 'big'), (1.95, 'sharp'), (1.95, 'jonathan'), (1.95, 'contract'), (1.95, 'manufacturer'), (1.95, 'toward'), (1.95, 'soble'), (1.95, 'takeover'), (1.95, 'lcd'), (1.95, 'foxconn'), (1.95, 'offer'), (1.95, 'taiwanese'), (1.95, 'lean'), (1.95, 'one'), (1.95, 'time'), (1.25, 'mozur'), (1.25, 'that'), (1.25, 'consumer'), (1.25, 'large'), (1.25, 'at'), (1.25, 'paul'), (1.25, 'from'), (0.85, 'japan'), (0.85, 'report'), (0.85, 'company'), (0.85, '’s'), (0.85, 'electronics'), (0.56, '\n\n'), (0.15, 'a')]
+
+Sentence 7 of 7
+The news underlined the decline of Japan ’s once - famed consumer electronics companies , which have been undercut in recent years by lower - cost competition from China and South Korea . 
+EDA: 
+ 30.966141685300258 [(1.95, 'famed'), (1.95, 'cost'), (1.95, 'year'), (1.95, 'news'), (1.95, 'south'), (1.95, 'competition'), (1.95, 'korea'), (1.95, 'underline'), (1.95, 'low'), (1.95, 'undercut'), (1.25, 'once'), (1.25, 'from'), (1.25, 'decline'), (1.25, 'consumer'), (1.25, 'recent'), (0.85, '’'), (0.85, 'by'), (0.85, 'company'), (0.85, 'which'), (0.85, 'japan'), (0.85, 'electronics'), (0.56, 'china'), (0.56, '-'), (0.56, 'have')]
+
+Sentence 1 of 7
+In the constant scorekeeping of where tech ’s power centers are , two trends stand out in Asia : the continued rise of China as a tech titan and the slow decline of Japan ’s once - mighty tech industry . 
+EDA: 
+ 37.46065166885528 [(1.95, 'rise'), (1.95, 'as'), (1.95, 'slow'), (1.95, 'asia'), (1.95, 'out'), (1.95, 'scorekeeping'), (1.95, 'power'), (1.95, 'mighty'), (1.95, 'constant'), (1.95, 'where'), (1.95, 'stand'), (1.95, 'continued'), (1.95, ':'), (1.95, 'trend'), (1.95, 'titan'), (1.25, 'industry'), (1.25, 'two'), (1.25, 'decline'), (1.25, 'center'), (1.25, 'once'), (0.85, '’'), (0.85, 'japan'), (0.56, 'tech'), (0.56, '-'), (0.56, 'china'), (0.15, 'a')]
+
+Sentence 2 of 7
+
+
+ Those currents were evident in two recent developments . 
+EDA: 
+ 10.49210737720868 [(1.95, 'evident'), (1.95, 'current'), (1.95, 'development'), (1.95, 'those'), (1.25, 'recent'), (1.25, 'two'), (0.56, '\n\n')]
+
+Sentence 3 of 7
+
+
+ On Thursday , Paul Mozur and Jane Perlez reported that American officials had blocked a proposed purchase of a controlling stake in a unit of the Dutch electronics company Philips by Chinese investors because the United States was fearful the deal would be used to further China ’s push into microchips . 
+EDA: 
+ 58.63496816738555 [(1.95, 'push'), (1.95, 'block'), (1.95, 'investor'), (1.95, 'purchase'), (1.95, 'on'), (1.95, 'thursday'), (1.95, 'chinese'), (1.95, 'further'), (1.95, 'deal'), (1.95, 'stake'), (1.95, 'because'), (1.95, 'microchip'), (1.95, 'fearful'), (1.95, 'would'), (1.95, 'dutch'), (1.95, 'propose'), (1.95, 'perlez'), (1.95, 'control'), (1.95, 'jane'), (1.95, 'united'), (1.95, 'into'), (1.95, 'state'), (1.25, 'paul'), (1.25, 'to'), (1.25, 'that'), (1.25, 'official'), (1.25, 'mozur'), (1.25, 'american'), (1.25, 'use'), (1.25, 'unit'), (1.25, 'philip'), (0.85, 'by'), (0.85, '’s'), (0.85, 'company'), (0.85, 'electronics'), (0.85, 'report'), (0.56, 'have'), (0.56, 'china'), (0.56, '\n\n'), (0.15, 'a')]
+
+Sentence 4 of 7
+
+
+ At the center of the concerns was a material called gallium nitride , which was being used by the Philips unit in light - emitting diodes , but which has applications for military and space and can be helpful in semiconductors . 
+EDA: 
+ 39.406561817910585 [(1.95, 'call'), (1.95, 'semiconductor'), (1.95, 'diode'), (1.95, 'but'), (1.95, 'nitride'), (1.95, 'concern'), (1.95, 'gallium'), (1.95, 'helpful'), (1.95, 'can'), (1.95, 'light'), (1.95, 'material'), (1.95, 'military'), (1.95, 'application'), (1.95, 'space'), (1.95, 'for'), (1.95, 'emit'), (1.25, 'center'), (1.25, 'at'), (1.25, 'use'), (1.25, 'unit'), (1.25, 'philip'), (0.85, 'which'), (0.85, 'by'), (0.56, '-'), (0.56, '\n\n'), (0.56, 'have'), (0.15, 'a')]
+
+Sentence 5 of 7
+The report illustrated how American officials have come to view China ’s large and growing tech industry with misgivings . 
+EDA: 
+ 22.36295752577329 [(1.95, 'with'), (1.95, 'misgiving'), (1.95, 'view'), (1.95, 'illustrate'), (1.95, 'how'), (1.95, 'grow'), (1.95, 'come'), (1.25, 'industry'), (1.25, 'to'), (1.25, 'american'), (1.25, 'large'), (1.25, 'official'), (0.85, '’s'), (0.85, 'report'), (0.56, 'china'), (0.56, 'have'), (0.56, 'tech')]
+
+Sentence 6 of 7
+
+
+ At the same time , Jonathan Soble and Paul Mozur reported that Sharp , one of Japan ’s large consumer electronics companies and the biggest LCD producer , was leaning toward a takeover offer from the Taiwanese contract manufacturer Foxconn . 
+EDA: 
+ 45.280659909247404 [(1.95, 'contract'), (1.95, 'offer'), (1.95, 'lean'), (1.95, 'jonathan'), (1.95, 'taiwanese'), (1.95, 'takeover'), (1.95, 'time'), (1.95, 'soble'), (1.95, 'foxconn'), (1.95, 'big'), (1.95, 'manufacturer'), (1.95, 'producer'), (1.95, 'sharp'), (1.95, 'same'), (1.95, 'one'), (1.95, 'toward'), (1.95, 'lcd'), (1.25, 'from'), (1.25, 'consumer'), (1.25, 'mozur'), (1.25, 'paul'), (1.25, 'large'), (1.25, 'at'), (1.25, 'that'), (0.85, 'japan'), (0.85, '’s'), (0.85, 'company'), (0.85, 'electronics'), (0.85, 'report'), (0.56, '\n\n'), (0.15, 'a')]
+
+Sentence 7 of 7
+The news underlined the decline of Japan ’s once - famed consumer electronics companies , which have been undercut in recent years by lower - cost competition from China and South Korea . 
+EDA: 
+ 30.96614168530026 [(1.95, 'cost'), (1.95, 'competition'), (1.95, 'famed'), (1.95, 'underline'), (1.95, 'korea'), (1.95, 'south'), (1.95, 'low'), (1.95, 'undercut'), (1.95, 'news'), (1.95, 'year'), (1.25, 'from'), (1.25, 'recent'), (1.25, 'decline'), (1.25, 'consumer'), (1.25, 'once'), (0.85, '’'), (0.85, 'japan'), (0.85, 'by'), (0.85, 'company'), (0.85, 'electronics'), (0.85, 'which'), (0.56, 'china'), (0.56, '-'), (0.56, 'have')]
+
+Sentence 1 of 7
+In the constant scorekeeping of where tech ’s power centers are , two trends stand out in Asia : the continued rise of China as a tech titan and the slow decline of Japan ’s once - mighty tech industry . 
+EDA: 
+ 37.46065166885528 [(1.95, 'stand'), (1.95, ':'), (1.95, 'out'), (1.95, 'slow'), (1.95, 'as'), (1.95, 'titan'), (1.95, 'power'), (1.95, 'continued'), (1.95, 'scorekeeping'), (1.95, 'constant'), (1.95, 'trend'), (1.95, 'rise'), (1.95, 'asia'), (1.95, 'where'), (1.95, 'mighty'), (1.25, 'once'), (1.25, 'industry'), (1.25, 'two'), (1.25, 'center'), (1.25, 'decline'), (0.85, 'japan'), (0.85, '’'), (0.56, 'tech'), (0.56, '-'), (0.56, 'china'), (0.15, 'a')]
+
+Sentence 2 of 7
+
+
+ Those currents were evident in two recent developments . 
+EDA: 
+ 10.492107377208681 [(1.95, 'development'), (1.95, 'current'), (1.95, 'evident'), (1.95, 'those'), (1.25, 'recent'), (1.25, 'two'), (0.56, '\n\n')]
+
+Sentence 3 of 7
+
+
+ On Thursday , Paul Mozur and Jane Perlez reported that American officials had blocked a proposed purchase of a controlling stake in a unit of the Dutch electronics company Philips by Chinese investors because the United States was fearful the deal would be used to further China ’s push into microchips . 
+EDA: 
+ 58.63496816738556 [(1.95, 'perlez'), (1.95, 'thursday'), (1.95, 'fearful'), (1.95, 'jane'), (1.95, 'dutch'), (1.95, 'state'), (1.95, 'into'), (1.95, 'united'), (1.95, 'stake'), (1.95, 'because'), (1.95, 'deal'), (1.95, 'push'), (1.95, 'further'), (1.95, 'block'), (1.95, 'would'), (1.95, 'microchip'), (1.95, 'chinese'), (1.95, 'investor'), (1.95, 'propose'), (1.95, 'purchase'), (1.95, 'control'), (1.95, 'on'), (1.25, 'to'), (1.25, 'mozur'), (1.25, 'unit'), (1.25, 'paul'), (1.25, 'that'), (1.25, 'official'), (1.25, 'philip'), (1.25, 'use'), (1.25, 'american'), (0.85, 'company'), (0.85, 'report'), (0.85, 'electronics'), (0.85, 'by'), (0.85, '’s'), (0.56, '\n\n'), (0.56, 'china'), (0.56, 'have'), (0.15, 'a')]
+
+Sentence 4 of 7
+
+
+ At the center of the concerns was a material called gallium nitride , which was being used by the Philips unit in light - emitting diodes , but which has applications for military and space and can be helpful in semiconductors . 
+EDA: 
+ 39.40656181791059 [(1.95, 'application'), (1.95, 'material'), (1.95, 'concern'), (1.95, 'emit'), (1.95, 'but'), (1.95, 'call'), (1.95, 'diode'), (1.95, 'can'), (1.95, 'helpful'), (1.95, 'light'), (1.95, 'for'), (1.95, 'gallium'), (1.95, 'space'), (1.95, 'nitride'), (1.95, 'military'), (1.95, 'semiconductor'), (1.25, 'philip'), (1.25, 'use'), (1.25, 'center'), (1.25, 'unit'), (1.25, 'at'), (0.85, 'by'), (0.85, 'which'), (0.56, 'have'), (0.56, '\n\n'), (0.56, '-'), (0.15, 'a')]
+
+Sentence 5 of 7
+The report illustrated how American officials have come to view China ’s large and growing tech industry with misgivings . 
+EDA: 
+ 22.362957525773286 [(1.95, 'with'), (1.95, 'view'), (1.95, 'how'), (1.95, 'misgiving'), (1.95, 'come'), (1.95, 'illustrate'), (1.95, 'grow'), (1.25, 'american'), (1.25, 'official'), (1.25, 'large'), (1.25, 'industry'), (1.25, 'to'), (0.85, '’s'), (0.85, 'report'), (0.56, 'have'), (0.56, 'china'), (0.56, 'tech')]
+
+Sentence 6 of 7
+
+
+ At the same time , Jonathan Soble and Paul Mozur reported that Sharp , one of Japan ’s large consumer electronics companies and the biggest LCD producer , was leaning toward a takeover offer from the Taiwanese contract manufacturer Foxconn . 
+EDA: 
+ 45.280659909247404 [(1.95, 'toward'), (1.95, 'big'), (1.95, 'lean'), (1.95, 'one'), (1.95, 'lcd'), (1.95, 'same'), (1.95, 'foxconn'), (1.95, 'jonathan'), (1.95, 'soble'), (1.95, 'manufacturer'), (1.95, 'producer'), (1.95, 'offer'), (1.95, 'contract'), (1.95, 'time'), (1.95, 'taiwanese'), (1.95, 'takeover'), (1.95, 'sharp'), (1.25, 'at'), (1.25, 'consumer'), (1.25, 'mozur'), (1.25, 'from'), (1.25, 'paul'), (1.25, 'that'), (1.25, 'large'), (0.85, 'company'), (0.85, 'japan'), (0.85, '’s'), (0.85, 'electronics'), (0.85, 'report'), (0.56, '\n\n'), (0.15, 'a')]
+
+Sentence 7 of 7
+The news underlined the decline of Japan ’s once - famed consumer electronics companies , which have been undercut in recent years by lower - cost competition from China and South Korea . 
+EDA: 
+ 30.96614168530026 [(1.95, 'south'), (1.95, 'famed'), (1.95, 'korea'), (1.95, 'underline'), (1.95, 'year'), (1.95, 'undercut'), (1.95, 'competition'), (1.95, 'low'), (1.95, 'news'), (1.95, 'cost'), (1.25, 'from'), (1.25, 'consumer'), (1.25, 'once'), (1.25, 'recent'), (1.25, 'decline'), (0.85, 'by'), (0.85, 'electronics'), (0.85, 'which'), (0.85, '’'), (0.85, 'japan'), (0.85, 'company'), (0.56, 'china'), (0.56, '-'), (0.56, 'have')]
+

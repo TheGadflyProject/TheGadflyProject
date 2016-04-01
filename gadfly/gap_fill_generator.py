@@ -3,6 +3,13 @@ from gadfly.sentence_summarizer import FrequencySummarizer, TF_IDFSummarizer
 import string
 import re
 import types
+from enum import Enum
+
+
+class TokenStyle(Enum):
+    standard = "text"
+    lower = "lower_"
+    lemma = "lemma_"
 
 def frequency(self):
     selector = FrequencySummarizer()
@@ -17,7 +24,7 @@ def frequency(self):
     return sentences
 
 def tfidf(self):
-    selector = TF_IDFSummarizer(EDA=True)
+    selector = TF_IDFSummarizer(TokenStyle.lemma, EDA=True)
     sents = []
     for span in self._parsed_text.sents:
         sents.append([self._parsed_text[i] for i in range(span.start, span.end)])
@@ -29,7 +36,7 @@ class GapFillGenerator:
     _GAP = "___________"
     _PUNCTUATION = list(string.punctuation)
 
-    def __init__(self, parser, source_text, func=None):
+    def __init__(self, parser, source_text, summarizer=None):
         self._source_text = source_text
         self._parsed_text = parser(self._source_text)
         self._exclude_named_ent_types = ["DATE",
@@ -39,7 +46,7 @@ class GapFillGenerator:
                                          "MONEY",
                                          "ORDINAL",
                                          "QUANTITY"]
-        self.execute = types.MethodType(func, self)
+        self.summarizer = types.MethodType(summarizer, self)
         self.questions = self.generate_questions()
 
     def find_named_entities(self):
@@ -54,7 +61,7 @@ class GapFillGenerator:
         """ Remove blank and display question"""
         question_set = set()
         entities = self.find_named_entities()
-        most_important_sents = self.execute()
+        most_important_sents = self.summarizer()
         for sent in most_important_sents:
             for entity in entities:
                 sent_ents = re.findall(entity, sent)

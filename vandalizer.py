@@ -21,7 +21,7 @@ def main():
     for file_name in files:
         f = open(file_name, encoding='utf-8')
         article = f.read()
-        generator = GapFillGenerator(_PARSER, article, func=frequency)
+        generator = GapFillGenerator(_PARSER, article, summarizer=tfidf)
         generator.output_questions_to_file(output_file)
 
 if __name__ == '__main__':

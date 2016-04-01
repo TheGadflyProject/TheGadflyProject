@@ -62,37 +62,24 @@ class FrequencySummarizer:
 
 
 class TF_IDFSummarizer:
-    def __init__(self, EDA):
+    def __init__(self, style, EDA):
         self.EDA = EDA
+        self.style = style.value
 
     def get_tokens_and_freqs(self, sents, style):
         """Get a list of all tokens in sents and a Counter of them"""
-        if style == 'standard':
-            all_tokens = [token.text for sent in sents for token in sent]
-        elif style == 'lower':
-            all_tokens = [token.lower_ for sent in sents for token in sent]
-        elif style == 'lemma':
-            all_tokens = [token.lemma_ for sent in sents for token in sent]
-        else:
-            print("Please enter an appropriate option for 'style'.")
+        all_tokens = [getattr(token, style) for sent in sents for token in sent]
         document_freq_dict = Counter(all_tokens)
         return document_freq_dict, all_tokens
 
     def get_dict_tf_idf(self, sents, document_freq_dict, all_tokens, style):
-        """Get a dict of _____"""
+        """Get a dict of tokens and their tf/idf score"""
         dict_tf_idf = {}
         for word in set(all_tokens):
             for n, sent in enumerate(sents):
                 sum = 0
-                if style == 'lower':
-                    if word in [token.lower_ for token in sent]:
-                        sum += 1
-                elif style == 'lemma':
-                    if word in [token.lemma_ for token in sent]:
-                        sum += 1
-                else:
-                    if word in [token.text for token in sent]:
-                        sum += 1
+                if word in [getattr(token, style) for token in sent]:
+                    sum += 1
                 dict_tf_idf[(n, word)] = sum * math.log(len(sents)/document_freq_dict[word])
         return dict_tf_idf
 
@@ -104,6 +91,7 @@ class TF_IDFSummarizer:
         return ranked_sents
 
     def get_text(self, sents):
+        """Get the text itself from the spacy object."""
         sents_text = []
         for span in sents:
             tokens = []
@@ -113,6 +101,7 @@ class TF_IDFSummarizer:
         return sents_text
 
     def create_EDA(self, sents_text, dict_tf_idf):
+        """create EDA data. EDA must be True when calling TF_IDFSummarizer."""
         eda_data = defaultdict(list)
         score = {}
         for (index, token), value in dict_tf_idf.items():
@@ -123,14 +112,17 @@ class TF_IDFSummarizer:
         EDA_sents_text = []
         for n, text in enumerate(sents_text):
             EDA_sents_text.append(text)
-            EDA_sents_text[n] = EDA_sents_text[n] + ['\nEDA: \n'] + [str(score[n]), str(sorted(eda_data[n], key=lambda x: x[0], reverse=True))]
+            EDA_sents_text[n] = EDA_sents_text[n] + ['\nEDA: \n'] + [str(score[n]), 
+                                                                    str(sorted(eda_data[n], 
+                                                                    key=lambda x: x[0], 
+                                                                    reverse=True))]
         return EDA_sents_text
 
     def summarize(self, sents, n):
+        """Call functions, return only the n top sentences joined"""
         assert n <= len(sents)
-        style = 'lemma'
-        document_freq_dict, all_tokens = self.get_tokens_and_freqs(sents, style)
-        dict_tf_idf = self.get_dict_tf_idf(sents, document_freq_dict, all_tokens, style)
+        document_freq_dict, all_tokens = self.get_tokens_and_freqs(sents, self.style)
+        dict_tf_idf = self.get_dict_tf_idf(sents, document_freq_dict, all_tokens, self.style)
         ranked_sents = self.get_ranked_sents(len(sents), dict_tf_idf)
         
         sents_text = self.get_text(sents)
