@@ -3,6 +3,7 @@ from collections import defaultdict, Counter
 from string import punctuation
 from heapq import nlargest
 import math
+import re
 # http://glowingpython.blogspot.com/2014/09/text-summarization-with-nltk.html
 
 
@@ -62,8 +63,8 @@ class FrequencySummarizer:
 
 
 class TF_IDFSummarizer:
-    def __init__(self):
-        pass
+    def __init__(self, EDA):
+        self.EDA = EDA
 
     def get_tokens_and_freqs(self, sents, style):
         """Get a list of all tokens in sents and a Counter of them"""
@@ -112,39 +113,42 @@ class TF_IDFSummarizer:
             sents_text.append(tokens)
         return sents_text
 
-    def EDA(self, sents_text, dict_tf_idf):
+    def create_EDA(self, sents_text, dict_tf_idf):
         eda_data = defaultdict(list)
+        score = {}
         for (index, token), value in dict_tf_idf.items():
             if value > 0:
                 eda_data[index].append((round(value,2), token))
+            score.setdefault(index, 0)
+            score[index] += value
         EDA_sents_text = []
         for n, text in enumerate(sents_text):
             EDA_sents_text.append(text)
-            EDA_sents_text[n] = EDA_sents_text[n] + ['\nEDA:\n'] + [str(sorted(eda_data[n], key=lambda x: x[0], reverse=True))]
+            EDA_sents_text[n] = EDA_sents_text[n] + ['\nEDA: \n'] + [str(score[n]), str(sorted(eda_data[n], key=lambda x: x[0], reverse=True))]
         return EDA_sents_text
 
     def summarize(self, sents, n):
         assert n <= len(sents)
         style = 'lemma'
-        document_freq_dict, all_tokens = self.get_tokens_and_freqs(sents, 
-                                                                   style)
-        dict_tf_idf = self.get_dict_tf_idf(sents, 
-                                           document_freq_dict, 
-                                           all_tokens, 
-                                           style)
-        ranked_sents = self.get_ranked_sents(len(sents), 
-                                             dict_tf_idf)
+        document_freq_dict, all_tokens = self.get_tokens_and_freqs(sents, style)
+        dict_tf_idf = self.get_dict_tf_idf(sents, document_freq_dict, all_tokens, style)
+        ranked_sents = self.get_ranked_sents(len(sents), dict_tf_idf)
+        
         sents_text = self.get_text(sents)
-        EDA = 0
-        if EDA:
-            sents_text = self.EDA(sents_text, dict_tf_idf)
+        
+        if self.EDA:
+            EDA_sents_text = self.create_EDA(sents_text, dict_tf_idf)
+            f = open("EDA.txt", "a", encoding='utf-8')
+            for n, each in enumerate(EDA_sents_text):
+                f.write("Sentence {} of {}\n".format(n+1, len(EDA_sents_text)))
+                f.write(str(" ".join(each)))
+                f.write("\n\n")
+            f.close()
 
         top_sentences = []
         for score, index in ranked_sents[-1:-(n+1):-1]:
             top_sentences.append(sents_text[index])
 
         for i in range(n):
-            if top_sentences[i][0] in ['\n\n', '”','\n\n\n']: del top_sentences[i][0] # DEAL W/ THIS ELEWHERE (BUT IT REALLY ANNOYED ME) - DSG
-            if top_sentences[i][0] == '\n\n': del top_sentences[i][0] # DEAL W/ THIS ELEWHERE (BUT IT REALLY ANNOYED ME) - DSG       
-            top_sentences[i] = " ".join(top_sentences[i]) # THIS IS NOT SATISFACTORY BUT FINE FOR NOW, SAME AS ABOVE
+            top_sentences[i] = " ".join(top_sentences[i])
         return top_sentences

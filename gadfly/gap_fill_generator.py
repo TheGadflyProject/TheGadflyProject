@@ -41,7 +41,7 @@ class GapFillGenerator:
                     tokens.append(token.text)
                 sents.append(tokens)        
         else: # I messed w/ the below to get access to the lemma in my summarizer - DSG
-            selector = TF_IDFSummarizer()
+            selector = TF_IDFSummarizer(EDA = True)
             sents = []
             for span in self._parsed_text.sents:
                 sents.append([self._parsed_text[i] for i in range(span.start, span.end)])
