@@ -14,8 +14,11 @@ _NEWS_ARTICLES_DIR = os.path.join(_PROJECT_DIR, "news_articles")
 _PARSER = English(serializer=False, matcher=False)
 
 
-def remove_spacing(article):
-    return (re.sub(("[\A\n*]"),"",article))
+def clean_text(article):
+    article = (re.sub(("“"),'"',article))
+    article = (re.sub(("”"),'"',article))
+    article = (re.sub(("’"),"'",article))
+    return (re.sub(("[\n*]"),"",article))
 
 def main():
     news_articles = os.path.join(_NEWS_ARTICLES_DIR, "*.txt")
@@ -24,7 +27,7 @@ def main():
     print("Processing {} file(s)".format(len(files)))
     for file_name in files:
         f = open(file_name, encoding='utf-8')
-        article = remove_spacing(f.read())
+        article = clean_text(f.read())
         generator = GapFillGenerator(_PARSER, article, summarizer=tfidf)
         generator.output_questions_to_file(output_file)
 

@@ -5,30 +5,17 @@ import re
 import types
 from enum import Enum
 
-
-class TokenStyle(Enum):
-    standard = "text"
-    lower = "lower_"
-    lemma = "lemma_"
-
-def frequency(self):
-    selector = FrequencySummarizer()
-    sents = []
-    for span in self._parsed_text.sents:
-        sent = [self._parsed_text[i] for i in range(span.start, span.end)]
-        tokens = []
-        for token in sent:
-            tokens.append(token.text)
-        sents.append(tokens)
-    sentences = selector.summarize(sents, round(len(sents)*.2))
-    return sentences
-
 def tfidf(self):
-    selector = TF_IDFSummarizer(TokenStyle.lemma, EDA=True)
+    selector = TF_IDFSummarizer(EDA=True)
     sents = []
     for span in self._parsed_text.sents:
         sents.append([self._parsed_text[i] for i in range(span.start, span.end)])
-    sentences = selector.summarize(sents, round(len(sents)*.2))
+    sentences = selector.summarize(sents, 5)
+    print("New Article:\n")
+    for n, sent in enumerate(sentences):
+        print("Sent {}, sent length:{}".format(n, len(sent)))
+        print(sent)
+    print()
     return sentences
 
 class GapFillGenerator:
