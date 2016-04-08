@@ -59,39 +59,21 @@ class GapFillGenerator:
 
     def gen_named_entity_blanks(self):
         named_entity_questions = []
+        entities = self.find_named_entities()
         for sent in self._top_sents:
             sent_text = "".join(
                     [t.text_with_ws if type(t) == Token else t for t in sent])
-            entities = self.find_named_entities()
             for ent in entities:
                 if (sent.start < ent.start and sent.end > ent.end):
                     gap_fill_question = str(self._parsed_text[sent.start:ent.start]) \
                                         + self._GAP + str(self._parsed_text[ent.end:sent.end])
                     question = Question(sent_text, gap_fill_question,
-                                        ent,
-                                        QuestionType.gap_fill,
+                                        ent, QuestionType.gap_fill,
                                         GapFillBlankType.named_entities)
                     named_entity_questions.append(question)
 
         return named_entity_questions
-
-    def gen_noun_phrase_blanks(self):
-        noun_phrase_questions = set()
-        noun_phrases = [np.text for np in self._parsed_text.noun_chunks]
-        for sent, np in product(self._top_sents, noun_phrases):
-            sent_text = "".join(
-                [t.text_with_ws if type(t) == Token else t for t in sent])
-            sent_nps = re.findall(np, sent_text)
-            if sent_nps:
-                for n in range(len(sent_nps)):
-                    gap_fill_question = replaceNth(sent_text, np, self._GAP, n)
-                    question = Question(sent_text, gap_fill_question, np,
-                                        QuestionType.gap_fill,
-                                        GapFillBlankType.noun_phrases)
-                    noun_phrase_questions.add(question)
-
-        return noun_phrase_questions
-
+        
     def generate_questions(self):
         question_set = []
         for gap_type in self._gap_types:
