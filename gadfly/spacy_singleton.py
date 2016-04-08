@@ -8,8 +8,11 @@ import sputnik
 import spacy
 import os
 
+print(spacy.about.__version__)
 data_path = os.path.join(os.path.dirname(spacy.__file__), 'en', 'data')
-sputnik.install('spacy', spacy.about.__version__, 'en_default', data_path=data_path)
+if not os.path.isdir(data_path):
+    print("Need to download Spacy data. Starting download now")
+    sputnik.install('spacy', spacy.about.__version__, 'en_default', data_path=data_path)
 
 
 def _spacy_en():
