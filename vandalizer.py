@@ -22,8 +22,7 @@ def main():
     news_articles = os.path.join(_NEWS_ARTICLES_DIR, "*.txt")
     output_file = open("output.txt", "w")
     files = glob.glob(news_articles)
-    blank_types = [GapFillBlankType.named_entities,
-                   GapFillBlankType.noun_phrases]
+    blank_types = [GapFillBlankType.named_entities]
     print("Processing {} file(s)".format(len(files)))
     for file_name in files:
         f = open(file_name, encoding='utf-8')
