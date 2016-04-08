@@ -61,7 +61,6 @@ class TF_IDFSummarizer:
 
     def summarize(self, sents, n):
         """Call functions, return only the n top sentences joined"""
-        assert n <= len(sents)
         dict_tf_idf = self.get_dict_tf_idf(sents)
         ranked_sents = self.get_ranked_sents(len(sents), dict_tf_idf)
 

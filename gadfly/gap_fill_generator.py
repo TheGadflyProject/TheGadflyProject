@@ -1,7 +1,6 @@
 from . import spacy_singleton
 from .question import Question
 from .sentence_summarizer import TF_IDFSummarizer
-from .utilities import replaceNth
 from .transducer import Transducer
 from spacy.tokens.token import Token
 from enum import Enum
@@ -13,9 +12,7 @@ from enum import Enum
 
 def tfidf(self):
     selector = TF_IDFSummarizer(EDA=True)
-    sents = []
-    for span in self._parsed_text.sents:
-        sents.append([self._parsed_text[i] for i in range(span.start, span.end)])
+    sents = [sent for sent in self._parsed_text.sents]
     sentences = selector.summarize(sents, 5)
     print("New Article:\n")
     for n, sent in enumerate(sentences):
@@ -34,7 +31,7 @@ class GapFillBlankType(Enum):
 
 
 class GapFillGenerator:
-    _GAP = "___________ "
+    _GAP = " ___________ "
     _PUNCTUATION = list(string.punctuation)
 
     def __init__(self, source_text, gap_types, summarizer=None):
@@ -53,40 +50,28 @@ class GapFillGenerator:
         return transduced_sents
 
     def find_named_entities(self):
-        entities = set()
+        entities = []
         for ent in self._parsed_text.ents:
             if (ent.label_ != "" and
                ent.label_ not in self._exclude_named_ent_types):
-                entities.add(ent.text_with_ws)
-        return entities
-
-    def find_named_entities_in_sentence(self, sent_parsed):
-        entities = set()
-        for ent in sent_parsed.ents:
-            if (ent.label_ != "" and
-               ent.label_ not in self._exclude_named_ent_types):
-                entities.add(ent.text_with_ws)
+                entities.append(ent)
         return entities
 
     def gen_named_entity_blanks(self):
-        named_entity_questions = set()
+        named_entity_questions = []
         for sent in self._top_sents:
             sent_text = "".join(
                     [t.text_with_ws if type(t) == Token else t for t in sent])
-            sent_parsed = spacy_singleton.spacy_en()(sent_text)
-            entities = self.find_named_entities_in_sentence(sent_parsed)
-            print("ENTITIES", entities)
-            for entity in entities:
-                sent_ents = re.findall(entity, sent_text)
-                if sent_ents:
-                    for n in range(len(sent_ents)):
-                        gap_fill_question = replaceNth(sent_text, entity,
-                                                       self._GAP, n)
-                        question = Question(sent_text, gap_fill_question,
-                                            entity,
-                                            QuestionType.gap_fill,
-                                            GapFillBlankType.named_entities)
-                        named_entity_questions.add(question)
+            entities = self.find_named_entities()
+            for ent in entities:
+                if (sent.start < ent.start and sent.end > ent.end):
+                    gap_fill_question = str(self._parsed_text[sent.start:ent.start]) \
+                                        + self._GAP + str(self._parsed_text[ent.end:sent.end])
+                    question = Question(sent_text, gap_fill_question,
+                                        ent,
+                                        QuestionType.gap_fill,
+                                        GapFillBlankType.named_entities)
+                    named_entity_questions.append(question)
 
         return named_entity_questions
 
@@ -117,7 +102,7 @@ class GapFillGenerator:
             if gap_type == GapFillBlankType.noun_phrases:
                 question_set += list(self.gen_noun_phrase_blanks())
 
-            return set(question_set)
+            return question_set
 
     def output_questions_to_list(self):
         questions = []
