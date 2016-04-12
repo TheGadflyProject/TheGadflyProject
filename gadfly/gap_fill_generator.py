@@ -4,11 +4,10 @@ from .sentence_summarizer import TF_IDFSummarizer
 from .transducer import Transducer
 from spacy.tokens.token import Token
 from enum import Enum
-from itertools import product
 import string
-import re
 import types
 from enum import Enum
+
 
 def tfidf(self):
     selector = TF_IDFSummarizer(EDA=True)
@@ -20,6 +19,7 @@ def tfidf(self):
         print(sent)
     print()
     return sentences
+
 
 class QuestionType(Enum):
     gap_fill = "gap_fill"
@@ -65,15 +65,17 @@ class GapFillGenerator:
                     [t.text_with_ws if type(t) == Token else t for t in sent])
             for ent in entities:
                 if (sent.start < ent.start and sent.end > ent.end):
-                    gap_fill_question = str(self._parsed_text[sent.start:ent.start]) \
-                                        + self._GAP + str(self._parsed_text[ent.end:sent.end])
+                    gap_fill_question = \
+                        str(self._parsed_text[sent.start:ent.start]) +\
+                        self._GAP +\
+                        str(self._parsed_text[ent.end:sent.end])
                     question = Question(sent_text, gap_fill_question,
                                         ent, QuestionType.gap_fill,
                                         GapFillBlankType.named_entities)
                     named_entity_questions.append(question)
 
         return named_entity_questions
-        
+
     def generate_questions(self):
         question_set = []
         for gap_type in self._gap_types:
