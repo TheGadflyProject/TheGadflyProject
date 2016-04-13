@@ -61,7 +61,7 @@ class GapFillGenerator:
     def gen_named_entity_blanks(self):
         named_entity_questions = []
         entities_dict = self.build_entities_dictionary()
-        print (entities_dict)
+        print(entities_dict)
         entities = self.find_named_entities()
         for sent in self._top_sents:
             sent_text = "".join(
@@ -74,13 +74,14 @@ class GapFillGenerator:
                                                           ent.end:sent.end])
                     other_choices = self.generate_other_choices(entities_dict,
                                                                 ent, sent)
-                    print ("MCQ")
-                    print (gap_fill_question)
+                    print("MCQ")
+                    print(gap_fill_question)
                     print(ent)
-                    print (other_choices)
+                    print(other_choices)
                     print()
+
                     question = Question(sent_text, gap_fill_question,
-                                        ent, QuestionType.gap_fill,
+                                        ent.text, QuestionType.gap_fill,
                                         GapFillBlankType.named_entities)
                     named_entity_questions.append(question)
         return named_entity_questions
