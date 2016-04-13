@@ -6,7 +6,6 @@ from spacy.tokens.token import Token
 from enum import Enum
 import string
 import types
-from enum import Enum
 
 
 def tfidf(self):
@@ -70,7 +69,7 @@ class GapFillGenerator:
                         self._GAP +\
                         str(self._parsed_text[ent.end:sent.end])
                     question = Question(sent_text, gap_fill_question,
-                                        ent, QuestionType.gap_fill,
+                                        ent.text, QuestionType.gap_fill,
                                         GapFillBlankType.named_entities)
                     named_entity_questions.append(question)
 
