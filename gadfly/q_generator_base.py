@@ -7,6 +7,7 @@ import types
 import collections
 from random import shuffle
 
+
 def tfidf(sents):
     selector = TF_IDFSummarizer(EDA=True)
     sents = [sent for sent in sents]
@@ -85,28 +86,12 @@ class QGenerator:
         for q in self.questions:
             question_dict[q.source_sentence].append(q)
 
-        print(question_dict)
+        # print(question_dict)
 
         final_questions = list()
         for source_sentence, questions in question_dict.items():
             shuffle(questions)
             final_questions.append(questions[0])
 
-        return HeuristicEvaluator.heuristic_checker(final_questions)
+        # return HeuristicEvaluator.heuristic_checker(final_questions)
         return final_questions
-
-
-class HeuristicEvaluator:
-    def heuristic_checker(question_set):
-
-        for q in question_set:
-            if q.answer_span.label_ == "PERSON":
-                print("PERSON", q.answer)
-                titles = ["Mr.", "Ms.", "Mrs."]
-                words = q.question.split()
-                index = words.index(QGenerator._GAP.strip())-1
-                if index >= 0 and words[index] in titles:
-                    print("BOOYAH")
-                    q.answer_choices = [name.split()[-1] for name
-                                        in q.answer_choices]
-        return question_set

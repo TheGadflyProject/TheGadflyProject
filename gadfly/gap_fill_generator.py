@@ -12,6 +12,8 @@ class GapFillGenerator(QGenerator):
             sent_text = "".join(
                     [t.text_with_ws if type(t) == Token else t for t in sent])
             for ent in entities:
+                # ent_start = ent.start
+                # ent_end = ent.end
                 if (sent.start < ent.start and sent.end > ent.end):
                     gap_fill_question = str(self._parsed_text[
                                             sent.start:ent.start]) \
