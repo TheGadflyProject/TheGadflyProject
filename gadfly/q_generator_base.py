@@ -27,7 +27,7 @@ class QGenerator:
     _GAP = " ___________ "
     _PUNCTUATION = list(string.punctuation)
 
-    def __init__(self, source_text, gap_types, summarizer=None):
+    def __init__(self, source_text, gap_types, summarizer=None, q_limit=None):
         self._source_text = source_text
         self._parsed_text = spacy_singleton.spacy_en()(self._source_text)
         self.summarizer = types.MethodType(summarizer, self._parsed_text.sents)
@@ -37,6 +37,7 @@ class QGenerator:
         self._exclude_named_ent_types = ["DATE", "TIME", "PERCENT", "CARDINAL",
                                          "MONEY", "ORDINAL", "QUANTITY"]
         self.questions = self.generate_questions()
+        self.q_limit = q_limit
 
     def transduce(self, sents):
         transduced_sents = [Transducer.transduce(sent) for sent in sents]
@@ -64,12 +65,12 @@ class QGenerator:
 
     def output_questions_to_list(self):
         questions = []
-        for n, q in enumerate(self.questions):
+        for n, q in enumerate(self.question_selector()):
             questions.append(vars(q))
         return questions
 
     def output_questions_to_file(self, output_file):
-        for n, q in enumerate(self.questions):
+        for n, q in enumerate(self.question_selector()):
             output_file.write("\nQuestion #{}\n".format(n+1))
             output_file.write(
                 ", ".join(["Q: {}".format(q.question),
@@ -77,3 +78,8 @@ class QGenerator:
                            "A: {}\n".format(q.answer)])
             )
         output_file.write("")
+
+    def question_selector(self):
+        if self.q_limit:
+            self.questions = self.questions[:self.q_limit]
+        return self.questions
