@@ -12,11 +12,6 @@ def tfidf(self):
     selector = TF_IDFSummarizer(EDA=True)
     sents = [sent for sent in self._parsed_text.sents]
     sentences = selector.summarize(sents, 5)
-    print("New Article:\n")
-    for n, sent in enumerate(sentences):
-        print("Sent {}, sent length:{}".format(n, len(sent)))
-        print(sent)
-    print()
     return sentences
 
 

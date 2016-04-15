@@ -12,7 +12,6 @@ import spacy
 import os
 
 data_path = os.path.join(os.path.dirname(spacy.__file__), 'en', 'data')
-print(data_path)
 if not os.path.isdir(data_path):
     print("Need to download Spacy data. Starting download now")
     sputnik.install('spacy', spacy.about.__version__,
