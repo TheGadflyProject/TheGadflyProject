@@ -2,9 +2,12 @@ from .question import Question
 from spacy.tokens.token import Token
 from .q_generator_base import QGenerator, GapFillBlankType, QuestionType
 from .heuristic_evaluator import HeuristicEvaluator
+import logging
 import collections
 import numpy
 from random import shuffle
+
+logger = logging.getLogger("v.mcq_g")
 
 
 class MCQGenerator(QGenerator):
@@ -27,7 +30,6 @@ class MCQGenerator(QGenerator):
                     # ent_end, ent_text = ent.end, ent.text_with_ws
                     ent_end, ent_text = HeuristicEvaluator.remove_apos_s_ans(
                         ent, self._parsed_text)
-                    print(ent_end, ent_text)
                     gap_fill_question = str(self._parsed_text
                                             [sent.start:ent.start]) \
                         + self._GAP + str(self._parsed_text[ent_end:sent.end])
@@ -47,10 +49,12 @@ class MCQGenerator(QGenerator):
                     # Randomize choices
                     shuffle(other_choices)
 
-                    # print("MCQ")
-                    print(gap_fill_question)
-                    # print(ent, ent.label_)
-                    print(other_choices)
+                    logger.debug(str(gap_fill_question))
+                    logger.debug(str(ent.label_))
+                    logger.debug("ent_text: {}".format(str(ent_text)))
+                    logger.debug("other_choices: {}".format(
+                        str(other_choices)))
+
                     # print("#"*30)
 
                     question = Question(sent_text, gap_fill_question,
