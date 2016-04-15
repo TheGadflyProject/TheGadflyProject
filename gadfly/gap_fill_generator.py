@@ -19,7 +19,7 @@ class GapFillGenerator(QGenerator):
                                                           ent.end:sent.end])
 
                     question = Question(sent_text, gap_fill_question,
-                                        ent.text, QuestionType.gap_fill,
+                                        ent.text, ent, QuestionType.gap_fill,
                                         GapFillBlankType.named_entities)
                     named_entity_questions.append(question)
         return named_entity_questions

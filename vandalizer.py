@@ -30,7 +30,7 @@ def main():
     files = glob.glob(news_articles)
     blank_types = [GapFillBlankType.named_entities]
     print("Processing {} file(s)".format(len(files)))
-    for file_name in files[:2]:
+    for file_name in files:
         f = open(file_name, encoding='utf-8')
         article = clean_text(f.read())
         # generator = GapFillGenerator(article, gap_types=blank_types,

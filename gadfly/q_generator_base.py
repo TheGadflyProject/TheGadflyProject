@@ -4,7 +4,8 @@ from .transducer import Transducer
 from enum import Enum
 import string
 import types
-
+import collections
+from random import shuffle
 
 def tfidf(sents):
     selector = TF_IDFSummarizer(EDA=True)
@@ -80,6 +81,32 @@ class QGenerator:
         output_file.write("")
 
     def question_selector(self):
-        if self.q_limit:
-            self.questions = self.questions[:self.q_limit]
-        return self.questions
+        question_dict = collections.defaultdict(list)
+        for q in self.questions:
+            question_dict[q.source_sentence].append(q)
+
+        print(question_dict)
+
+        final_questions = list()
+        for source_sentence, questions in question_dict.items():
+            shuffle(questions)
+            final_questions.append(questions[0])
+
+        return HeuristicEvaluator.heuristic_checker(final_questions)
+        return final_questions
+
+
+class HeuristicEvaluator:
+    def heuristic_checker(question_set):
+
+        for q in question_set:
+            if q.answer_span.label_ == "PERSON":
+                print("PERSON", q.answer)
+                titles = ["Mr.", "Ms.", "Mrs."]
+                words = q.question.split()
+                index = words.index(QGenerator._GAP.strip())-1
+                if index >= 0 and words[index] in titles:
+                    print("BOOYAH")
+                    q.answer_choices = [name.split()[-1] for name
+                                        in q.answer_choices]
+        return question_set

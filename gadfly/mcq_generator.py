@@ -31,15 +31,16 @@ class MCQGenerator(QGenerator):
 
                     print("MCQ")
                     print(gap_fill_question)
-                    print(ent)
+                    print(ent, ent.label_)
                     print(other_choices)
-                    print()
+                    print("#"*30)
 
                     question = Question(sent_text, gap_fill_question,
-                                        ent.text, QuestionType.gap_fill,
+                                        ent.text, ent, QuestionType.gap_fill,
                                         GapFillBlankType.named_entities,
                                         set(other_choices))
                     named_entity_questions.append(question)
+        print("#"*80)
         return named_entity_questions
 
     def generate_other_choices(self, entities_dict, entity, sent):
