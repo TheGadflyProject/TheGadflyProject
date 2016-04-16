@@ -20,6 +20,8 @@ class MCQGenerator(QGenerator):
         #     print(span, span.pos_)
         entities = self.find_named_entities()
         for sent in self._top_sents:
+            if sent.start < 2:
+                continue
             sent_text = "".join(
                     [t.text_with_ws if type(t) == Token else t for t in sent])
             for ent in entities:
@@ -58,7 +60,7 @@ class MCQGenerator(QGenerator):
                     # print("#"*30)
 
                     question = Question(sent_text, gap_fill_question,
-                                        ent_text, ent, QuestionType.gap_fill,
+                                        ent_text, ent, QuestionType.mcq,
                                         GapFillBlankType.named_entities,
                                         set(other_choices))
                     named_entity_questions.append(question)
