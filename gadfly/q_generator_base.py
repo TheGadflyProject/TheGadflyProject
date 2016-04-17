@@ -2,15 +2,22 @@ from . import spacy_singleton
 from .sentence_summarizer import TF_IDFSummarizer
 from .transducer import Transducer
 from enum import Enum
+import logging
 import string
 import types
 import collections
 from random import shuffle
 
+logger = logging.getLogger("v.q_gen_b")
+
 
 def tfidf(sents):
     selector = TF_IDFSummarizer(EDA=True)
-    sents = [sent for sent in sents]
+    sents = [sent for sent in sents][1:]  # Issue #37
+    # Issue  #39
+    if sents[-1][0].orth_ == "(" and sents[-1][1].orth_ in ["Reporting",
+                                                            "Writing"]:
+            sents = sents[:-1]
     sentences = selector.summarize(sents, 5)
     return sentences
 

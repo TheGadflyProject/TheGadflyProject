@@ -53,7 +53,7 @@ class MCQGenerator(QGenerator):
                     logger.debug(str(gap_fill_question))
                     logger.debug(str(ent.label_))
                     logger.debug("ent_text: {}".format(str(ent_text)))
-                    logger.debug("other_choices: {}".format(
+                    logger.debug("answer_choices: {}".format(
                         str(other_choices)))
 
                     # print("#"*30)

@@ -13,9 +13,6 @@ class TF_IDFSummarizer:
         """Get a dict of tokens and their tf/idf score"""
         dict_tf_idf = {}
         for n, sent in enumerate(sents):
-            # Remove risk of sentence with byline forming questions.
-            if sent.start == 0:
-                continue
             for token in sent:
                 dict_tf_idf[(n, token.text)] = math.fabs(token.prob)
         return dict_tf_idf
