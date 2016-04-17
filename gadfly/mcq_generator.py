@@ -5,12 +5,14 @@ from .heuristic_evaluator import HeuristicEvaluator
 import logging
 import collections
 import numpy
+import pickle
 from random import shuffle
 
 logger = logging.getLogger("v.mcq_g")
 
 
 class MCQGenerator(QGenerator):
+    _us_state_dict = pickle.load(open("_us_state_dict.p", "rb"))
 
     def gen_named_entity_blanks(self):
         named_entity_questions = []
@@ -48,6 +50,14 @@ class MCQGenerator(QGenerator):
                     other_choices.append(ent_text)
                     # Randomize choices
                     shuffle(other_choices)
+
+                    # Issue #40
+                    if ent.label_ == "GPE":
+                        other_choices = [self._us_state_dict[gpe] if gpe in
+                                         self._us_state_dict.keys() else gpe
+                                         for gpe in other_choices]
+                        if ent_text in self._us_state_dict.keys():
+                            ent_text = self._us_state_dict[ent_text]
 
                     logger.debug("Question:")
                     logger.debug(str(gap_fill_question))
