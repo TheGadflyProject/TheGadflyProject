@@ -1,5 +1,8 @@
 from collections import defaultdict
 import math
+import logging
+
+logger = logging.getLogger("v.sent_sum")
 
 
 class TF_IDFSummarizer:
@@ -10,6 +13,9 @@ class TF_IDFSummarizer:
         """Get a dict of tokens and their tf/idf score"""
         dict_tf_idf = {}
         for n, sent in enumerate(sents):
+            # Remove risk of sentence with byline forming questions.
+            if sent.start == 0:
+                continue
             for token in sent:
                 dict_tf_idf[(n, token.text)] = math.fabs(token.prob)
         return dict_tf_idf
@@ -18,14 +24,15 @@ class TF_IDFSummarizer:
         n_scores = [0] * lensen
         n_score_count = [0] * lensen
         dict_tf_idf_sorted = ((k, dict_tf_idf[k]) for k in sorted(dict_tf_idf,
-                               key=dict_tf_idf.get,
-                               reverse=True))
+                              key=dict_tf_idf.get,
+                              reverse=True))
         for (n, word), value in dict_tf_idf_sorted:
             if n_score_count[n] >= 5:
                 continue
             n_scores[n] = n_scores[n] + value
             n_score_count[n] += 1
-        ranked_sents = (sorted([(x, n) for n, x in enumerate(n_scores)], reverse=True))
+        ranked_sents = (sorted([(x, n) for n, x in enumerate(n_scores)],
+                        reverse=True))
         return ranked_sents
 
     def get_text(self, sents):
@@ -50,13 +57,12 @@ class TF_IDFSummarizer:
         EDA_sents_text = []
         for n, text in enumerate(sents_text):
             EDA_sents_text.append(text)
-            EDA_sents_text[n] = EDA_sents_text[n] + ['\nEDA: \n'] + [str(sum([a for (a, b) in
-                                                                     sorted(eda_data[n],
-                                                                     key=lambda x: x[0],
-                                                                     reverse=True)][:5]))+"\n",
-                                                                     str(sorted(eda_data[n],
-                                                                     key=lambda x: x[0],
-                                                                     reverse=True))]
+            EDA_sents_text[n] = EDA_sents_text[n] + ['\nEDA: \n'] + \
+                [str(sum([a for (a, b) in
+                 sorted(eda_data[n],
+                 key=lambda x: x[0],
+                 reverse=True)][:5]))+"\n",
+                 str(sorted(eda_data[n], key=lambda x: x[0], reverse=True))]
         return EDA_sents_text
 
     def summarize(self, sents, n):
@@ -64,13 +70,13 @@ class TF_IDFSummarizer:
         dict_tf_idf = self.get_dict_tf_idf(sents)
         ranked_sents = self.get_ranked_sents(len(sents), dict_tf_idf)
 
-
         if self.EDA:
             sents_text = self.get_text(sents)
             EDA_sents_text = self.create_EDA(sents_text, dict_tf_idf)
             f = open("EDA.txt", "a", encoding='utf-8')
             for n_, each in enumerate(EDA_sents_text):
-                f.write("Sentence {} of {}\n".format(n_+1, len(EDA_sents_text)))
+                f.write("Sentence {} of {}\n".format(n_+1,
+                                                     len(EDA_sents_text)))
                 f.write(str(" ".join(each)))
                 f.write("\n\n")
             f.close()

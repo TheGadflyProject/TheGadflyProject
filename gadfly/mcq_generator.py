@@ -20,8 +20,6 @@ class MCQGenerator(QGenerator):
         #     print(span, span.pos_)
         entities = self.find_named_entities()
         for sent in self._top_sents:
-            if sent.start < 2:
-                continue
             sent_text = "".join(
                     [t.text_with_ws if type(t) == Token else t for t in sent])
             for ent in entities:
@@ -51,6 +49,7 @@ class MCQGenerator(QGenerator):
                     # Randomize choices
                     shuffle(other_choices)
 
+                    logger.debug("Question:")
                     logger.debug(str(gap_fill_question))
                     logger.debug(str(ent.label_))
                     logger.debug("ent_text: {}".format(str(ent_text)))
@@ -96,6 +95,8 @@ class MCQGenerator(QGenerator):
         entities_dict = collections.defaultdict(list)
         entities = self.find_named_entities()
         for entity in entities:
+            if entity.start == 0 and entity.text_with_ws.strip().isupper():
+                continue
             if entity.text_with_ws.strip() not in [e.text_with_ws.strip()
                for e in entities_dict[entity.label_]]:
                     entities_dict[entity.label_].append(entity)
@@ -104,7 +105,7 @@ class MCQGenerator(QGenerator):
     def trim_choices(self, other_choices):
         '''
             This handles one option being within another.
-            Ex: Bush, George Bush cannpt be 2 options for the same question.
+            Ex: Bush, George Bush cannot be 2 options for the same question.
         '''
         ents = [word.text_with_ws.strip() for word, sim in other_choices]
         ents = sorted(ents, key=len)
