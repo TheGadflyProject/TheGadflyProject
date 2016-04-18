@@ -1,5 +1,5 @@
 import unittest
-from gadfly.gap_fill_generator import GapFillGenerator, GapFillBlankType
+from gadfly.gap_fill_generator import GapFillGenerator, GapFillBlankType, tfidf
 
 
 class GapFillBlankTypeTest(unittest.TestCase):
@@ -40,7 +40,8 @@ class GapFillGeneratorTest(unittest.TestCase):
 
     def test_instanstiated_object_of_correct_type(self):
         gfg = GapFillGenerator(self.SOURCE_TEXT,
-                               [GapFillBlankType.named_entities])
+                               [GapFillBlankType.named_entities],
+                               summarizer=tfidf)
         self.assertIsInstance(gfg, GapFillGenerator)
 
 if __name__ == '__main__':
