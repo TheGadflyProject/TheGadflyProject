@@ -93,12 +93,9 @@ class QGenerator:
         for q in self.questions:
             question_dict[q.source_sentence].append(q)
 
-        # print(question_dict)
-
         final_questions = list()
         for source_sentence, questions in question_dict.items():
             shuffle(questions)
             final_questions.append(questions[0])
 
-        # return HeuristicEvaluator.heuristic_checker(final_questions)
         return final_questions
