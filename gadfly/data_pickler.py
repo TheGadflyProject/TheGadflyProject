@@ -53,7 +53,7 @@ def most_similar_spans(tgt):
     similarities = list(set([span.text_with_ws.strip() for span,
                              sim in similarities]))
 
-    return tgt.text_with_ws.strip(), similarities[1:4]
+    return tgt.text_with_ws.strip(), similarities[1:10]
 
 
 def find_prob(span):
@@ -105,4 +105,4 @@ def pickle_cities():
     pickle.dump(_gpe_cities_dict, open("reference_data/_gpe_cities_dict.p",
                                        "wb"))
 
-pickle_cities()
+pickle_gpe()

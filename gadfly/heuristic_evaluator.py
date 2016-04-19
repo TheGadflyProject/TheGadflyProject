@@ -1,4 +1,5 @@
 from .q_generator_base import QGenerator
+import random
 import logging
 import pickle
 
@@ -48,6 +49,8 @@ class HeuristicEvaluator:
             new_choices = []
             alt_type, alts = _gpe_dict[ent_text]
             alt_choices = alts[:]
+            random.shuffle(alt_choices)
+            alt_choices = alt_choices[:3]
             for choice in other_choices:
                 if choice in _gpe_dict.keys():
                     if _gpe_dict[choice][0] != alt_type:
@@ -60,11 +63,11 @@ class HeuristicEvaluator:
                             new_choices.append(
                                     alt_choices.pop(0))
                 else:
-                    logger.warn("GPE choice not in _gpe_dict: {}"
-                                .format(choice))
+                    logger.debug("GPE choice not in _gpe_dict: {}"
+                                 .format(choice))
                     new_choices.append(alt_choices.pop(0))
             other_choices = new_choices
         else:
-            logger.warn("GPE not in _gpe_dict: {}".format(ent_text))
+            logger.debug("GPE not in _gpe_dict: {}".format(ent_text))
 
         return ent_text, other_choices
