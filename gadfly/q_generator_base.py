@@ -15,9 +15,12 @@ def tfidf(sents):
     selector = TF_IDFSummarizer(EDA=True)
     sents = [sent for sent in sents][1:]  # Issue #37
     # Issue  #39
-    if sents[-1][0].orth_ == "(" and sents[-1][1].orth_ in ["Reporting",
-                                                            "Writing"]:
+    if len(sents) > 2:
+        if sents[-1][0].orth_ == "(" and sents[-1][1].orth_ in ["Reporting",
+                                                                "Writing"]:
             sents = sents[:-1]
+    else:
+        sents = sents[:-1]
     sentences = selector.summarize(sents, 5)
     return sentences
 
