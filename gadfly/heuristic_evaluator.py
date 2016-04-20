@@ -14,7 +14,7 @@ _us_state_dict = pickle.load(open(os.path.join(
                                     _REF_DATA_DIR,
                                     "_us_state_abbreviations_dict.p"
                                     ), "rb"))
-_gpe_dict = pickle.load(open(os.path.join(_REF_DATA_DIR, "_gpe_dict.p", "rb")))
+_gpe_dict = pickle.load(open(os.path.join(_REF_DATA_DIR, "_gpe_dict.p"), "rb"))
 
 
 
