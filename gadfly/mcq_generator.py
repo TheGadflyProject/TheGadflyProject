@@ -67,7 +67,7 @@ class MCQGenerator(QGenerator):
                     question = Question(sent_text, gap_fill_question,
                                         ent_text, ent, QuestionType.mcq,
                                         GapFillBlankType.named_entities,
-                                        set(other_choices))
+                                        list(set(other_choices)))
                     named_entity_questions.append(question)
         # print("#"*80)
         return named_entity_questions
