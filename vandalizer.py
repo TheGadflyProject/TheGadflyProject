@@ -1,10 +1,19 @@
 # !/usr/bin/python3
 
 # Imports
-from gadfly.gap_fill_generator import GapFillGenerator, tfidf, GapFillBlankType
+from gadfly.q_generator_base import default_identifier, GapFillBlankType
+from gadfly.mcq_generator import MCQGenerator
+from gadfly.gap_fill_generator import GapFillGenerator
+from gadfly.loggerinitializer import initialize_logger
+import logging
 import glob
 import os
 import re
+
+initialize_logger()
+logger = logging.getLogger("v")
+
+# common into third class later, tfidf and GAPFIllbalskdnfliasdf
 
 # GLOBAL VARIABLES
 # should probably refactor at some point
@@ -24,12 +33,13 @@ def main():
     output_file = open("output.txt", "w")
     files = glob.glob(news_articles)
     blank_types = [GapFillBlankType.named_entities]
-    print("Processing {} file(s)".format(len(files)))
+    logger.info("Processing {} file(s)".format(len(files)))
     for file_name in files:
         f = open(file_name, encoding='utf-8')
         article = clean_text(f.read())
-        generator = GapFillGenerator(article, gap_types=blank_types,
-                                     summarizer=tfidf)
+        # generator = GapFillGenerator(article, gap_types=blank_types,
+        #                              summarizer=tfidf)
+        generator = MCQGenerator(article, gap_types=blank_types)
         generator.output_questions_to_file(output_file)
 
 if __name__ == '__main__':
