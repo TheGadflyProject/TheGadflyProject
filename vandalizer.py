@@ -1,7 +1,7 @@
 # !/usr/bin/python3
 
 # Imports
-from gadfly.q_generator_base import tfidf, GapFillBlankType
+from gadfly.q_generator_base import default_identifier, GapFillBlankType
 from gadfly.mcq_generator import MCQGenerator
 from gadfly.gap_fill_generator import GapFillGenerator
 from gadfly.loggerinitializer import initialize_logger
@@ -39,8 +39,7 @@ def main():
         article = clean_text(f.read())
         # generator = GapFillGenerator(article, gap_types=blank_types,
         #                              summarizer=tfidf)
-        generator = MCQGenerator(article, gap_types=blank_types,
-                                 summarizer=tfidf)
+        generator = MCQGenerator(article, gap_types=blank_types)
         generator.output_questions_to_file(output_file)
 
 if __name__ == '__main__':

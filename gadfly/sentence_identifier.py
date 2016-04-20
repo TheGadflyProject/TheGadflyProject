@@ -5,7 +5,7 @@ import logging
 logger = logging.getLogger("v.sent_sum")
 
 
-class TF_IDFSummarizer:
+class SentenceIdentifier:
     def __init__(self, EDA):
         self.EDA = EDA
 
@@ -62,7 +62,7 @@ class TF_IDFSummarizer:
                  str(sorted(eda_data[n], key=lambda x: x[0], reverse=True))]
         return EDA_sents_text
 
-    def summarize(self, sents, n):
+    def identify(self, sents, n):
         """Call functions, return only the n top sentences joined"""
         dict_tf_idf = self.get_dict_tf_idf(sents)
         ranked_sents = self.get_ranked_sents(len(sents), dict_tf_idf)

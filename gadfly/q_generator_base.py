@@ -1,5 +1,5 @@
 from . import spacy_singleton
-from .sentence_summarizer import TF_IDFSummarizer
+from .sentence_identifier import SentenceIdentifier
 from .transducer import Transducer
 from enum import Enum
 import logging
@@ -11,8 +11,8 @@ from random import shuffle
 logger = logging.getLogger("v.q_gen_b")
 
 
-def tfidf(sents):
-    selector = TF_IDFSummarizer(EDA=True)
+def default_identifier(sents):
+    selector = SentenceIdentifier(EDA=True)
     sents = [sent for sent in sents][1:]  # Issue #37
     # Issue  #39
     if len(sents) > 2:
@@ -21,7 +21,7 @@ def tfidf(sents):
             sents = sents[:-1]
     else:
         sents = sents[:-1]
-    sentences = selector.summarize(sents, 5)
+    sentences = selector.identify(sents, 5)
     return sentences
 
 
@@ -39,11 +39,11 @@ class QGenerator:
     _GAP = " ___________ "
     _PUNCTUATION = list(string.punctuation)
 
-    def __init__(self, source_text, gap_types, summarizer=None, q_limit=None):
+    def __init__(self, source_text, gap_types, identifier=default_identifier, q_limit=None):
         self._source_text = source_text
         self._parsed_text = spacy_singleton.spacy_en()(self._source_text)
-        self.summarizer = types.MethodType(summarizer, self._parsed_text.sents)
-        self._top_sents = self.summarizer()
+        self.identifier = types.MethodType(identifier, self._parsed_text.sents)
+        self._top_sents = self.identifier()
         # self._top_sents = self.transduce(self._top_sents)
         self._gap_types = gap_types
         self._exclude_named_ent_types = ["DATE", "TIME", "PERCENT", "CARDINAL",
