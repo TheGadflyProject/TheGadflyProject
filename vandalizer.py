@@ -1,8 +1,7 @@
 # !/usr/bin/python3
 
 # Imports
-from gadfly.q_generator_base import default_identifier, GapFillBlankType
-from gadfly.mcq_generator import MCQGenerator
+
 from gadfly.gap_fill_generator import GapFillGenerator
 from gadfly.loggerinitializer import initialize_logger
 import logging
