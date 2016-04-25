@@ -11,17 +11,19 @@ from random import shuffle
 logger = logging.getLogger("v.q_gen_b")
 
 
-def default_identifier(sents):
+def default_identifier(sents, n=5):
     selector = SentenceIdentifier(EDA=True)
-    sents = [sent for sent in sents][1:]  # Issue #37
+    sents = [sent for sent in sents]  # Issue #37
     # Issue  #39
-    if len(sents) > 2:
+    if len(sents) < n:
+        return sents
+    elif len(sents) > 2:
         if sents[-1][0].orth_ == "(" and sents[-1][1].orth_ in ["Reporting",
                                                                 "Writing"]:
             sents = sents[:-1]
     else:
         sents = sents[:-1]
-    sentences = selector.identify(sents, 5)
+    sentences = selector.identify(sents, n)
     return sentences
 
 
