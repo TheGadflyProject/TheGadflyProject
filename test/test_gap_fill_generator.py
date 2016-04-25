@@ -35,9 +35,6 @@ class GapFillGeneratorTest(unittest.TestCase):
                                     [GapFillBlankType.named_entities],
                                     )
 
-    def test_instanstiated_object_of_correct_type(self):
-        self.assertIsInstance(self.gfg, GapFillGenerator)
-
     def test_output_to_list_should_return_list_not_set(self):
         self.assertIsInstance(self.gfg.output_questions_to_list(), list)
 
