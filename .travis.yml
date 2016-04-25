@@ -16,5 +16,6 @@ before_install:
 install:
   - python -m spacy.en.download
 # command to run tests
+cache: pip
 script:
   - python -m unittest discover -s test -p 'test*.py'
