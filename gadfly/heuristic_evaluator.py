@@ -9,7 +9,6 @@ logger = logging.getLogger("v.he")
 _PROJECT_DIR = os.path.dirname(__file__)
 _REF_DATA_DIR = os.path.join(_PROJECT_DIR, "reference_data")
 
-
 _us_state_dict = pickle.load(open(os.path.join(
                                     _REF_DATA_DIR,
                                     "_us_state_abbreviations_dict.p"
@@ -17,18 +16,15 @@ _us_state_dict = pickle.load(open(os.path.join(
 _gpe_dict = pickle.load(open(os.path.join(_REF_DATA_DIR, "_gpe_dict.p"), "rb"))
 
 
-
 class HeuristicEvaluator:
 
     def check_titles(answer_span, question, answer_choices):
         if answer_span.label_ == "PERSON":
             logger.debug("check_titles...")
-            # print("PERSON", q.answer)
             titles = ["Mr.", "Ms.", "Mrs."]
             words = question.split()
             index = words.index(QGenerator._GAP.strip())-1
             if index >= 0 and words[index] in titles:
-                # print("BOOYAH")
                 answer_choices = [name.split()[-1] for name
                                   in answer_choices]
         return list(set(answer_choices))
