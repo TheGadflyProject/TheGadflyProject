@@ -24,3 +24,10 @@ class Question:
     def __hash__(self):
         return hash((self.source_sentence, self.question, self._type,
                      self.answer))
+
+    def __repr__(self):
+        return "Question: {}\
+                Answer: {}\
+                Answer Choices: {}".format(self.question,
+                                           self.answer,
+                                           self.answer_choices)
