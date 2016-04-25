@@ -16,9 +16,6 @@ class MCQGenerator(QGenerator):
     def gen_named_entity_blanks(self):
         named_entity_questions = []
         entities_dict = self.build_entities_dictionary()
-        # print(entities_dict)
-        # for span in self._parsed_text:
-        #     print(span, span.pos_)
         entities = self.find_named_entities()
         for sent in self._top_sents:
             sent_text = "".join(
@@ -30,10 +27,11 @@ class MCQGenerator(QGenerator):
                     # ent_text will have no '
                     # ent_end, ent_text = ent.end, ent.text_with_ws
                     ent_end, ent_text = HeuristicEvaluator.remove_apos_s_ans(
-                        ent, self._parsed_text)
-                    gap_fill_question = str(self._parsed_text
-                                            [sent.start:ent.start]) \
-                        + self._GAP + str(self._parsed_text[ent_end:sent.end])
+                                            ent, self._parsed_text)
+                    gap_fill_question = str(
+                            self._parsed_text[sent.start:ent.start]) + \
+                        self._GAP + \
+                        str(self._parsed_text[ent_end:sent.end])
                     other_choices = self.generate_other_choices(entities_dict,
                                                                 ent, sent)
                     # Heuristic: handles the case when titles maybe present in

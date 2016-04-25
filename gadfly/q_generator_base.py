@@ -41,7 +41,8 @@ class QGenerator:
     _GAP = " ___________ "
     _PUNCTUATION = list(string.punctuation)
 
-    def __init__(self, source_text, gap_types, identifier=default_identifier, q_limit=None):
+    def __init__(self, source_text, gap_types,
+                 identifier=default_identifier, q_limit=None):
         self._source_text = source_text
         self._parsed_text = spacy_singleton.spacy_en()(self._source_text)
         self.identifier = types.MethodType(identifier, self._parsed_text.sents)
