@@ -2,12 +2,6 @@ import unittest
 from gadfly.gap_fill_generator import GapFillGenerator, GapFillBlankType
 
 
-class GapFillBlankTypeTest(unittest.TestCase):
-    def test_instanstiated_object_of_correct_type(self):
-        q_type_named_entity = GapFillBlankType.named_entities
-        self.assertIsInstance(q_type_named_entity, GapFillBlankType)
-
-
 class GapFillGeneratorTest(unittest.TestCase):
 
     def setUp(self):
@@ -67,6 +61,15 @@ class GapFillGeneratorTest(unittest.TestCase):
     def test_should_generate_one_question_with_one_named_ents(self):
         source_sentence =\
             "Those currents were evident in two recent developments " + \
+            "in Iran."
+        gfg = GapFillGenerator(source_sentence,
+                               [GapFillBlankType.named_entities],
+                               )
+        self.assertEqual(1, len(gfg.output_questions_to_list()))
+
+    def test_should_generate_one_question_with_two_named_ents(self):
+        source_sentence =\
+            "Those NSA targets were evident in two recent developments " + \
             "in Iran."
         gfg = GapFillGenerator(source_sentence,
                                [GapFillBlankType.named_entities],
