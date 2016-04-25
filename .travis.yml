@@ -16,6 +16,9 @@ before_install:
 install:
   - python -m spacy.en.download
 # command to run tests
-cache: pip
+cache:
+  directories:
+    - /home/travis/virtualenv/python3.5.0/lib/python3.5/site-packages
+    - /home/travis/virtualenv/python3.5.0/lib/python3.5/site-packages/spacy/en/data/
 script:
   - python -m unittest discover -s test -p 'test*.py'
