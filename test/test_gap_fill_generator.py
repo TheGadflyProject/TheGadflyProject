@@ -47,8 +47,10 @@ class GapFillGeneratorTest(unittest.TestCase):
         self.assertTrue(output_keys.issuperset(required_keys))
 
     def test_answer_choice_should_be_none(self):
-        [s.answer_choices for s in self.gfg.gen_named_entity_blanks()
-         if s.answer_choices is not None]
+        answer_choices = [s.answer_choices
+                          for s in self.gfg.gen_named_entity_blanks()
+                          if s.answer_choices is not None]
+        self.assertFalse(answer_choices)
 
     def test_should_generate_zero_questions_with_no_named_ents(self):
         source_sentence =\
