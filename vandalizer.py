@@ -2,6 +2,8 @@
 
 # Imports
 
+from gadfly.q_generator_base import default_identifier, GapFillBlankType
+from gadfly.mcq_generator import MCQGenerator
 from gadfly.gap_fill_generator import GapFillGenerator
 from gadfly.loggerinitializer import initialize_logger
 import logging
@@ -11,8 +13,6 @@ import re
 
 initialize_logger()
 logger = logging.getLogger("v")
-
-# common into third class later, tfidf and GAPFIllbalskdnfliasdf
 
 # GLOBAL VARIABLES
 # should probably refactor at some point
@@ -33,7 +33,7 @@ def main():
     files = glob.glob(news_articles)
     blank_types = [GapFillBlankType.named_entities]
     logger.info("Processing {} file(s)".format(len(files)))
-    for file_name in files:
+    for file_name in files[:2]:
         f = open(file_name, encoding='utf-8')
         article = clean_text(f.read())
         # generator = GapFillGenerator(article, gap_types=blank_types,
