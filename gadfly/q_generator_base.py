@@ -42,7 +42,7 @@ class QGenerator:
     _PUNCTUATION = list(string.punctuation)
 
     def __init__(self, source_text, gap_types,
-                 identifier=default_identifier, q_limit=None):
+                 identifier=default_identifier, q_limit=True):
         self._source_text = source_text
         self._parsed_text = spacy_singleton.spacy_en()(self._source_text)
         self.identifier = types.MethodType(identifier, self._parsed_text.sents)
@@ -95,7 +95,11 @@ class QGenerator:
         output_file.write("")
 
     def question_selector(self):
+        if self.q_limit is False:
+            return self.questions
+
         question_dict = collections.defaultdict(list)
+
         for q in self.questions:
             question_dict[q.source_sentence].append(q)
 
