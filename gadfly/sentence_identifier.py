@@ -18,18 +18,21 @@ class SentenceIdentifier:
         return dict_token_probs
 
     def get_ranked_sents(self, lensen, dict_token_probs):
-        n_scores = [0] * lensen
-        n_score_count = [0] * lensen
-        dict_token_probs_sorted = ((k, dict_token_probs[k]) for k in sorted(
-                                   dict_token_probs,
+        """(1) Get a generator of ((sent id, tokens), prob) sorted by prob
+           (2) Iterate through list till 5 scores are added per sent
+           (3) Rank sents by """
+        sent_id_scores = [0] * lensen
+        sent_id_score_count = [0] * lensen
+        dict_token_probs_sorted = ((key, dict_token_probs[key]) for key in
+                                   sorted(dict_token_probs,
                                    key=dict_token_probs.get,
                                    reverse=True))
-        for (n, word), value in dict_token_probs_sorted:
-            if n_score_count[n] >= 5:
+        for (n, token), value in dict_token_probs_sorted:
+            if sent_id_score_count[n] >= 5:
                 continue
-            n_scores[n] = n_scores[n] + value
-            n_score_count[n] += 1
-        ranked_sents = (sorted([(x, n) for n, x in enumerate(n_scores)],
+            sent_id_scores[n] = sent_id_scores[n] + value
+            sent_id_score_count[n] += 1
+        ranked_sents = (sorted([(x, n) for n, x in enumerate(sent_id_scores)],
                         reverse=True))
         return ranked_sents
 

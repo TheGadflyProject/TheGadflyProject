@@ -11,7 +11,7 @@ from random import shuffle
 logger = logging.getLogger("v.q_gen_b")
 
 
-def default_identifier(sents, n=5):
+def default_identifier(sents, n=10):
     selector = SentenceIdentifier(EDA=True)
     sents = [sent for sent in sents]  # Issue #37
     # Issue  #39
