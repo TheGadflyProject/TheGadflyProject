@@ -2,7 +2,7 @@
 
 # Imports
 
-from gadfly.gap_fill_generator import GapFillGenerator
+from gadfly.gap_fill_generator import GapFillGenerator, GapFillBlankType
 from gadfly.loggerinitializer import initialize_logger
 import logging
 import glob
@@ -36,9 +36,9 @@ def main():
     for file_name in files:
         f = open(file_name, encoding='utf-8')
         article = clean_text(f.read())
-        # generator = GapFillGenerator(article, gap_types=blank_types,
-        #                              summarizer=tfidf)
-        generator = MCQGenerator(article, gap_types=blank_types)
+        generator = GapFillGenerator(article, gap_types=blank_types,
+                                     summarizer=tfidf)
+        # generator = MCQGenerator(article, gap_types=blank_types)
         generator.output_questions_to_file(output_file)
 
 if __name__ == '__main__':
