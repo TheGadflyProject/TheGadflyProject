@@ -36,8 +36,7 @@ def main():
     for file_name in files:
         f = open(file_name, encoding='utf-8')
         article = clean_text(f.read())
-        generator = GapFillGenerator(article, gap_types=blank_types,
-                                     summarizer=tfidf)
+        generator = GapFillGenerator(article, gap_types=blank_types)
         # generator = MCQGenerator(article, gap_types=blank_types)
         generator.output_questions_to_file(output_file)
 
