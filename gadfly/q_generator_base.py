@@ -7,6 +7,7 @@ import string
 import types
 import collections
 from random import shuffle
+from . import nyt_popularity
 
 logger = logging.getLogger("v.q_gen_b")
 
@@ -101,7 +102,11 @@ class QGenerator:
 
         final_questions = list()
         for source_sentence, questions in question_dict.items():
-            shuffle(questions)
-            final_questions.append(questions[0])
+            ents = [question.answer for question in questions]
+            most_popular = nyt_popularity.most_popular_terms(ents, 1)[0]
+            for question in questions:
+                if question.answer == most_popular[0]:
+                    final_questions.append(question)
+                    break
 
         return final_questions
