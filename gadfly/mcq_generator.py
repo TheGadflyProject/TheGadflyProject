@@ -13,25 +13,26 @@ logger = logging.getLogger("v.mcq_g")
 
 class MCQGenerator(QGenerator):
 
-    def generate_question(self, sentence):
+    def generate_question(self, sent_start, sent_end):
         entities_dict = self.build_entities_dictionary()
         entities = self.entities
+        sent = self.parsed_text[sent_start:sent_end]
         sent_text = "".join(
-                [t.text_with_ws if type(t) == Token else t for t in sentence])
+                [t.text_with_ws if type(t) == Token else t for t in sent])
         for ent in entities:
             ent_text = ent.text_with_ws.strip()
-            if (sentence.start <= ent.start and sentence.end >= ent.end):
+            if (sent_start <= ent.start and sent_end >= ent.end):
                 # if 's in entity, then ent_end will reduce by 1 and
                 # ent_text will have no '
                 # ent_end, ent_text = ent.end, ent.text_with_ws
                 ent_end, ent_text = HeuristicEvaluator.remove_apos_s_ans(
                                         ent, self.parsed_text)
                 gap_fill_question = str(
-                        self.parsed_text[sentence.start:ent.start]) + \
+                        self.parsed_text[sent_start:ent.start]) + \
                     self._GAP + \
-                    str(self.parsed_text[ent_end:sentence.end])
+                    str(self.parsed_text[ent_end:sent_end])
                 other_choices = self.generate_other_choices(entities_dict,
-                                                            ent, sentence)
+                                                            ent, sent)
                 # Heuristic: handles the case when titles maybe present in
                 # a sentence. We change all the options to only last name.
                 other_choices = HeuristicEvaluator.check_titles(
@@ -65,8 +66,9 @@ class MCQGenerator(QGenerator):
                 return question
 
     def generate_questions(self):
-        return [self.generate_question(sent) for sent in self.top_sents
-                if self.generate_question(sent) != None]
+        return [self.generate_question(sent.start, sent.end) 
+                for sent in self.top_sents
+                if self.generate_question(sent.start, sent.end) != None]
 
     def generate_other_choices(self, entities_dict, entity, sent):
         all_entities = entities_dict[entity.label_]

@@ -38,7 +38,7 @@ def main():
         article = clean_text(f.read())
         # generator = GapFillGenerator(article)
         generator = MCQGenerator(article)
-        generator.output_questions_to_file(output_file)
+        generator.output_questions(output_file = output_file)
 
 if __name__ == '__main__':
     main()

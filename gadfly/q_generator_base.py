@@ -49,6 +49,7 @@ class QGenerator:
         self.entities = self.find_named_entities()
         # self.top_sents = self.transduce(self.top_sents)
         self.questions = self.generate_questions()
+        self.top_questions = self.question_selector()
         self._q_limit = q_limit
 
     def transduce(self, sents):
@@ -81,19 +82,14 @@ class QGenerator:
                     break
         return final_questions
 
-    def output_questions_to_list(self):
-        questions = []
-        for n, q in enumerate(self.question_selector()):
-            questions.append(vars(q))
+    def output_questions(self, questions=None, output_file=None):
+        if questions == None:
+            questions = self.top_questions
+        
+        questions = [vars(q) for n, q in enumerate(questions)]        
+        if output_file == None:
+            with output_file as o:
+                o.write("\n".join(questions))
+                
         return questions
-
-    def output_questions_to_file(self, output_file):
-        for n, q in enumerate(self.question_selector()):
-            output_file.write("\nQuestion #{}\n".format(n+1))
-            output_file.write(
-                ", ".join(["Q: {}".format(q.question),
-                           "Choices: {}".format(q.answer_choices),
-                           "A: {}\n".format(q.answer)])
-            )
-        output_file.write("")
 
