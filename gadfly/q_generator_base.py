@@ -32,10 +32,7 @@ def default_identifier(sents, n=5):
 class QuestionType(Enum):
     gap_fill = "gap_fill"
     mcq = "mcq"
-    
-    def to_JSON(self):
-        return json.dumps(self, default=lambda o: o.__dict__, 
-            sort_keys=True, indent=4)
+
 
 class EnumEncoder(json.JSONEncoder):
     def default(self, obj):
@@ -49,6 +46,7 @@ class EnumEncoder(json.JSONEncoder):
             return getattr(globals()[name], member)
         else:
             return d
+
 
 class QGenerator:
     _GAP = " ___________ "
@@ -67,7 +65,7 @@ class QGenerator:
         self.entities = self.find_named_entities()
         self.transduced_sents = self.transduce(self.top_sents)
         self.questions = self.generate_questions()
-        self.top_questions = self.question_selector()
+        self.top_questions = self.select_top_question_for_sentence()
         self._q_limit = q_limit
 
     def transduce(self, sents):
@@ -85,7 +83,7 @@ class QGenerator:
     def generate_questions(self):
         """ implemented in subclass to gen questions"""
 
-    def question_selector(self):
+    def select_top_question_for_sentence(self):
         question_dict = collections.defaultdict(list)
         for q in self.questions:
             question_dict[q.source_sentence].append(q)
