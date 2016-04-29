@@ -13,62 +13,60 @@ logger = logging.getLogger("v.mcq_g")
 
 class MCQGenerator(QGenerator):
 
-    def generate_questions(self):
-        named_entity_questions = []
+    def generate_question(self, sentence):
         entities_dict = self.build_entities_dictionary()
-        entities = self.find_named_entities()
-        for sent in self._top_sents:
-            sent_text = "".join(
-                    [t.text_with_ws if type(t) == Token else t for t in sent])
-            for ent in entities:
-                ent_text = ent.text_with_ws.strip()
-                if (sent.start < ent.start and sent.end > ent.end):
-                    # if 's in entity, then ent_end will reduce by 1 and
-                    # ent_text will have no '
-                    # ent_end, ent_text = ent.end, ent.text_with_ws
-                    ent_end, ent_text = HeuristicEvaluator.remove_apos_s_ans(
-                                            ent, self._parsed_text)
-                    gap_fill_question = str(
-                            self._parsed_text[sent.start:ent.start]) + \
-                        self._GAP + \
-                        str(self._parsed_text[ent_end:sent.end])
-                    other_choices = self.generate_other_choices(entities_dict,
-                                                                ent, sent)
-                    # Heuristic: handles the case when titles maybe present in
-                    # a sentence. We change all the options to only last name.
-                    other_choices = HeuristicEvaluator.check_titles(
-                        ent, gap_fill_question, other_choices)
-                    # Reduce no. of choices to 3
-                    other_choices = other_choices[:3]
-                    # Heuristic evaluator - remove apostrophes
-                    other_choices = HeuristicEvaluator.remove_apos_s_choices(
-                        other_choices)
+        entities = self.entities
+        sent_text = "".join(
+                [t.text_with_ws if type(t) == Token else t for t in sentence])
+        for ent in entities:
+            ent_text = ent.text_with_ws.strip()
+            if (sentence.start <= ent.start and sentence.end >= ent.end):
+                # if 's in entity, then ent_end will reduce by 1 and
+                # ent_text will have no '
+                # ent_end, ent_text = ent.end, ent.text_with_ws
+                ent_end, ent_text = HeuristicEvaluator.remove_apos_s_ans(
+                                        ent, self.parsed_text)
+                gap_fill_question = str(
+                        self.parsed_text[sentence.start:ent.start]) + \
+                    self._GAP + \
+                    str(self.parsed_text[ent_end:sentence.end])
+                other_choices = self.generate_other_choices(entities_dict,
+                                                            ent, sentence)
+                # Heuristic: handles the case when titles maybe present in
+                # a sentence. We change all the options to only last name.
+                other_choices = HeuristicEvaluator.check_titles(
+                    ent, gap_fill_question, other_choices)
+                # Reduce no. of choices to 3
+                other_choices = other_choices[:3]
+                # Heuristic evaluator - remove apostrophes
+                other_choices = HeuristicEvaluator.remove_apos_s_choices(
+                    other_choices)
 
-                    if ent.label_ == "GPE":
-                        ent_text, other_choices = HeuristicEvaluator.\
-                            gpe_evaluator(other_choices, ent_text)
+                if ent.label_ == "GPE":
+                    ent_text, other_choices = HeuristicEvaluator.\
+                        gpe_evaluator(other_choices, ent_text)
 
-                    # No. of choices now becomes 4
-                    other_choices.append(ent_text)
-                    # Randomize choices
-                    shuffle(other_choices)
+                # No. of choices now becomes 4
+                other_choices.append(ent_text)
+                # Randomize choices
+                shuffle(other_choices)
 
-                    logger.debug("Question:")
-                    logger.debug(str(gap_fill_question))
-                    logger.debug(str(ent.label_))
-                    logger.debug("ent_text: {}".format(str(ent_text)))
-                    logger.debug("answer_choices: {}".format(
-                        str(other_choices)))
+                logger.debug("Question:")
+                logger.debug(str(gap_fill_question))
+                logger.debug(str(ent.label_))
+                logger.debug("ent_text: {}".format(str(ent_text)))
+                logger.debug("answer_choices: {}".format(
+                    str(other_choices)))
 
-                    # print("#"*30)
+                question = Question(sent_text, gap_fill_question,
+                                    ent_text, ent, QuestionType.mcq,
+                                    ["named_entities"],
+                                    list(set(other_choices)))
+                return question
 
-                    question = Question(sent_text, gap_fill_question,
-                                        ent_text, ent, QuestionType.mcq,
-                                        ["named_entities"],
-                                        list(set(other_choices)))
-                    named_entity_questions.append(question)
-        # print("#"*80)
-        return named_entity_questions
+    def generate_questions(self):
+        return [self.generate_question(sent) for sent in self.top_sents
+                if self.generate_question(sent) != None]
 
     def generate_other_choices(self, entities_dict, entity, sent):
         all_entities = entities_dict[entity.label_]

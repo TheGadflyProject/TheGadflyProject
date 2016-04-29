@@ -39,25 +39,24 @@ class QGenerator:
 
     def __init__(self, source_text,
                  identifier=default_identifier, q_limit=None):
-        self._source_text = source_text
-        self._parsed_text = spacy_singleton.spacy_en()(self._source_text)
-        self.identifier = types.MethodType(identifier, self._parsed_text.sents)
-        self._top_sents = self.identifier()
-        # self._top_sents = self.transduce(self._top_sents)
+        self.source_text = source_text
+        self.parsed_text = spacy_singleton.spacy_en()(self.source_text)
+        self._identifier = types.MethodType(identifier, self.parsed_text.sents)
+        self.sents = [sent for sent in self.parsed_text.sents]
+        self.top_sents = self._identifier()
         self._exclude_named_ent_types = ["DATE", "TIME", "PERCENT", "CARDINAL",
                                          "MONEY", "ORDINAL", "QUANTITY"]
+        self.entities = self.find_named_entities()
+        # self.top_sents = self.transduce(self.top_sents)
         self.questions = self.generate_questions()
-        self.q_limit = q_limit
-
-    def get_sentences(self):
-        return [sent for sent in self._parsed_text.sents]
+        self._q_limit = q_limit
 
     def transduce(self, sents):
         return [Transducer.transduce(sent) for sent in sents]
 
     def find_named_entities(self):
         entities = []
-        for ent in self._parsed_text.ents:
+        for ent in self.parsed_text.ents:
             if (ent.label_ != "" and
                ent.label_ not in self._exclude_named_ent_types):
                 entities.append(ent)
