@@ -1,6 +1,6 @@
 from .question import Question
 from spacy.tokens.token import Token
-from .q_generator_base import QGenerator, GapFillBlankType, QuestionType
+from .q_generator_base import QGenerator, QuestionType
 from .heuristic_evaluator import HeuristicEvaluator
 import logging
 import collections
@@ -13,7 +13,7 @@ logger = logging.getLogger("v.mcq_g")
 
 class MCQGenerator(QGenerator):
 
-    def gen_named_entity_blanks(self):
+    def generate_questions(self):
         named_entity_questions = []
         entities_dict = self.build_entities_dictionary()
         entities = self.find_named_entities()
@@ -64,7 +64,7 @@ class MCQGenerator(QGenerator):
 
                     question = Question(sent_text, gap_fill_question,
                                         ent_text, ent, QuestionType.mcq,
-                                        GapFillBlankType.named_entities,
+                                        ["named_entities"],
                                         list(set(other_choices)))
                     named_entity_questions.append(question)
         # print("#"*80)

@@ -1,11 +1,11 @@
 from .question import Question
 from spacy.tokens.token import Token
-from .q_generator_base import QGenerator, GapFillBlankType, QuestionType
+from .q_generator_base import QGenerator, QuestionType
 
 
 class GapFillGenerator(QGenerator):
 
-    def gen_named_entity_blanks(self):
+    def generate_questions(self):
         named_entity_questions = []
         entities = self.find_named_entities()
         for sent in self._top_sents:
@@ -20,6 +20,6 @@ class GapFillGenerator(QGenerator):
 
                     question = Question(sent_text, gap_fill_question,
                                         ent.text, ent, QuestionType.gap_fill,
-                                        GapFillBlankType.named_entities)
+                                        "named_entities")
                     named_entity_questions.append(question)
         return named_entity_questions

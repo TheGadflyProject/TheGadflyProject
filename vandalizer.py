@@ -2,7 +2,8 @@
 
 # Imports
 
-from gadfly.gap_fill_generator import GapFillGenerator, GapFillBlankType
+from gadfly.gap_fill_generator import GapFillGenerator
+from gadfly.mcq_generator import MCQGenerator
 from gadfly.loggerinitializer import initialize_logger
 import logging
 import glob
@@ -31,13 +32,12 @@ def main():
     news_articles = os.path.join(_NEWS_ARTICLES_DIR, "*.txt")
     output_file = open("output.txt", "w")
     files = glob.glob(news_articles)
-    blank_types = [GapFillBlankType.named_entities]
     logger.info("Processing {} file(s)".format(len(files)))
     for file_name in files:
         f = open(file_name, encoding='utf-8')
         article = clean_text(f.read())
-        generator = GapFillGenerator(article, gap_types=blank_types)
-        # generator = MCQGenerator(article, gap_types=blank_types)
+        # generator = GapFillGenerator(article)
+        generator = MCQGenerator(article)
         generator.output_questions_to_file(output_file)
 
 if __name__ == '__main__':
