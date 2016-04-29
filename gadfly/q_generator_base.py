@@ -9,6 +9,7 @@ import collections
 from random import shuffle
 from . import nyt_popularity
 import abc
+import json
 logger = logging.getLogger("v.q_gen_b")
 
 
@@ -31,7 +32,23 @@ def default_identifier(sents, n=5):
 class QuestionType(Enum):
     gap_fill = "gap_fill"
     mcq = "mcq"
+    
+    def to_JSON(self):
+        return json.dumps(self, default=lambda o: o.__dict__, 
+            sort_keys=True, indent=4)
 
+class EnumEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, Enum):
+            return {"__enum__": str(obj)}
+        return json.JSONEncoder.default(self, obj)
+
+    def as_enum(d):
+        if "__enum__" in d:
+            name, member = d["__enum__"].split(".")
+            return getattr(globals()[name], member)
+        else:
+            return d
 
 class QGenerator:
     _GAP = " ___________ "
@@ -39,6 +56,7 @@ class QGenerator:
 
     def __init__(self, source_text,
                  identifier=default_identifier, q_limit=None):
+        __metaclass__  = abc.ABCMeta
         self.source_text = source_text
         self.parsed_text = spacy_singleton.spacy_en()(self.source_text)
         self._identifier = types.MethodType(identifier, self.parsed_text.sents)
@@ -47,7 +65,7 @@ class QGenerator:
         self._exclude_named_ent_types = ["DATE", "TIME", "PERCENT", "CARDINAL",
                                          "MONEY", "ORDINAL", "QUANTITY"]
         self.entities = self.find_named_entities()
-        # self.top_sents = self.transduce(self.top_sents)
+        self.transduced_sents = self.transduce(self.top_sents)
         self.questions = self.generate_questions()
         self.top_questions = self.question_selector()
         self._q_limit = q_limit
@@ -87,9 +105,8 @@ class QGenerator:
             questions = self.top_questions
         
         questions = [vars(q) for n, q in enumerate(questions)]        
-        if output_file == None:
+        if output_file != None:
             with output_file as o:
-                o.write("\n".join(questions))
+                json.dump(questions, o, cls=EnumEncoder)
                 
         return questions
-
