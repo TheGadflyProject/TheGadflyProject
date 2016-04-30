@@ -91,7 +91,10 @@ class QGenerator:
         final_questions = list()
         for source_sentence, questions in question_dict.items():
             ents = [question.answer for question in questions]
-            most_popular = nyt_popularity.most_popular_terms(ents, 1)[0]
+            try:
+                most_popular = nyt_popularity.most_popular_terms(ents, 1)[0]
+            except ValueError as e:
+                most_popular = shuffle(ents)[0]
             for question in questions:
                 if question.answer == most_popular[0]:
                     final_questions.append(question)
@@ -100,7 +103,7 @@ class QGenerator:
 
     def output_questions(self, questions=None, output_file=None):
         if questions == None:
-            questions = self.top_questions
+            questions = self.questions
 
         questions = [vars(q) for n, q in enumerate(questions)]
         if output_file != None:
