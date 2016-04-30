@@ -101,10 +101,10 @@ class QGenerator:
     def output_questions(self, questions=None, output_file=None):
         if questions == None:
             questions = self.top_questions
-        
-        questions = [vars(q) for n, q in enumerate(questions)]        
+
+        questions = [vars(q) for n, q in enumerate(questions)]
         if output_file != None:
             with output_file as o:
                 json.dump(questions, o, cls=EnumEncoder)
-                
+
         return questions

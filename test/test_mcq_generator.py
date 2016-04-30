@@ -1,5 +1,5 @@
 import unittest
-from gadfly.mcq_generator import MCQGenerator, GapFillBlankType
+from gadfly.mcq_generator import MCQGenerator
 
 
 class MCQGeneratorTest(unittest.TestCase):
@@ -31,55 +31,47 @@ class MCQGeneratorTest(unittest.TestCase):
         Japan’s once-famed consumer electronics companies, which have been
         undercut in recent years by lower-cost competition from China and
         South Korea."""
-        self.mcq = MCQGenerator(self.SOURCE_TEXT,
-                                [GapFillBlankType.named_entities],
-                                )
+        self.mcq = MCQGenerator(self.SOURCE_TEXT)
 
     def test_output_to_list_should_return_list_not_set(self):
-        self.assertIsInstance(self.mcq.output_questions_to_list(), list)
+        self.assertIsInstance(self.mcq.output_questions(), list)
 
     def test_output_to_list_keys_should_include_required_fields(self):
-        output_keys = set(self.mcq.output_questions_to_list()[0].keys())
+        output_keys = set(self.mcq.output_questions()[0].keys())
         required_keys = set(["question", "answer", "answer_choices"])
         self.assertTrue(output_keys.issuperset(required_keys))
 
     def test_answer_choice_should_return_values(self):
         answer_choices = [s.answer_choices
-                          for s in self.mcq.gen_named_entity_blanks()
+                          for s in self.mcq.generate_questions()
                           if s.answer_choices is not None]
         self.assertTrue(answer_choices)
 
     def test_answer_choices_should_be_unique(self):
         answer_choices = [s.answer_choices
-                          for s in self.mcq.gen_named_entity_blanks()
+                          for s in self.mcq.generate_questions()
                           if s.answer_choices is not None]
         self.assertTrue(len(answer_choices[0]) == len(set(answer_choices[0])))
 
     def test_should_generate_zero_questions_with_no_named_ents(self):
         source_sentence =\
             "Those currents were evident in two recent developments."
-        mcq = MCQGenerator(source_sentence,
-                           [GapFillBlankType.named_entities],
-                           )
-        self.assertFalse(mcq.output_questions_to_list())
+        mcq = MCQGenerator(source_sentence)
+        self.assertFalse(mcq.output_questions())
 
     def test_should_generate_one_question_with_one_named_ents(self):
         source_sentence =\
             "Those currents were evident in two recent developments " + \
             "in Iran."
-        mcq = MCQGenerator(source_sentence,
-                           [GapFillBlankType.named_entities],
-                           )
-        self.assertEqual(1, len(mcq.output_questions_to_list()))
+        mcq = MCQGenerator(source_sentence)
+        self.assertEqual(1, len(mcq.output_questions()))
 
     def test_should_generate_one_question_with_two_named_ents(self):
         source_sentence =\
             "Those NSA targets were evident in two recent developments " + \
             "in Iran."
-        mcq = MCQGenerator(source_sentence,
-                           [GapFillBlankType.named_entities],
-                           )
-        self.assertEqual(1, len(mcq.output_questions_to_list()))
+        mcq = MCQGenerator(source_sentence)
+        self.assertEqual(1, len(mcq.output_questions()))
 
     if __name__ == '__main__':
             unittest.main()
