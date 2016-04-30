@@ -95,7 +95,7 @@ class QGenerator:
                 most_popular = nyt_popularity.most_popular_terms(ents, 1)[0]
             except ValueError as e:
                 shuffle(ents)
-                most_popular = ents[0]
+                most_popular = ents[:1]
             for question in questions:
                 if question.answer == most_popular[0]:
                     final_questions.append(question)
