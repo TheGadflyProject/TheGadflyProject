@@ -104,7 +104,7 @@ class QGenerator:
 
     def output_questions(self, questions=None, output_file=None):
         if questions == None:
-            questions = self.questions
+            questions = self.top_questions
 
         questions = [vars(q) for n, q in enumerate(questions)]
         if output_file != None:
