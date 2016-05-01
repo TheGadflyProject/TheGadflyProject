@@ -7,7 +7,9 @@ import string
 import types
 import collections
 from random import shuffle
-
+from . import nyt_popularity
+from abc import ABC, abstractmethod
+import json
 logger = logging.getLogger("v.q_gen_b")
 
 
@@ -32,72 +34,55 @@ class QuestionType(Enum):
     mcq = "mcq"
 
 
-class GapFillBlankType(Enum):
-    named_entities = "named_entities"
-    noun_phrases = "noun_phrases"
+class EnumEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, Enum):
+            return {"__enum__": str(obj)}
+        return json.JSONEncoder.default(self, obj)
+
+    def as_enum(d):
+        if "__enum__" in d:
+            name, member = d["__enum__"].split(".")
+            return getattr(globals()[name], member)
+        else:
+            return d
 
 
-class QGenerator:
+class QGenerator(ABC):
     _GAP = " ___________ "
     _PUNCTUATION = list(string.punctuation)
 
-    def __init__(self, source_text, gap_types,
-                 identifier=default_identifier, q_limit=True):
-        self._source_text = source_text
-        self._parsed_text = spacy_singleton.spacy_en()(self._source_text)
-        self.identifier = types.MethodType(identifier, self._parsed_text.sents)
-        self._top_sents = self.identifier()
-        # self._top_sents = self.transduce(self._top_sents)
-        self._gap_types = gap_types
+    def __init__(self, source_text,
+                 identifier=default_identifier, q_limit=None):
+        self.source_text = source_text
+        self.parsed_text = spacy_singleton.spacy_en()(self.source_text)
+        self._identifier = types.MethodType(identifier, self.parsed_text.sents)
+        self.sents = [sent for sent in self.parsed_text.sents]
+        self.top_sents = self._identifier()
         self._exclude_named_ent_types = ["DATE", "TIME", "PERCENT", "CARDINAL",
                                          "MONEY", "ORDINAL", "QUANTITY"]
+        self.entities = self.find_named_entities()
+        self.transduced_sents = self.transduce(self.top_sents)
         self.questions = self.generate_questions()
-        self.q_limit = q_limit
+        self.top_questions = self.select_top_question_for_sentence()
+        self._q_limit = q_limit
 
     def transduce(self, sents):
-        transduced_sents = [Transducer.transduce(sent) for sent in sents]
-        return transduced_sents
+        return [Transducer.transduce(sent) for sent in sents]
 
     def find_named_entities(self):
         entities = []
-        for ent in self._parsed_text.ents:
+        for ent in self.parsed_text.ents:
             if (ent.label_ != "" and
                ent.label_ not in self._exclude_named_ent_types):
                 entities.append(ent)
         return entities
 
+    @abstractmethod
     def generate_questions(self):
-        question_set = []
-        for gap_type in self._gap_types:
+        """ implemented in subclass to gen questions"""
 
-            if gap_type == GapFillBlankType.named_entities:
-                question_set += list(self.gen_named_entity_blanks())
-
-            if gap_type == GapFillBlankType.noun_phrases:
-                question_set += list(self.gen_noun_phrase_blanks())
-
-            return question_set
-
-    def output_questions_to_list(self):
-        questions = []
-        for n, q in enumerate(self.question_selector()):
-            questions.append(vars(q))
-        return questions
-
-    def output_questions_to_file(self, output_file):
-        for n, q in enumerate(self.question_selector()):
-            output_file.write("\nQuestion #{}\n".format(n+1))
-            output_file.write(
-                ", ".join(["Q: {}".format(q.question),
-                           "Choices: {}".format(q.answer_choices),
-                           "A: {}\n".format(q.answer)])
-            )
-        output_file.write("")
-
-    def question_selector(self):
-        if self.q_limit is False:
-            return self.questions
-
+    def select_top_question_for_sentence(self):
         question_dict = collections.defaultdict(list)
 
         for q in self.questions:
@@ -105,7 +90,25 @@ class QGenerator:
 
         final_questions = list()
         for source_sentence, questions in question_dict.items():
-            shuffle(questions)
-            final_questions.append(questions[0])
-
+            ents = [question.answer for question in questions]
+            try:
+                most_popular = nyt_popularity.most_popular_terms(ents, 1)[0]
+            except ValueError:
+                shuffle(ents)
+                most_popular = ents[:1]
+            for question in questions:
+                if question.answer == most_popular[0]:
+                    final_questions.append(question)
+                    break
         return final_questions
+
+    def output_questions(self, questions=None, output_file=None):
+        if questions is None:
+            questions = self.top_questions
+
+        questions = [vars(q) for n, q in enumerate(questions)]
+        if output_file is not None:
+            with output_file as o:
+                json.dump(questions, o, cls=EnumEncoder)
+
+        return questions

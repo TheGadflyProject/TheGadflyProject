@@ -1,5 +1,5 @@
 import unittest
-from gadfly.gap_fill_generator import GapFillGenerator, GapFillBlankType
+from gadfly.gap_fill_generator import GapFillGenerator
 
 
 class GapFillGeneratorTest(unittest.TestCase):
@@ -31,49 +31,41 @@ class GapFillGeneratorTest(unittest.TestCase):
         Japan’s once-famed consumer electronics companies, which have been
         undercut in recent years by lower-cost competition from China and
         South Korea."""
-        self.gfg = GapFillGenerator(self.SOURCE_TEXT,
-                                    [GapFillBlankType.named_entities],
-                                    )
+        self.gfg = GapFillGenerator(self.SOURCE_TEXT)
 
     def test_output_to_list_should_return_list_not_set(self):
-        self.assertIsInstance(self.gfg.output_questions_to_list(), list)
+        self.assertIsInstance(self.gfg.output_questions(), list)
 
     def test_output_to_list_keys_should_include_required_fields(self):
-        output_keys = set(self.gfg.output_questions_to_list()[0].keys())
+        output_keys = set(self.gfg.output_questions()[0].keys())
         required_keys = set(["question", "answer", "answer_choices"])
         self.assertTrue(output_keys.issuperset(required_keys))
 
     def test_answer_choice_should_be_none(self):
         answer_choices = [s.answer_choices
-                          for s in self.gfg.gen_named_entity_blanks()
+                          for s in self.gfg.generate_questions()
                           if s.answer_choices is not None]
         self.assertFalse(answer_choices)
 
     def test_should_generate_zero_questions_with_no_named_ents(self):
         source_sentence =\
             "Those currents were evident in two recent developments."
-        gfg = GapFillGenerator(source_sentence,
-                               [GapFillBlankType.named_entities],
-                               )
-        self.assertFalse(gfg.output_questions_to_list())
+        gfg = GapFillGenerator(source_sentence)
+        self.assertFalse(gfg.output_questions())
 
     def test_should_generate_one_question_with_one_named_ents(self):
         source_sentence =\
             "Those currents were evident in two recent developments " + \
             "in Iran."
-        gfg = GapFillGenerator(source_sentence,
-                               [GapFillBlankType.named_entities],
-                               )
-        self.assertEqual(1, len(gfg.output_questions_to_list()))
+        gfg = GapFillGenerator(source_sentence)
+        self.assertEqual(1, len(gfg.output_questions()))
 
     def test_should_generate_one_question_with_two_named_ents(self):
         source_sentence =\
             "Those NSA targets were evident in two recent developments " + \
             "in Iran."
-        gfg = GapFillGenerator(source_sentence,
-                               [GapFillBlankType.named_entities],
-                               )
-        self.assertEqual(1, len(gfg.output_questions_to_list()))
+        gfg = GapFillGenerator(source_sentence)
+        self.assertEqual(1, len(gfg.output_questions()))
 
     if __name__ == '__main__':
             unittest.main()

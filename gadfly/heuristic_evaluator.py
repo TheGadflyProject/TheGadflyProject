@@ -9,7 +9,6 @@ logger = logging.getLogger("v.he")
 _PROJECT_DIR = os.path.dirname(__file__)
 _REF_DATA_DIR = os.path.join(_PROJECT_DIR, "reference_data")
 
-
 _us_state_dict = pickle.load(open(os.path.join(
                                     _REF_DATA_DIR,
                                     "_us_state_abbreviations_dict.p"
@@ -17,22 +16,20 @@ _us_state_dict = pickle.load(open(os.path.join(
 _gpe_dict = pickle.load(open(os.path.join(_REF_DATA_DIR, "_gpe_dict.p"), "rb"))
 
 
-
 class HeuristicEvaluator:
-
+    @staticmethod
     def check_titles(answer_span, question, answer_choices):
         if answer_span.label_ == "PERSON":
             logger.debug("check_titles...")
-            # print("PERSON", q.answer)
             titles = ["Mr.", "Ms.", "Mrs."]
             words = question.split()
             index = words.index(QGenerator._GAP.strip())-1
             if index >= 0 and words[index] in titles:
-                # print("BOOYAH")
                 answer_choices = [name.split()[-1] for name
                                   in answer_choices]
         return list(set(answer_choices))
-
+        
+    @staticmethod
     def remove_apos_s_ans(ent, parsed_sentence):
         if ent.text_with_ws.strip().endswith("'s"):
             logger.debug("remove_apos_s_ans...")
@@ -42,10 +39,12 @@ class HeuristicEvaluator:
                 parsed_sentence[ent.start:ent.end-1].text_with_ws.strip()
         return ent.end, ent.text_with_ws.strip()
 
+    @staticmethod
     def remove_apos_s_choices(other_choices):
         return [choice.replace("'s", "") if choice.endswith("'s") else choice
                 for choice in other_choices]
 
+    @staticmethod
     def gpe_evaluator(other_choices, ent_text):
         # Issue #40
         other_choices = [_us_state_dict[gpe] if gpe in _us_state_dict.keys()
