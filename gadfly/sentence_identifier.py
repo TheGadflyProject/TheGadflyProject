@@ -33,21 +33,27 @@ class SentenceIdentifier:
                                    sorted(dict_token_probs,
                                    key=dict_token_probs.get,
                                    reverse=True))
+
+        # Hueristics to find most important/interesting sentences:
         for (n, token), value in dict_token_probs_sorted:
             if token.like_url or token.like_email:
                 continue
-            elif token.like_num or token.ent_type_ in ["MONEY", "QUANTITY"]:
+            elif token.like_num or token.ent_type_ in ["MONEY",
+                                                       "CARDINAL",
+                                                       "QUANTITY"]:
                 value = 8
             elif token.orth_.startswith("@"):
                 continue
-            elif token.ent_type_ == "CARDINAL":
+            elif token.ent_type_ == "PERSON":
                 continue
+            elif token.ent_type_:
+                print(token, token.ent_type_)
             elif token.is_oov:
                 self.sent_id_EDA_OOV[n].append(token)
                 continue
             elif value > 15:
-                value = 15
                 self.sent_id_EDA_hV[n].append((token, value))
+                value = 15
             if sent_id_score_count[n] >= 5:
                 continue
             sent_id_scores[n] = sent_id_scores[n] + value
@@ -75,17 +81,26 @@ class SentenceIdentifier:
         for score, index in ranked_sents[:n]:
             top_sentences.append(sents[index])
             if self.EDA:
+                count_article_tokens = len([tkn for tkn in [
+                                           sent for sent in sents]])
                 logger.info("EDA:")
                 logger.info("Sent: {}".format(sents[index]))
                 logger.info("Score: {}".format(round(score, 2)))
                 logger.info("Total Score: {}".format(round(
                                         self.sent_id_total_score[index], 2)))
                 logger.info("Percent Score = {}".format(round(
-                                        score/self.sent_id_total_score[index],
-                                        2)))
+                                        score / self.sent_id_total_score[
+                                                index], 2)))
+                logger.info("Ave. Score = {}".format(round(
+                                        self.sent_id_total_score[index] / len(
+                                                     sents[index]), 2)))
                 logger.info("Index = {}".format(index))
                 logger.info("Chars = {}".format(len(str((sents[index])))))
                 logger.info("Tokens = {}".format(len(sents[index])))
+                logger.info("Percent Tokens = {}".format(round(100 * (len(
+                                                         sents[index]) /
+                                                         count_article_tokens)
+                                                         ), 5))
                 logger.info("OOV: {}".format(self.sent_id_EDA_OOV[index]))
                 logger.info(">15: {}".format(self.sent_id_EDA_hV[index]))
         return top_sentences
