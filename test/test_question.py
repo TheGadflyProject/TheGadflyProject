@@ -37,6 +37,23 @@ class QuestionTest(unittest.TestCase):
             self.question_type,
         )
         self.assertEqual(q1, q2)
+        
+    def test_should_not_equal(self):
+        q1 = Question(
+            self.source_sentence,
+            self.question,
+            self.answer,
+            self.answer_span,
+            self.question_type,
+        )
+        q2 = Question(
+            "This is just a test",
+            self.question,
+            self.answer,
+            self.answer_span,
+            self.question_type,
+        )
+        self.assertNotEqual(q1, q2)
 
 if __name__ == '__main__':
     unittest.main()
