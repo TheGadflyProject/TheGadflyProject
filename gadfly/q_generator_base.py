@@ -8,7 +8,7 @@ import types
 import collections
 from random import shuffle
 from . import nyt_popularity
-import abc
+from abc import ABC, abstractmethod
 import json
 logger = logging.getLogger("v.q_gen_b")
 
@@ -48,13 +48,12 @@ class EnumEncoder(json.JSONEncoder):
             return d
 
 
-class QGenerator:
+class QGenerator(ABC):
     _GAP = " ___________ "
     _PUNCTUATION = list(string.punctuation)
 
     def __init__(self, source_text,
                  identifier=default_identifier, q_limit=None):
-        __metaclass__  = abc.ABCMeta
         self.source_text = source_text
         self.parsed_text = spacy_singleton.spacy_en()(self.source_text)
         self._identifier = types.MethodType(identifier, self.parsed_text.sents)
@@ -79,7 +78,7 @@ class QGenerator:
                 entities.append(ent)
         return entities
 
-    @abc.abstractmethod
+    @abstractmethod
     def generate_questions(self):
         """ implemented in subclass to gen questions"""
 
