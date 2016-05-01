@@ -78,11 +78,16 @@ class SentenceIdentifier:
         ranked_sents = self.get_ranked_sents(len(sents), dict_token_probs)
 
         top_sentences = []
+        if self.EDA:
+            cnt_utokens_in_article = len(set([token for
+                                        n, token in dict_token_probs.keys()]))
+
         for score, index in ranked_sents[:n]:
             top_sentences.append(sents[index])
             if self.EDA:
-                count_article_tokens = len([tkn for tkn in [
-                                           sent for sent in sents]])
+                cnt_tokens_in_sent = len(sents[index])
+                cnt_utokens_in_sent = len(set(sents[index]))
+
                 logger.info("EDA:")
                 logger.info("Sent: {}".format(sents[index]))
                 logger.info("Score: {}".format(round(score, 2)))
@@ -96,11 +101,10 @@ class SentenceIdentifier:
                                                      sents[index]), 2)))
                 logger.info("Index = {}".format(index))
                 logger.info("Chars = {}".format(len(str((sents[index])))))
-                logger.info("Tokens = {}".format(len(sents[index])))
-                logger.info("Percent Tokens = {}".format(round(100 * (len(
-                                                         sents[index]) /
-                                                         count_article_tokens)
-                                                         ), 5))
+                logger.info("Tokens = {}".format(cnt_tokens_in_sent))
+                logger.info("Percent Tokens = {}".format(round(
+                                cnt_utokens_in_sent /
+                                cnt_utokens_in_article, 3)))
                 logger.info("OOV: {}".format(self.sent_id_EDA_OOV[index]))
                 logger.info(">15: {}".format(self.sent_id_EDA_hV[index]))
         return top_sentences
