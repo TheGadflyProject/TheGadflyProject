@@ -14,7 +14,7 @@ logger = logging.getLogger("v.q_gen_b")
 
 
 def default_identifier(sents, n=10):
-    selector = SentenceIdentifier(EDA=True)
+    selector = SentenceIdentifier()
     sents = [sent for sent in sents]  # Issue #37
     # Issue  #39
     if len(sents) < n:
@@ -23,8 +23,6 @@ def default_identifier(sents, n=10):
         if sents[-1][0].orth_ == "(" and sents[-1][1].orth_ in ["Reporting",
                                                                 "Writing"]:
             sents = sents[:-1]
-    else:
-        sents = sents[:-1]
     sentences = selector.identify(sents, n)
     return sentences
 
@@ -91,11 +89,11 @@ class QGenerator(ABC):
         final_questions = list()
         for source_sentence, questions in question_dict.items():
             ents = [question.answer for question in questions]
-            try:
-                most_popular = nyt_popularity.most_popular_terms(ents, 1)[0]
-            except ValueError:
-                shuffle(ents)
-                most_popular = ents[:1]
+            # try:
+                # most_popular = nyt_popularity.most_popular_terms(ents, 1)[0]
+            # except ValueError:
+            shuffle(ents)
+            most_popular = ents[:1]
             for question in questions:
                 if question.answer == most_popular[0]:
                     final_questions.append(question)
