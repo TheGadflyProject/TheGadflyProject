@@ -95,6 +95,8 @@ class QGenerator(ABC):
             except ValueError as e:
                 shuffle(ents)
                 most_popular = ents[:1]
+            # hack to get around issues with NYT api throwing errors
+            most_popular = most_popular or ents[:1]
             for question in questions:
                 if question.answer == most_popular[0]:
                     final_questions.append(question)
