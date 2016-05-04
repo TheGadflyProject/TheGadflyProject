@@ -18,6 +18,7 @@ def get_nyt_popularity(term):
     }
 
     res = requests.get(nyt_url + urlencode(default_vars))
+    meta_dict = {"hits": 0}
     if res:
         res_dict = json.loads(res.content.decode(encoding='UTF-8'))
         meta_dict = res_dict.get("response").get("meta")
