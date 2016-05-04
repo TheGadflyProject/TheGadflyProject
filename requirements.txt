@@ -25,3 +25,4 @@ text-unidecode==1.0
 thinc==5.0.6
 traitlets==4.2.1
 ujson==1.35
+scipy==0.17.0
