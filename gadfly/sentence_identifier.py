@@ -22,10 +22,10 @@ class SentenceIdentifier:
         self.top_sents = ranked_sents[:n]
         self.all_sents = [s.sent for s in sent_objects]
 
-        chosen_sents = [s for s in sent_objects if
-                        s.has_named_entity]
-        for s in chosen_sents:
-            print("#{}:\t{}".format(s.index, s.sent))
+        # chosen_sents = [s for s in sent_objects if
+        #                 s.has_named_entity]
+        # for s in chosen_sents:
+        #     print("#{}:\t{}".format(s.index, s.sent))
 
     def sents(self):
         return self.top_sents, self.all_sents

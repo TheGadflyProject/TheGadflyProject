@@ -4,7 +4,6 @@ from .transducer import Transducer
 from enum import Enum
 import logging
 import string
-import types
 import collections
 from random import shuffle
 from . import nyt_popularity
@@ -77,7 +76,9 @@ class QGenerator(ABC):
                 most_popular = nyt_popularity.most_popular_terms(ents, 1)[0]
             except ValueError:
                 shuffle(ents)
-            most_popular = ents[:1]
+                most_popular = ents[:1]
+            # hack to get around issues with NYT api throwing errors
+            most_popular = most_popular or ents[:1]
             for question in questions:
                 if question.answer == most_popular[0]:
                     final_questions.append(question)
