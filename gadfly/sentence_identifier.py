@@ -2,7 +2,7 @@ from collections import defaultdict
 from scipy.stats import rankdata
 import numpy
 import logging
-from textstat.textstat import textstat
+# from textstat.textstat import textstat
 
 logger = logging.getLogger("v.sent_id")
 
@@ -156,13 +156,14 @@ class SentenceFeatures:
 
         self.has_named_entity = self.set_has_named_entity()
 
-        self.smog_index = textstat.smog_index(self.text)
-        self.syllable_count = textstat.syllable_count(self.text)
-        self.gunning_fog = textstat.gunning_fog(self.text)
-        self.linsear_write_formula = textstat.linsear_write_formula(self.text)
-        self.coleman_liau_index = textstat.coleman_liau_index(self.text)
-        self.automated_readability_index = textstat.\
-            automated_readability_index(self.text)
+        # self.smog_index = textstat.smog_index(self.text)
+        # self.syllable_count = textstat.syllable_count(self.text)
+        # self.gunning_fog = textstat.gunning_fog(self.text)
+        # self.linsear_write_formula = textstat.linsear_write_formula(
+        #                             self.text)
+        # self.coleman_liau_index = textstat.coleman_liau_index(self.text)
+        # self.automated_readability_index = textstat.\
+        #     automated_readability_index(self.text)
 
         if len(self.article) >= 20:
             cutoff = 10
