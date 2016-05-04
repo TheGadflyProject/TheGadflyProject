@@ -23,7 +23,7 @@ def clean_text(article):
     article = (re.sub(("“"), '"', article))
     article = (re.sub(("”"), '"', article))
     article = (re.sub(("’"), "'", article))
-    return (re.sub(("[\n*]"), "", article))
+    return (re.sub(("[\s*]"), " ", article))
 
 
 def main():
@@ -34,8 +34,8 @@ def main():
     for file_name in files:
         f = open(file_name, encoding='utf-8')
         article = clean_text(f.read())
-        generator = GapFillGenerator(article)
-        # generator = MCQGenerator(article)
+        # generator = GapFillGenerator(article)
+        generator = MCQGenerator(article)
         generator.output_questions(output_file=output_file)
 
 if __name__ == '__main__':

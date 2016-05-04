@@ -13,20 +13,6 @@ import json
 logger = logging.getLogger("v.q_gen_b")
 
 
-def default_identifier(sents, n=10):
-    selector = SentenceIdentifier()
-    sents = [sent for sent in sents]  # Issue #37
-    # Issue  #39
-    if len(sents) < n:
-        return sents
-    elif len(sents) > 2:
-        if sents[-1][0].orth_ == "(" and sents[-1][1].orth_ in ["Reporting",
-                                                                "Writing"]:
-            sents = sents[:-1]
-    sentences = selector.identify(sents, n)
-    return sentences
-
-
 class QuestionType(Enum):
     gap_fill = "gap_fill"
     mcq = "mcq"
@@ -50,17 +36,15 @@ class QGenerator(ABC):
     _GAP = " ___________ "
     _PUNCTUATION = list(string.punctuation)
 
-    def __init__(self, source_text,
-                 identifier=default_identifier, q_limit=None):
+    def __init__(self, source_text, q_limit=None):
         self.source_text = source_text
         self.parsed_text = spacy_singleton.spacy_en()(self.source_text)
-        self._identifier = types.MethodType(identifier, self.parsed_text.sents)
-        self.sents = [sent for sent in self.parsed_text.sents]
-        self.top_sents = self._identifier()
+        self.top_sents, self.sents = SentenceIdentifier(self.parsed_text,
+                                                        n=10).sents()
         self._exclude_named_ent_types = ["DATE", "TIME", "PERCENT", "CARDINAL",
                                          "MONEY", "ORDINAL", "QUANTITY"]
         self.entities = self.find_named_entities()
-        self.transduced_sents = self.transduce(self.top_sents)
+        # self.transduced_sents = self.transduce(self.top_sents)
         self.questions = self.generate_questions()
         self.top_questions = self.select_top_question_for_sentence()
         self._q_limit = q_limit
@@ -89,10 +73,10 @@ class QGenerator(ABC):
         final_questions = list()
         for source_sentence, questions in question_dict.items():
             ents = [question.answer for question in questions]
-            # try:
-                # most_popular = nyt_popularity.most_popular_terms(ents, 1)[0]
-            # except ValueError:
-            shuffle(ents)
+            try:
+                most_popular = nyt_popularity.most_popular_terms(ents, 1)[0]
+            except ValueError:
+                shuffle(ents)
             most_popular = ents[:1]
             for question in questions:
                 if question.answer == most_popular[0]:

@@ -4,8 +4,125 @@ import numpy
 import logging
 from textstat.textstat import textstat
 
-
 logger = logging.getLogger("v.sent_id")
+
+
+class SentenceIdentifier:
+    def __init__(self, parsed_text, n=10):
+        sents = [sent for sent in parsed_text.sents]
+        if len(sents) < n:
+            logger.warn("Sentence count is {}, smaller than n({}).".format(
+                        len(sents), n))
+            n = len(sents)
+        sents = self.repair_sents(parsed_text, sents)
+        sent_objects = self.create_sent_objects(sents)
+
+        ranked_sents_objects = self.get_ranked_sents(sent_objects)
+        ranked_sents = [s.sent for s in ranked_sents_objects]
+        self.top_sents = ranked_sents[:n]
+        self.all_sents = [s.sent for s in sent_objects]
+
+        chosen_sents = [s for s in sent_objects if
+                        s.has_named_entity]
+        for s in chosen_sents:
+            print("#{}:\t{}".format(s.index, s.sent))
+
+    def sents(self):
+        return self.top_sents, self.all_sents
+
+    def repair_sents(self, parsed_text, sents):
+        sents = self.repair_joinedsents(parsed_text, sents)
+        sents = self.repair_splitsents(parsed_text, sents)
+        return sents
+
+    def create_sent_objects(self, sents):
+        sent_objects = [SentenceFeatures(sents, index) for index, sent
+                        in enumerate(sents)]
+
+        [s.set_log_probs() for s in sent_objects]
+        article_object = ArticleFeatures(sent_objects)
+        [s.set_ranks(article_object) for s in sent_objects]
+        [s.set_score_ranking() for s in sent_objects]
+
+        return sent_objects
+
+    def check_joinedsents(self, parsed_text, sent):
+        new_spans = []
+        start1 = sent.start
+        end1 = sent.start + [token.text_with_ws for token
+                             in sent].index(". ") + 1
+        start2 = end1
+        end2 = sent.end
+        if '. "' in "".join(token.text_with_ws for token in
+                            parsed_text[start1:end1]):
+            for each in self.check_joinedsents(parsed_text,
+                                               parsed_text[start1:end1]):
+                new_spans.append(each)
+        else:
+            new_spans.append(parsed_text[start1:end1])
+        if '. "' in "".join(token.text_with_ws for token in
+                            parsed_text[start2:end2]):
+            for each in self.check_joinedsents(parsed_text,
+                                               parsed_text[start2:end2]):
+                new_spans.append(each)
+        else:
+            new_spans.append(parsed_text[start2:end2])
+        return new_spans
+
+    def repair_joinedsents(self, parsed_text, sents):
+        new_spans = []
+        for index, sent in enumerate(sents):
+            if '. "' in "".join(token.text_with_ws for token in sent[:-2]):
+                for each in self.check_joinedsents(parsed_text, sent):
+                    new_spans.append(each)
+            else:
+                new_spans.append(sent)
+        return new_spans
+
+    def repair_splitsents(self, parsed_text, sents):
+        outer_check = 0
+        new_spans = []
+        while True:
+            if outer_check >= len(sents):
+                break
+            s = sents[outer_check]
+            quote_tokens = [token for token in s if token.orth_ == '"']
+            if bool(len(quote_tokens) & 1):
+                inner_check = outer_check + 1
+                start = s.start
+                while True:
+                    if inner_check == len(sents):
+                        new_spans.append(parsed_text[
+                            sents[outer_check].start:sents[outer_check].end])
+                        outer_check += 1
+                        logger.warn("QUOTATION UNMATCHED: index={}".format(
+                                                                outer_check))
+                        break
+                    if sents[inner_check][-1].orth_.strip() == '"':
+                        end = sents[inner_check].end
+                        outer_check += (inner_check - outer_check + 1)
+                        break
+                    else:
+                        quote_tokens = [token for token in sents[inner_check]
+                                        if token.orth_.strip() == '"']
+                        if bool(len(quote_tokens) & 1):
+                            end = sents[inner_check].end
+                            outer_check += (inner_check - outer_check + 1)
+                            break
+                        else:
+                            inner_check += 1
+                new_spans.append(parsed_text[start:end])
+            else:
+                new_spans.append(s)
+                outer_check += 1
+        return new_spans
+
+    def get_ranked_sents(self, sent_objects):
+        ranked_sents = list()
+        for s in sent_objects:
+            if s.score_ranking:
+                ranked_sents.append((s.score_ranking, s))
+        return [s for rank, s in sorted(ranked_sents)]
 
 
 class SentenceFeatures:
@@ -165,66 +282,3 @@ class ArticleFeatures:
         self.has_named_entity_count = sum(self.has_named_entity_list)
         self.taken_of_log_prob_percents = [s.taken_of_log_prob_percent for s in
                                            sent_objects]
-
-
-class SentenceIdentifier:
-    def __init__(self):
-        self.sents = None
-        self.return_n = None
-
-    def get_ranked_sents(self):
-        ranked_sents = list()
-        for s in self.sent_objects:
-            if s.score_ranking:
-                ranked_sents.append((s.score_ranking, s))
-        return [s for rank, s in sorted(ranked_sents)][:self.return_n]
-
-    def identify(self, sents, n):
-        """Call functions, return only the n top sentences joined"""
-        self.sents = sents
-        self.return_n = n
-        self.sent_objects = [SentenceFeatures(sents, index) for index, sent
-                             in enumerate(sents)]
-
-        [s.set_log_probs() for s in self.sent_objects]
-        article_object = ArticleFeatures(self.sent_objects)
-        [s.set_ranks(article_object) for s in self.sent_objects]
-        [s.set_score_ranking() for s in self.sent_objects]
-
-        top_sentence_objects = self.get_ranked_sents()
-        top_sentences = [s.sent for s in top_sentence_objects]
-
-        for s in top_sentence_objects:
-            logger.info("EDA:")
-            logger.info("sent: {}".format(s.sent))
-            logger.info("has_named_entity: {}".format(s.has_named_entity))
-            logger.info("score_ranking: {}".format(s.score_ranking))
-            # logger.info("index: {}".format(s.index))
-            # logger.info("index_rank: {}".format(s.index_rank))
-            # logger.info("char_count {}".format(s.char_count))
-            # logger.info("char_count_rank {}".format(s.char_count_rank))
-            # logger.info("token_count = {}".format(s.token_count))
-            # logger.info("token_count_rank = {}".format(s.token_count_rank))
-            # logger.info("log_prob_list: {}".format(s.log_prob_list))
-            # logger.info("total_log_prob: {}".format(s.total_log_prob))
-            # logger.info("total_log_prob_rank: {}".format(
-            #                         s.total_log_prob_rank))
-            # logger.info("taken_log_prob: {}".format(
-            #                         s.taken_log_prob))
-            # logger.info("taken_log_prob_rank: {}".format(
-            #                         s.taken_log_prob_rank))
-            # logger.info("low_log_prob_count_rank: {}".format(
-            #                         s.low_log_prob_count_rank))
-            # logger.info("ent_count: {}".format(s.ent_count))
-            # logger.info("ent_count_rank: {}".format(s.ent_count_rank))
-            # logger.info("taken_of_log_prob_percent: {}".format(
-            #                         s.taken_of_log_prob_percent))
-            # logger.info("taken_of_log_prob_percent_rank: {}".format(
-            #                         s.taken_of_log_prob_percent_rank))
-            # logger.info("similarities: {}".format([s.similarity_all_but,
-            #                                        s.similarity_next,
-            #                                        s.similarity_previous,
-            #                                        s.similarity_last10,
-            #                                        s.similarity_first10]))
-
-        return top_sentences
