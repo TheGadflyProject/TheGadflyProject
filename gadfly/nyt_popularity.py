@@ -22,7 +22,7 @@ def get_nyt_popularity(term):
     if res:
         res_dict = json.loads(res.content.decode(encoding='UTF-8'))
         meta_dict = res_dict.get("response").get("meta")
-    return meta_dict.get('hits') or None
+    return meta_dict.get('hits')
 
 
 def most_popular_terms(term_list, n=3):
