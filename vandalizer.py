@@ -2,8 +2,8 @@
 
 # Imports
 
-from gadfly.gap_fill_generator import GapFillGenerator
 from gadfly.mcq_generator import MCQGenerator
+from gadfly.gap_fill_generator import GapFillGenerator
 from gadfly.loggerinitializer import initialize_logger
 import logging
 import glob
@@ -12,8 +12,6 @@ import re
 
 initialize_logger()
 logger = logging.getLogger("v")
-
-# common into third class later, tfidf and GAPFIllbalskdnfliasdf
 
 # GLOBAL VARIABLES
 # should probably refactor at some point
@@ -25,7 +23,7 @@ def clean_text(article):
     article = (re.sub(("“"), '"', article))
     article = (re.sub(("”"), '"', article))
     article = (re.sub(("’"), "'", article))
-    return (re.sub(("[\n*]"), "", article))
+    return (re.sub(("[\s*]"), " ", article))
 
 
 def main():
@@ -38,7 +36,7 @@ def main():
         article = clean_text(f.read())
         # generator = GapFillGenerator(article)
         generator = MCQGenerator(article)
-        generator.output_questions(output_file = output_file)
+        generator.output_questions(output_file=output_file)
 
 if __name__ == '__main__':
     main()

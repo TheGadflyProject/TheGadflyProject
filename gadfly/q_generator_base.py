@@ -4,29 +4,12 @@ from .transducer import Transducer
 from enum import Enum
 import logging
 import string
-import types
 import collections
 from random import shuffle
 from . import nyt_popularity
 from abc import ABC, abstractmethod
 import json
 logger = logging.getLogger("v.q_gen_b")
-
-
-def default_identifier(sents, n=5):
-    selector = SentenceIdentifier(EDA=True)
-    sents = [sent for sent in sents]  # Issue #37
-    # Issue  #39
-    if len(sents) < n:
-        return sents
-    elif len(sents) > 2:
-        if sents[-1][0].orth_ == "(" and sents[-1][1].orth_ in ["Reporting",
-                                                                "Writing"]:
-            sents = sents[:-1]
-    else:
-        sents = sents[:-1]
-    sentences = selector.identify(sents, n)
-    return sentences
 
 
 class QuestionType(Enum):
@@ -52,17 +35,15 @@ class QGenerator(ABC):
     _GAP = " ___________ "
     _PUNCTUATION = list(string.punctuation)
 
-    def __init__(self, source_text,
-                 identifier=default_identifier, q_limit=None):
+    def __init__(self, source_text, q_limit=None):
         self.source_text = source_text
         self.parsed_text = spacy_singleton.spacy_en()(self.source_text)
-        self._identifier = types.MethodType(identifier, self.parsed_text.sents)
-        self.sents = [sent for sent in self.parsed_text.sents]
-        self.top_sents = self._identifier()
+        self.top_sents, self.sents = SentenceIdentifier(self.parsed_text,
+                                                        n=10).sents()
         self._exclude_named_ent_types = ["DATE", "TIME", "PERCENT", "CARDINAL",
                                          "MONEY", "ORDINAL", "QUANTITY"]
         self.entities = self.find_named_entities()
-        self.transduced_sents = self.transduce(self.top_sents)
+        # self.transduced_sents = self.transduce(self.top_sents)
         self.questions = self.generate_questions()
         self.top_questions = self.select_top_question_for_sentence()
         self._q_limit = q_limit
@@ -84,6 +65,7 @@ class QGenerator(ABC):
 
     def select_top_question_for_sentence(self):
         question_dict = collections.defaultdict(list)
+
         for q in self.questions:
             question_dict[q.source_sentence].append(q)
 
@@ -92,7 +74,7 @@ class QGenerator(ABC):
             ents = [question.answer for question in questions]
             try:
                 most_popular = nyt_popularity.most_popular_terms(ents, 1)[0]
-            except ValueError as e:
+            except ValueError:
                 shuffle(ents)
                 most_popular = ents[:1]
             # hack to get around issues with NYT api throwing errors
@@ -104,11 +86,11 @@ class QGenerator(ABC):
         return final_questions
 
     def output_questions(self, questions=None, output_file=None):
-        if questions == None:
+        if questions is None:
             questions = self.top_questions
 
         questions = [vars(q) for n, q in enumerate(questions)]
-        if output_file != None:
+        if output_file is not None:
             with output_file as o:
                 json.dump(questions, o, cls=EnumEncoder)
 
