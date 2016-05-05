@@ -1,5 +1,5 @@
 from collections import defaultdict
-from scipy.stats import rankdata
+# from scipy.stats import rankdata
 import numpy
 import logging
 # from textstat.textstat import textstat
@@ -194,27 +194,27 @@ class SentenceFeatures:
 
     def set_ranks(self, article_object):
         self.index_rank = self.index / len(self.article)
-        self.char_count_rank = list(
-            rankdata(article_object.char_counts))[self.index] /\
-            len(self.article)
-        self.token_count_rank = list(
-            rankdata(article_object.char_counts))[self.index] /\
-            len(self.article)
-        self.total_log_prob_rank = list(
-            rankdata(article_object.total_log_probs))[self.index] /\
-            len(self.article)
-        self.taken_log_prob_rank = list(
-            rankdata(article_object.taken_log_probs))[self.index] /\
-            len(self.article)
-        self.low_log_prob_count_rank = list(
-            rankdata(article_object.low_log_prob_counts))[self.index] /\
-            len(self.article)
-        self.ent_count_rank = list(
-            rankdata(article_object.ent_counts))[self.index] /\
-            len(self.article)
-        self.taken_of_log_prob_percent_rank = list(
-            rankdata(article_object.taken_of_log_prob_percents))[self.index] /\
-            len(self.article)
+        # self.char_count_rank = list(
+            # rankdata(article_object.char_counts))[self.index] /\
+            # len(self.article)
+        # self.token_count_rank = list(
+            # rankdata(article_object.char_counts))[self.index] /\
+            # len(self.article)
+        # self.total_log_prob_rank = list(
+            # rankdata(article_object.total_log_probs))[self.index] /\
+            # len(self.article)
+        # self.taken_log_prob_rank = list(
+            # rankdata(article_object.taken_log_probs))[self.index] /\
+            # len(self.article)
+        # self.low_log_prob_count_rank = list(
+            # rankdata(article_object.low_log_prob_counts))[self.index] /\
+            # len(self.article)
+        # self.ent_count_rank = list(
+            # rankdata(article_object.ent_counts))[self.index] /\
+            # len(self.article)
+        # self.taken_of_log_prob_percent_rank = list(
+            # rankdata(article_object.taken_of_log_prob_percents))[self.index] /\
+            # len(self.article)
 
     def set_score_ranking(self):
         if self.has_named_entity:
