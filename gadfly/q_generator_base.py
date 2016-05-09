@@ -83,7 +83,7 @@ class QGenerator(ABC):
                 if question.answer == most_popular[0]:
                     final_questions.append(question)
                     break
-        return final_questions
+        return [q for q in final_questions if len(q.answer_choices) == 4]
 
     def output_questions(self, questions=None, output_file=None):
         if questions is None:
