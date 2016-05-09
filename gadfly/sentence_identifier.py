@@ -1,6 +1,6 @@
 from collections import defaultdict
 # from scipy.stats import rankdata
-import numpy
+# import numpy
 import logging
 # from textstat.textstat import textstat
 
@@ -53,11 +53,16 @@ class SentenceIdentifier:
                              in sent].index(". ") + 1
         start2 = end1
         end2 = sent.end
-        if '. "' in "".join(token.text_with_ws for token in
-                            parsed_text[start1:end1]):
-            for each in self.check_joinedsents(parsed_text,
-                                               parsed_text[start1:end1]):
-                new_spans.append(each)
+        if end1 != end2:
+            if '. "' in "".join(token.text_with_ws for token in
+                                parsed_text[start1:end1]):
+                print(start1, end1, start2, end2)
+                print(parsed_text[start1:end1])
+                for each in self.check_joinedsents(parsed_text,
+                                                   parsed_text[start1:end1]):
+                    new_spans.append(each)
+            else:
+                return [sent]
         else:
             new_spans.append(parsed_text[start1:end1])
         if '. "' in "".join(token.text_with_ws for token in
@@ -135,24 +140,24 @@ class SentenceFeatures:
         self.score_ranking = None
         self.index = index
         self.index_rank = None
-        self.char_count = len(str(self.sent))
-        self.char_count_rank = None
-        self.token_count = len(self.sent)
-        self.token_count_rank = None
+        # self.char_count = len(str(self.sent))
+        # self.char_count_rank = None
+        # self.token_count = len(self.sent)
+        # self.token_count_rank = None
         self.log_prob_list = list()
         self.total_log_prob = 0
-        self.total_log_prob_rank = None
-        self.taken_log_prob = 0
-        self.taken_log_prob_rank = None
-        self.taken_of_total_log_prob_percent = None
-        self.taken_of_log_prob_percent = 0
-        self.taken_of_log_prob_percent_rank = None
+        # self.total_log_prob_rank = None
+        # self.taken_log_prob = 0
+        # self.taken_log_prob_rank = None
+        # self.taken_of_total_log_prob_percent = None
+        # self.taken_of_log_prob_percent = 0
+        # self.taken_of_log_prob_percent_rank = None
         self.ent_types_count = defaultdict(int)
-        self.out_of_vocab_list = list()
-        self.low_log_prob_list = list()
-        self.low_log_prob_count_rank = None
+        # self.out_of_vocab_list = list()
+        # self.low_log_prob_list = list()
+        # self.low_log_prob_count_rank = None
         self.ent_count = 0
-        self.ent_count_rank = None
+        # self.ent_count_rank = None
 
         self.has_named_entity = self.set_has_named_entity()
 
@@ -165,56 +170,56 @@ class SentenceFeatures:
         # self.automated_readability_index = textstat.\
         #     automated_readability_index(self.text)
 
-        if len(self.article) >= 20:
-            cutoff = 10
-        else:
-            cutoff = int(len(self.article)/2)
-        self.similarity_first10 = numpy.mean([self.sent.similarity(sent) for
-                                              index, sent in enumerate(
-                                              self.article[:cutoff]) if index
-                                              is not self.index])
-        self.similarity_last10 = numpy.mean([self.sent.similarity(sent) for
-                                             index, sent in enumerate(
-                                             self.article[-cutoff:]) if index
-                                             is not self.index])
-        if self.index == 0:
-            self.similarity_previous = None
-        else:
-            self.similarity_previous = self.sent.similarity(
-                                            self.article[self.index-1])
-        if self.index + 1 == len(self.article):
-            self.similarity_next = 0
-        else:
-            self.similarity_next = self.sent.similarity(self.article[
-                                            self.index+1])
-        self.similarity_all_but = numpy.mean([self.sent.similarity(sent) for
-                                              index, sent in enumerate(
-                                              self.article) if index is
-                                              not self.index])
+        # if len(self.article) >= 20:
+        #     cutoff = 10
+        # else:
+        #     cutoff = int(len(self.article)/2)
+        # self.similarity_first10 = numpy.mean([self.sent.similarity(sent) for
+        #                                       index, sent in enumerate(
+        #                                       self.article[:cutoff]) if index
+        #                                       is not self.index])
+        # self.similarity_last10 = numpy.mean([self.sent.similarity(sent) for
+        #                                      index, sent in enumerate(
+        #                                      self.article[-cutoff:]) if index
+        #                                      is not self.index])
+        # if self.index == 0:
+        #     self.similarity_previous = None
+        # else:
+        #     self.similarity_previous = self.sent.similarity(
+        #                                     self.article[self.index-1])
+        # if self.index + 1 == len(self.article):
+        #     self.similarity_next = 0
+        # else:
+        #     self.similarity_next = self.sent.similarity(self.article[
+        #                                     self.index+1])
+        # self.similarity_all_but = numpy.mean([self.sent.similarity(sent) for
+        #                                       index, sent in enumerate(
+        #                                       self.article) if index is
+        #                                       not self.index])
 
     def set_ranks(self, article_object):
         self.index_rank = self.index / len(self.article)
         # self.char_count_rank = list(
-            # rankdata(article_object.char_counts))[self.index] /\
-            # len(self.article)
+        #     rankdata(article_object.char_counts))[self.index] /\
+        #     len(self.article)
         # self.token_count_rank = list(
-            # rankdata(article_object.char_counts))[self.index] /\
-            # len(self.article)
+        #     rankdata(article_object.char_counts))[self.index] /\
+        #     len(self.article)
         # self.total_log_prob_rank = list(
-            # rankdata(article_object.total_log_probs))[self.index] /\
-            # len(self.article)
+        #     rankdata(article_object.total_log_probs))[self.index] /\
+        #     len(self.article)
         # self.taken_log_prob_rank = list(
-            # rankdata(article_object.taken_log_probs))[self.index] /\
-            # len(self.article)
+        #     rankdata(article_object.taken_log_probs))[self.index] /\
+        #     len(self.article)
         # self.low_log_prob_count_rank = list(
-            # rankdata(article_object.low_log_prob_counts))[self.index] /\
-            # len(self.article)
+        #     rankdata(article_object.low_log_prob_counts))[self.index] /\
+        #     len(self.article)
         # self.ent_count_rank = list(
-            # rankdata(article_object.ent_counts))[self.index] /\
-            # len(self.article)
+        #     rankdata(article_object.ent_counts))[self.index] /\
+        #     len(self.article)
         # self.taken_of_log_prob_percent_rank = list(
-            # rankdata(article_object.taken_of_log_prob_percents))[self.index] /\
-            # len(self.article)
+        #     rankdata(article_object.taken_of_log_prob_percents))[
+        #              self.index] / len(self.article)
 
     def set_score_ranking(self):
         if self.has_named_entity:
@@ -250,10 +255,11 @@ class SentenceFeatures:
             elif token.ent_type_ == "PERSON":
                 continue
             elif token.is_oov:
-                self.out_of_vocab_list.append(token)
+                # self.out_of_vocab_list.append(token)
                 continue
             elif log_prob < -15:
-                self.low_log_prob_list.append((token, log_prob))
+                pass
+                # self.low_log_prob_list.append((token, log_prob))
             self.log_prob_list.append(log_prob)
         self.taken_log_prob = sum(sorted(
             [prob if prob >= -15 else -15 for prob in self.log_prob_list])[:5])
@@ -270,16 +276,17 @@ class SentenceFeatures:
 
 class ArticleFeatures:
     def __init__(self, sent_objects):
-        self.char_counts = [s.char_count for s in sent_objects]
-        self.token_counts = [s.token_count for s in sent_objects]
-        self.total_log_probs = [s.total_log_prob for s in sent_objects]
-        self.taken_log_probs = [s.taken_log_prob for s in sent_objects]
-        self.low_log_prob_counts = [len(s.low_log_prob_list) for s in
-                                    sent_objects]
-        self.ent_counts = [s.ent_count for s in sent_objects]
+        pass
+        # self.char_counts = [s.char_count for s in sent_objects]
+        # self.token_counts = [s.token_count for s in sent_objects]
+        # self.total_log_probs = [s.total_log_prob for s in sent_objects]
+        # self.taken_log_probs = [s.taken_log_prob for s in sent_objects]
+        # self.low_log_prob_counts = [len(s.low_log_prob_list) for s in
+        #                             sent_objects]
+        # self.ent_counts = [s.ent_count for s in sent_objects]
 
-        self.has_named_entity_list = [True if s.has_named_entity
-                                      else False for s in sent_objects]
-        self.has_named_entity_count = sum(self.has_named_entity_list)
-        self.taken_of_log_prob_percents = [s.taken_of_log_prob_percent for s in
-                                           sent_objects]
+        # self.has_named_entity_list = [True if s.has_named_entity
+        #                               else False for s in sent_objects]
+        # self.has_named_entity_count = sum(self.has_named_entity_list)
+        # self.taken_of_log_prob_percents = [s.taken_of_log_prob_percent
+        #                                    for s in sent_objects]
