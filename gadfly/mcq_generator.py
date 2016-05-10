@@ -3,6 +3,8 @@ from spacy.tokens.token import Token
 from .q_generator_base import QGenerator, QuestionType
 from .heuristic_evaluator import HeuristicEvaluator
 import logging
+from random import shuffle
+from . import nyt_popularity
 import collections
 import numpy
 import pickle
