@@ -39,7 +39,7 @@ class QGenerator(ABC):
         self.source_text = source_text
         self.parsed_text = spacy_singleton.spacy_en()(self.source_text)
         self.top_sents, self.sents = SentenceIdentifier(self.parsed_text,
-                                                        n=10).sents()
+                                                        n=50).sents()
         self._exclude_named_ent_types = ["DATE", "TIME", "PERCENT", "CARDINAL",
                                          "MONEY", "ORDINAL", "QUANTITY"]
         self.entities = self.find_named_entities()

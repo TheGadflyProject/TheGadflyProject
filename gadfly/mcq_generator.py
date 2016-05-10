@@ -136,7 +136,8 @@ class MCQGenerator(QGenerator):
         question_dict = collections.defaultdict(list)
 
         for q in self.questions:
-            question_dict[q.source_sentence].append(q)
+            if len(q.answer_choices) == 4:
+                question_dict[q.source_sentence].append(q)
 
         final_questions = list()
         for source_sentence, questions in question_dict.items():
@@ -152,5 +153,4 @@ class MCQGenerator(QGenerator):
                 if question.answer == most_popular[0]:
                     final_questions.append(question)
                     break
-        return [q for q in final_questions if len(q.answer_choices) == 4]
-
+        return [q for q in final_questions][:10]
