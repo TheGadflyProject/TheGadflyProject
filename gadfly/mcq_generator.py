@@ -129,3 +129,26 @@ class MCQGenerator(QGenerator):
         ents = [(ent, sim) for ent, sim in other_choices
                 if ent.text_with_ws.strip() in keep_list]
         return ents
+
+    def select_top_question_for_sentence(self):
+        question_dict = collections.defaultdict(list)
+
+        for q in self.questions:
+            question_dict[q.source_sentence].append(q)
+
+        final_questions = list()
+        for source_sentence, questions in question_dict.items():
+            ents = [question.answer for question in questions]
+            try:
+                most_popular = nyt_popularity.most_popular_terms(ents, 1)[0]
+            except ValueError:
+                shuffle(ents)
+                most_popular = ents[:1]
+            # hack to get around issues with NYT api throwing errors
+            most_popular = most_popular or ents[:1]
+            for question in questions:
+                if question.answer == most_popular[0]:
+                    final_questions.append(question)
+                    break
+        return [q for q in final_questions if len(q.answer_choices) == 4]
+
