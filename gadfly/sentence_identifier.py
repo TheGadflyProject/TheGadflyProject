@@ -78,7 +78,7 @@ class SentenceIdentifier:
         new_spans = []
         for index, sent in enumerate(sents):
             for i, token in enumerate(sent[:-2]):
-                if(sent[i] == ". " and sent[i+1] == "\""):
+                if(sent[i] == ". " and sent[i+1].orth_[0] == "\""):
                     for each in self.check_joinedsents(parsed_text, sent):
                         new_spans.append(each)
                 else:
