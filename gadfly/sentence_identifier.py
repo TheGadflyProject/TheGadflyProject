@@ -77,12 +77,11 @@ class SentenceIdentifier:
     def repair_joinedsents(self, parsed_text, sents):
         new_spans = []
         for index, sent in enumerate(sents):
-            for i, token in enumerate(sent[:-2]):
-                if(sent[i] == ". " and sent[i+1].orth_[0] == "\""):
-                    for each in self.check_joinedsents(parsed_text, sent):
-                        new_spans.append(each)
-                else:
-                    new_spans.append(sent)
+            if '. "' in "".join(token.text_with_ws for token in sent[:-2]):
+                for each in self.check_joinedsents(parsed_text, sent):
+                    new_spans.append(each)
+            else:
+                new_spans.append(sent)
         return new_spans
 
     def repair_splitsents(self, parsed_text, sents):
